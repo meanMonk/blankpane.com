@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ColorTool from "../../components/ColorTool.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
@@ -94,6 +96,8 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
           </div>
         </section>
         <RelatedTools slugs={relatedSlugs} />
+        <ColorHub t={t} lang={lang} />
+        <ToolCards title="More Screen Tools" limit={6} />
       </div>
       <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
     </div>

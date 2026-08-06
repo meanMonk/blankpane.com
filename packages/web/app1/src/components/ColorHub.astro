@@ -1,0 +1,24 @@
+---
+import colors from "../data/colors.json";
+import type { UI } from "../i18n";
+
+interface Props {
+  t: UI;
+  lang?: string;
+}
+
+const { t, lang } = Astro.props;
+const prefix = lang ? `/${lang}/` : "/";
+const colorLinks = colors.map((c) => ({
+  href: `${prefix}${c.slug}/`,
+  label: t.colorName[c.slug] ?? c.name,
+}));
+---
+
+<section id="popular-colors" style="border-top:1px solid var(--line);padding:20px 0;">
+  <h2 style="font-family:var(--display);font-size:1.1rem;margin:0 0 8px;text-align:center;">{t.popularTitle}</h2>
+  <p class="center-lede" style="margin-bottom:12px;">{t.popularLede}</p>
+  <div class="color-links">
+    {colorLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+  </div>
+</section>

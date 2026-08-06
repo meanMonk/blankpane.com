@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
+import { getUI } from "../../i18n";
 import tools from "../../data/tools.json";
 
 const tool = tools.find((t) => t.slug === "broken-screen-dummy")!;
 const site = "https://blank-screen.pages.dev";
+const t = getUI("en");
 
 const webAppLd = {
   "@context": "https://schema.org",
@@ -98,6 +102,8 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
     </details>
 
     <RelatedTools slugs={tool.relatedSlugs} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
   </div>
 </BaseLayout>
 
@@ -214,21 +220,34 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
     btn.addEventListener("click",()=>{
       current = btn.dataset.style;
       drawFns[current]();
+      document.querySelectorAll("[data-style]").forEach(b=>b.classList.remove("active-style"));
+      btn.classList.add("active-style");
     });
   });
   drawSpiderweb();
+  // mark first button as active on load
+  document.querySelector("[data-style]")?.classList.add("active-style");
 
   document.getElementById("full-btn").addEventListener("click",()=>{
     const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.innerHTML = "";
+    ov.style.alignItems = "center";
+    ov.style.justifyContent = "center";
     ov.style.background = "#000";
-    ov.style.display = "flex";
     const clone = document.getElementById("preview-box").cloneNode(true);
     clone.style.width = "100vw"; clone.style.height = "100vh"; clone.style.aspectRatio = "unset";
     clone.style.borderRadius = "0"; clone.style.position = "absolute"; clone.style.inset = "0";
-    ov.innerHTML = ""; ov.appendChild(clone);
+    clone.style.cursor = "pointer";
+    ov.appendChild(clone);
     ov.style.display = "flex";
     document.documentElement.requestFullscreen?.().catch(()=>{});
   });
+
+  const previewBox = document.getElementById("preview-box");
+  previewBox.style.cursor = "pointer";
+  previewBox.title = "Click for full screen";
+  previewBox.addEventListener("click", () => document.getElementById("full-btn").click());
 
   document.getElementById("dl-btn").addEventListener("click",()=>{
     const c2 = document.createElement("canvas");

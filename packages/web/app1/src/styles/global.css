@@ -234,6 +234,7 @@ select, .field input[type="number"] {
 .btn:hover { opacity: 0.9; }
 .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--ink); }
 .btn-outline:hover { border-color: var(--accent); opacity: 1; }
+.active-style { background: var(--accent) !important; color: var(--accent-ink) !important; border-color: var(--accent) !important; }
 
 .tile-grid {
   display: grid;

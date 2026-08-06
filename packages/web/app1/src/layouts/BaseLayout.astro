@@ -157,6 +157,13 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
         });
         document.addEventListener("click", () => content.classList.remove("lang-show"));
       }
+
+      const ov = document.getElementById("overlay");
+      if (ov) {
+        ov.addEventListener("click", () => { ov.style.display = "none"; if (document.fullscreenElement) document.exitFullscreen?.(); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ov.style.display === "flex") { ov.style.display = "none"; if (document.fullscreenElement) document.exitFullscreen?.(); } });
+        document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) ov.style.display = "none"; });
+      }
     </script>
   </body>
 </html>

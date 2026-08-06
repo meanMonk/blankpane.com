@@ -2,9 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import tools from "../../data/tools.json";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
+import { getUI } from "../../i18n";
 
 const tool = tools.find((t) => t.slug === "zoom-light-screen")!;
 const site = "https://blank-screen.pages.dev";
+const t = getUI("en");
 
 const webAppLd = {
   "@context": "https://schema.org",
@@ -63,7 +67,7 @@ const breadcrumbLd = {
     </section>
 
     <div id="tool-area" style="margin:24px 0;">
-      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff7e6;display:flex;align-items:flex-end;padding:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);">
+      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff7e6;display:flex;align-items:flex-end;padding:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
         <span style="font-family:var(--mono);font-size:.72rem;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.45);color:#fff;" id="kv-label">3000 K — Warm/Office</span>
       </div>
 
@@ -105,6 +109,8 @@ const breadcrumbLd = {
     </details>
 
     <RelatedTools slugs={tool.relatedSlugs} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
   </div>
 </BaseLayout>
 

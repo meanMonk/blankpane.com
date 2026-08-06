@@ -1,17 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ColorTool from "../components/ColorTool.astro";
+import ColorHub from "../components/ColorHub.astro";
+import ToolCards from "../components/ToolCards.astro";
 import { getUI } from "../i18n";
 import colors from "../data/colors.json";
 
 const t = getUI("en");
 const site = "https://blank-screen.pages.dev";
 const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light }));
-
-const colorLinks = colors.map((c) => ({
-  href: `/${c.slug}/`,
-  label: t.colorName[c.slug] ?? c.name,
-}));
 ---
 
 <BaseLayout
@@ -34,13 +31,8 @@ const colorLinks = colors.map((c) => ({
 
       <p class="lede">{t.heroLede}</p>
 
-      <section id="colors">
-        <h2>{t.popularTitle}</h2>
-        <p class="center-lede">{t.popularLede}</p>
-        <div class="color-links">
-          {colorLinks.map((l) => <a href={l.href}>{l.label}</a>)}
-        </div>
-      </section>
+      <ColorHub t={t} />
+      <ToolCards title="Screen Tools" limit={6} />
 
       <section id="uses">
         <h2>{t.usesTitle}</h2>

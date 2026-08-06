@@ -2,9 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import tools from "../../data/tools.json";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
+import { getUI } from "../../i18n";
 
 const tool = tools.find((t) => t.slug === "screen-cleaner")!;
 const site = "https://blank-screen.pages.dev";
+const t = getUI("en");
 
 const webAppLd = {
   "@context": "https://schema.org",
@@ -93,6 +97,8 @@ const breadcrumbLd = {
     </details>
 
     <RelatedTools slugs={tool.relatedSlugs} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
   </div>
 </BaseLayout>
 

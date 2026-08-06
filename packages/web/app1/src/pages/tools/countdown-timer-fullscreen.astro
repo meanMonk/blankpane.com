@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
+import { getUI } from "../../i18n";
 import tools from "../../data/tools.json";
 
 const tool = tools.find((t) => t.slug === "countdown-timer-fullscreen")!;
 const site = "https://blank-screen.pages.dev";
+const t = getUI("en");
 
 const webAppLd = {
   "@context": "https://schema.org",
@@ -65,7 +69,7 @@ const breadcrumbLd = {
     </section>
 
     <div id="tool-area" style="margin:24px 0;">
-      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#1c1c2e;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;transition:background .3s;">
+      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#1c1c2e;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;transition:background .3s;cursor:pointer;" title="Click for full screen">
         <div id="timer-display" style="font-family:var(--mono);font-size:clamp(2.5rem,8vw,5rem);font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.4);">00:00</div>
       </div>
 
@@ -81,9 +85,9 @@ const breadcrumbLd = {
 
       <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0;">
         {["#1c1c2e","#0a0a14","#1a2e1a","#2e1a1a","#1a1a2e","#ffffff"].map(h => (
-          <button class="btn-color-swatch" data-hex={h} style="width:32px;height:32px;border-radius:50%;background:{h};border:2px solid {h==='#ffffff'?'var(--line)':'transparent'};cursor:pointer;padding:0;" aria-label={`Background ${h}`}></button>
+          <button class="btn-color-swatch" data-hex={h} style={`width:34px;height:34px;border-radius:50%;background:${h};border:2px solid var(--line);cursor:pointer;padding:0;`} aria-label={`Background ${h}`}></button>
         ))}
-        <input type="color" id="bgPicker" value="#1c1c2e" style="width:36px;height:36px;border:none;border-radius:50%;padding:0;cursor:pointer;" />
+        <input type="color" id="bgPicker" value="#1c1c2e" style="width:36px;height:36px;border:2px solid var(--line);border-radius:50%;padding:0;cursor:pointer;" />
       </div>
 
       <div class="action-row">
@@ -108,6 +112,8 @@ const breadcrumbLd = {
     </details>
 
     <RelatedTools slugs={tool.relatedSlugs} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
   </div>
 </BaseLayout>
 
@@ -161,10 +167,20 @@ const breadcrumbLd = {
   document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => { startTimer(parseInt(b.dataset.preset)); }));
 
   bgPicker.addEventListener("input", () => { if (!flashId) preview.style.background = bgPicker.value; });
-  document.querySelectorAll(".btn-color-swatch").forEach(b => b.addEventListener("click",()=>{ bgPicker.value=b.dataset.hex; if(!flashId)preview.style.background=b.dataset.hex; }));
+  document.querySelectorAll(".btn-color-swatch").forEach(b => b.addEventListener("click",()=>{
+    bgPicker.value = b.dataset.hex;
+    if (!flashId) preview.style.background = b.dataset.hex;
+    document.querySelectorAll(".btn-color-swatch").forEach(s => s.style.borderColor = "var(--line)");
+    b.style.borderColor = "var(--accent)";
+  }));
+  document.querySelector(".btn-color-swatch")?.style.setProperty("border-color", "var(--accent)");
 
   document.getElementById("full-btn").addEventListener("click", () => {
     const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.innerHTML = "";
+    ov.style.alignItems = "center";
+    ov.style.justifyContent = "center";
     ov.style.background = bgPicker.value;
     ov.innerHTML = `<div style="font-family:var(--mono);font-size:clamp(3rem,12vw,8rem);font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.5);">${display.textContent}</div>`;
     ov.style.display = "flex";

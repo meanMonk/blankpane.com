@@ -1,0 +1,35 @@
+---
+import tools from "../data/tools.json";
+
+interface Props {
+  cluster?: string;
+  limit?: number;
+  title?: string;
+}
+
+const { cluster, limit = 6, title } = Astro.props;
+const items = cluster
+  ? tools.filter((t) => t.cluster === cluster).slice(0, limit)
+  : tools.slice(0, limit);
+
+const clusterTitles: Record<string, string> = {
+  lighting: "Lighting Tools",
+  prank: "Prank & Fun",
+  utility: "Testing & Utility",
+};
+---
+
+<section style="border-top:1px solid var(--line);padding:20px 0;">
+  <h2 style="font-family:var(--display);font-size:1.1rem;margin:0 0 8px;text-align:center;">{title ?? (cluster ? clusterTitles[cluster] ?? "Tools" : "Tools")}</h2>
+  <p class="center-lede" style="margin-bottom:12px;">
+    <a href="/tools/" style="font-size:.85rem;">View all tools →</a>
+  </p>
+  <div class="blog-grid">
+    {items.map((t) => (
+      <a class="blog-card" href={`/tools/${t.slug}/`}>
+        <h3 style="font-size:.9rem;">{t.name}</h3>
+        <p style="font-size:.8rem;">{t.description}</p>
+      </a>
+    ))}
+  </div>
+</section>

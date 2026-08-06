@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import { getUI } from "../../i18n";
 import tools from "../../data/tools.json";
 
+const t = getUI("en");
 const site = "https://blank-screen.pages.dev";
 const clusters = [
   { slug: "lighting", name: "Lighting", lede: "Control exactly how your screen lights your face for video calls." },
@@ -38,5 +41,6 @@ const clusters = [
         </section>
       );
     })}
+    <ColorHub t={t} />
   </div>
 </BaseLayout>
