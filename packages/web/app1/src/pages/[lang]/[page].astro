@@ -23,7 +23,7 @@ export function getStaticPaths() {
 
 const { lang, kind } = Astro.props;
 const t = getUI(lang);
-const site = "https://blank-screen.pages.dev";
+const site = "https://blankpane.com";
 const tiles = colors.map((x) => ({ hex: x.hex, name: t.colorName[x.slug] ?? x.name, light: x.light }));
 
 const isColor = kind === "color";

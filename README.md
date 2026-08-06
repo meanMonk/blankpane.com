@@ -1,7 +1,7 @@
-# blank-screen
+# BlankPane
 
-Static sites repo. Each app under `packages/web/*` is a standalone static site
-built with Astro and deployed to Cloudflare Pages.
+Source for blankpane.com — a free full-screen color tool built with Astro,
+deployed to Cloudflare Pages.
 
 ## Layout
 
@@ -36,7 +36,7 @@ Requires wrangler auth (`npx wrangler login` once).
 
 ```bash
 pnpm deploy                                   # builds + deploys to project `blank-screen`
-CLOUDFLARE_PAGES_PROJECT=my-site pnpm deploy  # override project name
+CLOUDFLARE_PAGES_PROJECT=blankpane pnpm deploy  # override project name
 ```
 
 Each app's `dist/` is uploaded with `wrangler pages deploy`. First deploy

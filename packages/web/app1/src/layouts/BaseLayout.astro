@@ -45,7 +45,7 @@ const faqJsonLd = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Full Screen Color Tool",
+  name: "BlankPane",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -55,9 +55,9 @@ const webAppJsonLd = {
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "FullScreenColor",
-  url: "https://blank-screen.pages.dev",
-  logo: "https://blank-screen.pages.dev/og-default.png",
+  name: "BlankPane",
+  url: "https://blankpane.com",
+  logo: "https://blankpane.com/og-default.png",
   sameAs: [],
   // TODO: add social profile URLs to sameAs array when available
 };
@@ -80,7 +80,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
-    <meta property="og:image" content="https://blank-screen.pages.dev/og-default.png" />
+    <meta property="og:image" content="https://blankpane.com/og-default.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="robots" content="index, follow" />
     {alternateLinks.map((l) => (
@@ -138,7 +138,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
           <a href={lang === "en" ? "/disclaimer/" : `/${lang}/disclaimer/`}>{t.footerDisclaimer}</a>
           <a href={lang === "en" ? "/contact/" : `/${lang}/contact/`}>{t.footerContact}</a>
         </div>
-        <p>© 2026 FullScreenColor. {t.footerNote}</p>
+        <p>© 2026 BlankPane. {t.footerNote}</p>
       </div>
     </footer>
 

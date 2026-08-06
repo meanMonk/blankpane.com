@@ -12,7 +12,7 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const t = getUI(lang);
-const site = "https://blank-screen.pages.dev";
+const site = "https://blankpane.com";
 const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light }));
 ---
 

@@ -7,13 +7,13 @@ import { getUI } from "../i18n";
 import colors from "../data/colors.json";
 
 const t = getUI("en");
-const site = "https://blank-screen.pages.dev";
+const site = "https://blankpane.com";
 const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light }));
 ---
 
 <BaseLayout
   lang="en"
-  title="Full Screen Color | White Screen, Black Screen & Color Screen Tool"
+  title="BlankPane | White Screen, Black Screen & Color Screen Tool"
   description={t.heroLede}
   canonical={`${site}/`}
   isHome

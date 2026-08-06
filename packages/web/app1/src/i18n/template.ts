@@ -23,7 +23,7 @@ const faqAnswers = {
 
 const dict: Record<string, Partial<ColorPageText>> = {
   en: {
-    title: (n) => `${n} — Free Full-Screen Color Tool`,
+    title: (n) => `${n} — BlankPane`,
     h1: (n) => n,
     intro: (n, hex, intent) => `Open a full-page ${n.toLowerCase()} instantly in your browser. This free tool fills your entire screen with pure ${hex} in one tap — perfect for ${intent}. No download, no install, works on any device.`,
     whyTitle: "Why people use this",
@@ -272,7 +272,7 @@ const dict: Record<string, Partial<ColorPageText>> = {
 };
 
 const defaults: ColorPageText = {
-  title: (name) => `${name} — Free Full-Screen Color Tool`,
+  title: (name) => `${name} — BlankPane`,
   h1: (name) => name,
   intro: (name, hex, intent) => `Open a full-page ${name.toLowerCase()} instantly in your browser. This free tool fills your entire screen with pure ${hex} in one tap — perfect for ${intent}. No download, no install, works on any device.`,
   whyTitle: "Why people use this",
