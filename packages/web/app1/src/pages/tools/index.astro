@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import tools from "../../data/tools.json";
+
+const site = "https://blank-screen.pages.dev";
+const clusters = [
+  { slug: "lighting", name: "Lighting", lede: "Control exactly how your screen lights your face for video calls." },
+  { slug: "prank", name: "Prank & Fun", lede: "Harmless screen tricks that look convincingly real." },
+  { slug: "utility", name: "Testing & Utility", lede: "Diagnostic and helper tools for your display." },
+];
+---
+
+<BaseLayout
+  lang="en"
+  title="Free Screen Tools — Ring Light, Dead Pixel Test, Countdown Timer & More"
+  description="Free full-screen browser tools: Zoom light, ring light, flashlight, dead-pixel checker, screen cleaner, countdown timer, broken-screen pranks, and more."
+  canonical={`${site}/tools/`}
+>
+  <div class="page">
+    <p class="back"><a href="/">← fullscreen</a></p>
+    <h1>Screen Tools</h1>
+    <p class="lede">Free, no-download browser tools that turn your screen into a light, a test pattern, a timer, or a prank — all with one click.</p>
+
+    {clusters.map((cluster) => {
+      const items = tools.filter((t) => t.cluster === cluster.slug);
+      return (
+        <section style="border-top:1px solid var(--line);padding:28px 0;">
+          <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">{cluster.name}</h2>
+          <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">{cluster.lede}</p>
+          <div class="blog-grid">
+            {items.map((t) => (
+              <a class="blog-card" href={`/tools/${t.slug}/`}>
+                <h3>{t.name}</h3>
+                <p>{t.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>

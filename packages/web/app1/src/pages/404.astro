@@ -1,19 +1,47 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getUI } from "../i18n";
-
-const t = getUI("en");
+import colors from "../data/colors.json";
+import tools from "../data/tools.json";
 ---
 
 <BaseLayout
   lang="en"
   title="Page not found — FullScreenColor"
-  description="The page you're looking for could not be found."
+  description="The page you're looking for could not be found. Try one of our free screen tools, color pages, or the tools hub."
   canonical="https://blank-screen.pages.dev/404/"
 >
   <div class="page" style="text-align:center;">
     <h1>404</h1>
-    <p class="lede">This page doesn't exist. Let's get you back to a full-screen color.</p>
-    <p><a class="btn" href="/">Go to the tool</a></p>
+    <p class="lede">This page doesn't exist. Here are some places you might have been looking for:</p>
+
+    <section style="border-top:none;padding:12px 0;">
+      <h2 style="font-size:1.1rem;">Screen Tools</h2>
+      <div class="color-links">
+        <a href="/tools/">All Tools</a>
+        {tools.slice(0, 5).map((t) => (
+          <a href={`/tools/${t.slug}/`}>{t.name}</a>
+        ))}
+      </div>
+    </section>
+
+    <section style="border-top:none;padding:12px 0;">
+      <h2 style="font-size:1.1rem;">Solid Colors</h2>
+      <div class="color-links">
+        {colors.slice(0, 8).map((c) => (
+          <a href={`/${c.slug}/`}>{c.name}</a>
+        ))}
+      </div>
+    </section>
+
+    <section style="border-top:none;padding:12px 0;">
+      <h2 style="font-size:1.1rem;">Resources</h2>
+      <div class="color-links">
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <p style="margin-top:24px;"><a class="btn" href="/">Go to the tool</a></p>
   </div>
 </BaseLayout>

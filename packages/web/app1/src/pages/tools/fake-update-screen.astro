@@ -1,0 +1,217 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "fake-update-screen")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Fake Update Screen",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Convincing fake Windows, macOS, and Linux update screens. Pick a style, go full screen, and watch coworkers think your machine is updating. Harmless prank.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "Is it illegal to prank someone with a fake update screen?", acceptedAnswer: { "@type": "Answer", text: "It's a harmless visual joke — the same as putting a sticky note over a webcam. Just don't use it to mislead someone into delaying real work, and definitely don't run it on a device you don't own." } },
+    { "@type": "Question", name: "Can the fake update screen be dismissed?", acceptedAnswer: { "@type": "Answer", text: "Yes — press Esc or click anywhere on the screen and the update screen instantly disappears. No key combinations are blocked permanently." } },
+    { "@type": "Question", name: "Which OS style is most believable?", acceptedAnswer: { "@type": "Answer", text: "The Windows-style spinning-dots update is the most universally recognized. macOS is great for creative workplaces. The Linux terminal scroll is best for tech-savvy audiences who'd recognize a fake `apt-get` output." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Fake Update Screen", item: `${site}/tools/fake-update-screen/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Fake Update Screen — Windows, macOS & Linux Style Prank"
+  description="3 convincing fake update screens: Windows spinner, macOS progress bar, Linux terminal scroll. Free instant prank — Esc to exit, harmless fun."
+  canonical={`${site}/tools/fake-update-screen/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Fake Update Screen</h1>
+    <p class="lede">
+      You stand up from your desk to grab coffee, and when a coworker glances over, your screen shows Windows Update
+      at 73% — "Please do not turn off your computer." That's the whole bit. This tool gives you three
+      convincingly styled update screens: a Windows 11-inspired spinning circle with percentage, a macOS-style
+      black-background progress bar, and a terminal full of scrolling `apt` and `systemd` output for the Linux
+      crowd. Each one fills the screen, blocks keyboard input visually, and dismisses instantly with Esc. No one
+      will actually think their machine is updating — but they'll pause long enough for you to enjoy the moment.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Pick a <strong>platform style</strong> — Windows, macOS, or Linux terminal.</li>
+        <li>Click <strong>Full Screen</strong> and step away from your desk.</li>
+        <li>Press <strong>Esc</strong> (or click the screen) to dismiss — the update was never real.</li>
+      </ol>
+    </section>
+
+    <p style="font-size:.75rem;color:var(--ink-dim);font-family:var(--mono);text-align:center;margin:0 0 12px;">Harmless prank — not a real update. Press Esc to exit.</p>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;">
+      {["windows","macos","linux"].map((os) => (
+        <button class="btn btn-outline" data-os={os} style="font-size:.72rem;padding:6px 12px;">{os === "windows" ? "Windows" : os === "macos" ? "macOS" : "Linux Terminal"}</button>
+      ))}
+    </div>
+
+    <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#0078d4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;position:relative;">
+      <div id="update-content" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div id="spinner" style="width:48px;height:48px;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;"></div>
+        <div style="color:#fff;font-size:1.1rem;font-weight:600;font-family:Segoe UI,sans-serif;">Working on updates</div>
+        <div id="pct" style="color:rgba(255,255,255,.8);font-size:0.9rem;">73% complete</div>
+        <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:12px;">Please keep your computer on</div>
+      </div>
+      <div id="terminal-scroll" style="display:none;position:absolute;inset:0;background:#1e1e1e;color:#0f0;font-family:monospace;font-size:.65rem;padding:12px;overflow:hidden;white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="action-row" style="margin-top:16px;">
+      <button class="btn" id="full-btn">Full Screen</button>
+    </div>
+
+    <details open>
+      <summary>Is it illegal to prank someone with a fake update screen?</summary>
+      <p>It's a harmless visual joke — the same as putting a sticky note over a webcam. Just don't use it to mislead someone into delaying real work, and definitely don't run it on a device you don't own.</p>
+    </details>
+    <details>
+      <summary>Can the fake update screen be dismissed?</summary>
+      <p>Yes — press Esc or click anywhere on the screen and the update screen instantly disappears. No key combinations are blocked permanently.</p>
+    </details>
+    <details>
+      <summary>Which OS style is most believable?</summary>
+      <p>The Windows-style spinning-dots update is the most universally recognized. macOS is great for creative workplaces. The Linux terminal scroll is best for tech-savvy audiences who'd recognize a fake `apt-get` output.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+  .fake-progress { width: 200px; height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; }
+  .fake-progress-bar { height: 100%; width: 45%; background: #fff; border-radius: 4px; animation: progress 4s linear infinite; }
+  @keyframes progress { 0% { width: 0; } 40% { width: 65%; } 80% { width: 72%; } 100% { width: 0; } }
+</style>
+
+<script>
+// @ts-nocheck
+  const preview = document.getElementById("preview");
+  const updateContent = document.getElementById("update-content");
+  const spinner = document.getElementById("spinner");
+  const pct = document.getElementById("pct");
+  const terminalScroll = document.getElementById("terminal-scroll");
+  let currentOS = "windows";
+
+  const terminals = {
+    linux: [
+      "[  OK  ] Started Update UTMP about System Runlevel Changes.",
+      "[  OK  ] Reached target System Initialization.",
+      "updating grub configuration …",
+      "Found linux image: /boot/vmlinuz-6.8.0-45-generic",
+      "Found initrd image: /boot/initrd.img-6.8.0-45-generic",
+      "Setting up libc6:amd64 (2.39-0ubuntu8.3) …",
+      "Unpacking linux-firmware (20240220.git2e3d2e11-0ubuntu2) …",
+      "Preparing to unpack …/systemd_255.4-1ubuntu8.4_amd64.deb …",
+      "Unpacking systemd (255.4-1ubuntu8.4) over (255.4-1ubuntu8.3) …",
+      "Processing triggers for man-db (2.12.0-4build2) …",
+      "Processing triggers for initramfs-tools (0.142ubuntu25.4) …",
+      "update-initramfs: Generating /boot/initrd.img-6.8.0-45-generic",
+      "Setting up linux-image-6.8.0-45-generic (6.8.0-45.45) …",
+      "dkms: running auto installation service for kernel 6.8.0-45-generic",
+      "depmod…",
+      "Updating grub …",
+      "Sourcing file `/etc/default/grub'",
+      "Generating grub configuration file …",
+      "Found linux image: /boot/vmlinuz-6.8.0-45-generic",
+      "done",
+      "Cleaning up … apt-get autoremove",
+      "Reading package lists… Done",
+      "Building dependency tree… Done",
+      "The following packages will be REMOVED:",
+      "  linux-headers-6.8.0-40-generic linux-image-6.8.0-40-generic",
+      "After this operation, 428 MB disk space will be freed.",
+      "Do you want to continue? [Y/n] Y",
+      "Removing linux-headers-6.8.0-40-generic (6.8.0-40.40) …",
+      "Removing linux-image-6.8.0-40-generic (6.8.0-40.40) …",
+      "Processing triggers for initramfs-tools …",
+      "update-initramfs: Generating /boot/initrd.img-6.8.0-45-generic",
+      "Reboot required. system will restart in 3 seconds …",
+      " "
+    ]
+  };
+
+  let termInterval;
+
+  function renderStyle(os) {
+    currentOS = os;
+    clearInterval(termInterval);
+    terminalScroll.style.display = "none";
+    updateContent.style.display = "flex";
+    spinner.style.display = "block";
+
+    if (os === "windows") {
+      preview.style.background = "#0078d4";
+      updateContent.querySelector("div:nth-child(2)").textContent = "Working on updates";
+      pct.textContent = "73% complete";
+      updateContent.querySelector("div:nth-child(4)").textContent = "Please keep your computer on";
+    } else if (os === "macos") {
+      preview.style.background = "#1c1c1c";
+      spinner.style.display = "none";
+      updateContent.querySelector("div:nth-child(2)").textContent = "Installing Software Update";
+      pct.innerHTML = '<div class="fake-progress"><div class="fake-progress-bar"></div></div>';
+      updateContent.querySelector("div:nth-child(4)").textContent = "Your computer will restart automatically";
+    } else {
+      preview.style.background = "#1e1e1e";
+      updateContent.style.display = "none";
+      terminalScroll.style.display = "block";
+      terminalScroll.innerHTML = "";
+      const fullText = terminals.linux.join("\n");
+      terminalScroll.textContent = fullText + "\n" + fullText;
+      terminalScroll.style.animation = "scroll 8s linear infinite";
+    }
+  }
+
+  document.querySelectorAll("[data-os]").forEach(btn => {
+    btn.addEventListener("click", () => renderStyle(btn.dataset.os));
+  });
+
+  document.getElementById("full-btn").addEventListener("click", () => {
+    const ov = document.getElementById("overlay");
+    ov.style.background = currentOS === "windows" ? "#0078d4" : currentOS === "macos" ? "#1c1c1c" : "#1e1e1e";
+    const clone = preview.querySelector("#update-content").cloneNode(true);
+    clone.style.transform = "scale(2)";
+    clone.style.color = "#fff";
+    ov.innerHTML = "";
+    if (currentOS === "linux") {
+      const tc = terminalScroll.cloneNode(true);
+      tc.style.cssText = "position:absolute;inset:0;color:#0f0;font-family:monospace;font-size:1rem;padding:24px;overflow:hidden;white-space:pre-wrap;animation:scroll 8s linear infinite;";
+      ov.appendChild(tc);
+    } else {
+      const d = document.createElement("div");
+      d.style.cssText = "position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;";
+      const previewInner = preview.querySelector("#update-content").innerHTML;
+      d.innerHTML = previewInner;
+      d.style.transform = "scale(1.8)";
+      ov.appendChild(d);
+    }
+    ov.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  });
+</script>

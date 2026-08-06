@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ColorTool from "../../components/ColorTool.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
 import { legalPages } from "../../data/legal";
@@ -35,6 +36,22 @@ const isContact = !isColor && p.slug === "contact";
 const title = isColor ? page.metaTitle : isContact ? t.contact.title : p.title;
 const description = isColor ? page.intro : isContact ? t.contact.lede : p.lede;
 const pageSlug = Astro.params.page;
+
+const colorToTools: Record<string, string[]> = {
+  "white-screen": ["zoom-light-screen", "ring-light-screen", "screen-flashlight", "screen-cleaner"],
+  "black-screen": ["screen-cleaner", "dead-pixel-test", "countdown-timer-fullscreen"],
+  "green-screen": ["zoom-light-screen", "dead-pixel-test"],
+  "blue-screen": ["dead-pixel-test", "zoom-light-screen"],
+  "red-screen": ["dead-pixel-test"],
+  "pink-screen": ["zoom-light-screen"],
+  "yellow-screen": ["screen-flashlight", "dead-pixel-test"],
+  "gray-screen": ["dead-pixel-test"],
+  "purple-screen": ["dead-pixel-test"],
+  "orange-screen": ["screen-flashlight"],
+  "blank-screen": ["screen-cleaner", "screen-flashlight"],
+  "zoom-background-screen": ["zoom-light-screen", "ring-light-screen"],
+};
+const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
 ---
 
 <BaseLayout lang={lang} title={title} description={description} canonical={`${site}/${lang}/${pageSlug}/`}>
@@ -76,6 +93,7 @@ const pageSlug = Astro.params.page;
             ))}
           </div>
         </section>
+        <RelatedTools slugs={relatedSlugs} />
       </div>
       <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
     </div>

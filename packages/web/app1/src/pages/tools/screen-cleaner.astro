@@ -1,0 +1,169 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "screen-cleaner")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Screen Cleaner",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Input-locked white or black screen so you can safely wipe your display. Tap to unlock, optional auto-unlock timer. Free, no download.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "Why lock the screen while cleaning?", acceptedAnswer: { "@type": "Answer", text: "When you wipe a powered-on touchscreen or keyboard, even light pressure can register as clicks, taps, or random keystrokes — potentially closing apps, sending messages, or deleting things. An input-locked screen prevents all accidental input while you clean." } },
+    { "@type": "Question", name: "Should I use white or black for cleaning?", acceptedAnswer: { "@type": "Answer", text: "White reveals dust, smudges, and fingerprints most clearly. Black helps you see streaks and oily residue on glossy screens. Many people start with white to spot every speck, then switch to black to check for streaks." } },
+    { "@type": "Question", name: "What happens if I forget to unlock it?", acceptedAnswer: { "@type": "Answer", text: "Enable the auto-unlock timer (30s, 1m, or 2m) and the screen will automatically return to normal after that time. You can also press Esc at any point." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Screen Cleaner", item: `${site}/tools/screen-cleaner/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Screen Cleaner — Input-Locked Display for Safe Wiping"
+  description="Lock your screen to clean it safely — no accidental clicks or taps. Toggle white or black fill, auto-unlock timer. Free & instant."
+  canonical={`${site}/tools/screen-cleaner/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Screen Cleaner</h1>
+    <p class="lede">
+      Your laptop screen is covered in fingerprints, dust motes, and that one mysterious spot that's been there
+      since last Tuesday. You grab a microfiber cloth and start wiping — but every swipe registers as a click,
+      selecting random text, minimizing windows, or worse, launching the default music player at full volume. This
+      tool locks your screen to a solid white or black fill and blocks all clicks, taps, and key presses so you can
+      wipe freely. A clear on-screen message tells you it's safe to clean. Tap the message or press Esc to unlock.
+      Enable the auto-unlock timer if you're worried about leaving it locked — it'll release the screen after 30,
+      60, or 120 seconds. No app installation, no system permissions, works in every browser.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Choose <strong>White</strong> (best for spotting dust) or <strong>Black</strong> (best for seeing streaks).</li>
+        <li>Click <strong>Start Cleaning</strong> — the screen fills and all input is blocked.</li>
+        <li>Wipe your display, then tap the <strong>on-screen message</strong> or press <strong>Esc</strong> to unlock.</li>
+      </ol>
+    </section>
+
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0;">
+      <button class="btn" data-color="#fff" style="font-size:.85rem;">White (dust & smudges)</button>
+      <button class="btn btn-outline" data-color="#111" style="font-size:.85rem;">Black (streaks)</button>
+    </div>
+
+    <div class="field" style="display:flex;flex-direction:row;align-items:center;gap:8px;justify-content:center;">
+      <label style="margin:0;font-size:.7rem;">Auto-unlock after</label>
+      <select id="autoTimer" style="width:auto;font-size:.72rem;padding:5px 8px;">
+        <option value="0">Off</option>
+        <option value="30">30s</option>
+        <option value="60" selected>1 min</option>
+        <option value="120">2 min</option>
+      </select>
+    </div>
+
+    <details open>
+      <summary>Why lock the screen while cleaning?</summary>
+      <p>When you wipe a powered-on touchscreen or keyboard, even light pressure can register as clicks, taps, or random keystrokes — potentially closing apps, sending messages, or deleting things. An input-locked screen prevents all accidental input while you clean.</p>
+    </details>
+    <details>
+      <summary>Should I use white or black for cleaning?</summary>
+      <p>White reveals dust, smudges, and fingerprints most clearly. Black helps you see streaks and oily residue on glossy screens. Many people start with white to spot every speck, then switch to black to check for streaks.</p>
+    </details>
+    <details>
+      <summary>What happens if I forget to unlock it?</summary>
+      <p>Enable the auto-unlock timer (30s, 1m, or 2m) and the screen will automatically return to normal after that time. You can also press Esc at any point.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const overlay = document.getElementById("overlay");
+  const autoSelect = document.getElementById("autoTimer");
+
+  let locked = false;
+  let autoId;
+
+  function lock(color) {
+    locked = true;
+    overlay.style.background = color;
+    overlay.style.display = "flex";
+    overlay.style.flexDirection = "column";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.gap = "12px";
+    overlay.innerHTML = `
+      <div id="clean-msg" style="font-family:var(--display);font-weight:600;font-size:clamp(1rem,2vw,1.5rem);text-align:center;padding:20px 32px;border-radius:14px;background:${color==="#fff"?"rgba(0,0,0,.55)":"rgba(255,255,255,.15)"};color:${color==="#fff"?"#fff":"#eee"};cursor:pointer;">
+        Safe to wipe — tap here or press Esc to unlock
+      </div>
+      <div style="font-size:.75rem;color:${color==="#fff"?"#333":"#888"};font-family:var(--mono);">
+        ${autoSelect.value !== "0" ? `Auto-unlock in ${autoSelect.value}s` : ""}
+      </div>
+    `;
+    document.getElementById("clean-msg").addEventListener("click", unlock);
+
+    const t = parseInt(autoSelect.value);
+    if (t > 0) {
+      clearTimeout(autoId);
+      autoId = setTimeout(() => unlock(), t * 1000);
+    }
+
+    function inputBlocker(e) {
+      if (!locked) return;
+      if (e.key === "Escape") { unlock(); return; }
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    document.addEventListener("keydown", inputBlocker, true);
+    document.addEventListener("click", (e) => {
+      if (locked && e.target === overlay) unlock();
+    }, true);
+    document.addEventListener("pointerdown", (e) => {
+      if (locked && e.target === overlay) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+    overlay._cleanup = () => {
+      document.removeEventListener("keydown", inputBlocker, true);
+    };
+  }
+
+  function unlock() {
+    locked = false;
+    clearTimeout(autoId);
+    overlay.style.display = "none";
+    overlay.innerHTML = '<div class="exit-hint">Press Esc to exit</div>';
+    if (overlay._cleanup) { overlay._cleanup(); overlay._cleanup = null; }
+    if (document.fullscreenElement) document.exitFullscreen?.();
+  }
+
+  document.querySelectorAll("[data-color]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const color = btn.dataset.color;
+      lock(color);
+      document.documentElement.requestFullscreen?.().catch(() => {});
+      // Navigate away blocker
+      window.addEventListener("beforeunload", (e) => {
+        if (locked) { e.preventDefault(); e.returnValue = ""; }
+      });
+    });
+  });
+</script>

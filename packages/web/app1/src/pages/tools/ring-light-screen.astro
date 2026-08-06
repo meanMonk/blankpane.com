@@ -1,0 +1,193 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "ring-light-screen")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Ring Light Screen",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Free on-screen ring light with adjustable width, thickness, corner radius, and color temperature. Soft halo effect for video calls — shrink your call window to the center.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "How is a ring light screen different from a solid fill?", acceptedAnswer: { "@type": "Answer", text: "A solid fill makes your entire display one color, which can feel harsh. A ring light only lights the border area around your webcam window, creating a softer halo effect that looks more natural on camera." } },
+    { "@type": "Question", name: "What corner radius should I use?", acceptedAnswer: { "@type": "Answer", text: "Start around 120px for a soft, natural glow. Lower values (40–60px) give a tighter, brighter ring. Higher values (200px+) blend the edges and produce a subtler fill." } },
+    { "@type": "Question", name: "Can I adjust the intensity of the ring?", acceptedAnswer: { "@type": "Answer", text: "Yes — the intensity slider controls the opacity of the ring overlay. Slide left for a faint glow or right for a punchy, brighter effect." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Ring Light Screen", item: `${site}/tools/ring-light-screen/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Ring Light Screen — Soft Halo Effect for Video Calls"
+  description="Free on-screen ring light with adjustable width, radius & color temperature. Shrink your call window to the glowing center — no physical gear needed."
+  canonical={`${site}/tools/ring-light-screen/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Ring Light Screen</h1>
+    <p class="lede">
+      Physical ring lights cost money, take up desk space, and cast hard shadows. This tool draws a glowing ring
+      directly on your display — the light surrounds your webcam window naturally. Adjust the ring width, thickness,
+      corner radius, and color temperature to get the exact look you want. The center stays dark so your call window
+      remains visible, and the halo wraps around it like a studio light. Shrink your Zoom window into the middle
+      of the ring for the best effect. Works instantly in any modern browser — no extension, no download, no login.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li><strong>Shrink your video call window</strong> to the center of the ring — the glow should surround it.</li>
+        <li>Drag the <strong>Ring Width, Thickness, and Corner Radius</strong> sliders to shape the halo.</li>
+        <li>Set your preferred <strong>color temperature</strong> and <strong>intensity</strong>, then go full screen.</li>
+      </ol>
+    </section>
+
+    <div id="tool-area" style="margin:24px 0;">
+      <div id="preview" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#14141a;overflow:hidden;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);">
+        <canvas id="ring-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:40%;height:40%;border:2px dashed rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);font-size:.7rem;font-family:var(--mono);">call window here</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:center;">
+        <div class="field"><label>Ring Width %</label><input type="range" id="rw" min="10" max="90" value="60" style="width:140px;" /></div>
+        <div class="field"><label>Thickness px</label><input type="range" id="rt" min="20" max="200" value="80" style="width:140px;" /></div>
+        <div class="field"><label>Corner Radius px</label><input type="range" id="rr" min="0" max="300" value="120" style="width:140px;" /></div>
+        <div class="field"><label>Temperature K</label><input type="range" id="temp" min="2700" max="6500" value="4200" style="width:140px;" /></div>
+        <div class="field"><label>Intensity</label><input type="range" id="intensity" min="10" max="100" value="80" style="width:140px;" /></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn" id="full-btn">Full Screen</button>
+        <button class="btn btn-outline" id="dl-btn">Download PNG</button>
+      </div>
+    </div>
+
+    <details open>
+      <summary>How is a ring light screen different from a solid fill?</summary>
+      <p>A solid fill makes your entire display one color, which can feel harsh. A ring light only lights the border area around your webcam window, creating a softer halo effect that looks more natural on camera.</p>
+    </details>
+    <details>
+      <summary>What corner radius should I use?</summary>
+      <p>Start around 120px for a soft, natural glow. Lower values (40–60px) give a tighter, brighter ring. Higher values (200px+) blend the edges and produce a subtler fill.</p>
+    </details>
+    <details>
+      <summary>Can I adjust the intensity of the ring?</summary>
+      <p>Yes — the intensity slider controls the opacity of the ring overlay. Slide left for a faint glow or right for a punchy, brighter effect.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const canvas = document.getElementById("ring-canvas");
+  const ctx = canvas.getContext("2d");
+  const preview = document.getElementById("preview");
+  const sliders = ["rw","rt","rr","temp","intensity"].reduce((o,id)=>(o[id]=document.getElementById(id),o),{});
+
+  function kToHex(k) {
+    const t = k / 100;
+    let r,g,b;
+    if (t <= 66) { r = 255; g = 99.4708025861*Math.log(t)-161.1195681661; b = t<=19?0:138.5177312231*Math.log(t-10)-305.0447927307; }
+    else { r = 329.698727446*Math.pow(t-60,-0.1332047592); g = 288.1221695283*Math.pow(t-60,-0.0755148492); b = 255; }
+    return `rgb(${Math.min(255,Math.max(0,Math.round(r)))},${Math.min(255,Math.max(0,Math.round(g)))},${Math.min(255,Math.max(0,Math.round(b)))})`;
+  }
+
+  function draw() {
+    const rect = preview.getBoundingClientRect();
+    canvas.width = rect.width * 2;
+    canvas.height = rect.height * 2;
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+
+    const ringPct = sliders.rw.value / 100;
+    const thick = +sliders.rt.value * 2;
+    const radius = +sliders.rr.value * 2;
+    const center = w * 0.5, middle = h * 0.5;
+    const outer = Math.min(center, middle) * ringPct;
+    const inner = Math.max(0, outer - thick);
+
+    ctx.fillStyle = kToHex(+sliders.temp.value);
+    ctx.globalAlpha = sliders.intensity.value / 100;
+    ctx.beginPath();
+    ctx.roundRect(center - outer, middle - outer, outer * 2, outer * 2, radius);
+    ctx.roundRect(center - inner, middle - inner, inner * 2, inner * 2, Math.max(0, radius - thick * 0.5));
+    ctx.fill("evenodd");
+  }
+
+  Object.values(sliders).forEach(s=>s.addEventListener("input",draw));
+  new ResizeObserver(draw).observe(preview);
+  new ResizeObserver(draw).observe(canvas);
+  draw();
+
+  document.getElementById("full-btn").addEventListener("click",()=>{
+    const mc = document.createElement("canvas");
+    const dpr = window.devicePixelRatio || 1;
+    mc.width = screen.width * dpr;
+    mc.height = screen.height * dpr;
+    const mctx = mc.getContext("2d");
+    mctx.fillStyle = "#14141a";
+    mctx.fillRect(0,0,mc.width,mc.height);
+    const rp = sliders.rw.value/100;
+    const tk = +sliders.rt.value * 2 * dpr;
+    const rd = +sliders.rr.value * 2 * dpr;
+    const cx = mc.width*.5, cy = mc.height*.5;
+    const ot = Math.min(cx,cy)*rp;
+    const inn = Math.max(0,ot-tk);
+    mctx.fillStyle = kToHex(+sliders.temp.value);
+    mctx.globalAlpha = sliders.intensity.value/100;
+    mctx.beginPath();
+    mctx.roundRect(cx-ot,cy-ot,ot*2,ot*2,rd);
+    mctx.roundRect(cx-inn,cy-inn,inn*2,inn*2,Math.max(0,rd-tk*.5));
+    mctx.fill("evenodd");
+    const ov = document.getElementById("overlay");
+    ov.style.backgroundImage = `url(${mc.toDataURL()})`;
+    ov.style.backgroundSize = "cover";
+    ov.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(()=>{});
+  });
+
+  document.getElementById("dl-btn").addEventListener("click",()=>{
+    const mc = document.createElement("canvas");
+    mc.width = 1920; mc.height = 1080;
+    const mctx = mc.getContext("2d");
+    mctx.fillStyle = "#14141a";
+    mctx.fillRect(0,0,1920,1080);
+    const rp = sliders.rw.value/100;
+    const tk = +sliders.rt.value * 2;
+    const rd = +sliders.rr.value * 2;
+    const cx=960,cy=540;
+    const ot = Math.min(cx,cy)*rp;
+    const inn = Math.max(0,ot-tk);
+    mctx.fillStyle = kToHex(+sliders.temp.value);
+    mctx.globalAlpha = sliders.intensity.value/100;
+    mctx.beginPath();
+    mctx.roundRect(cx-ot,cy-ot,ot*2,ot*2,rd);
+    mctx.roundRect(cx-inn,cy-inn,inn*2,inn*2,Math.max(0,rd-tk*.5));
+    mctx.fill("evenodd");
+    mc.toBlob(b=>{if(!b)return;const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="ring-light.png";a.click();},"image/png",1.0);
+  });
+</script>

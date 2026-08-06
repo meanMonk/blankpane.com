@@ -1,0 +1,65 @@
+[
+  {
+    "slug": "zoom-light-screen",
+    "name": "Zoom Light Screen",
+    "cluster": "lighting",
+    "description": "Adjustable-color full-screen light for video calls — dial in the perfect color temperature to look natural on camera.",
+    "relatedSlugs": ["ring-light-screen", "screen-flashlight", "white-screen"]
+  },
+  {
+    "slug": "ring-light-screen",
+    "name": "Ring Light Screen",
+    "cluster": "lighting",
+    "description": "Create a custom-colored glow ring around your webcam window — softer than a solid fill and mimics a physical ring light.",
+    "relatedSlugs": ["zoom-light-screen", "screen-flashlight", "white-screen"]
+  },
+  {
+    "slug": "screen-flashlight",
+    "name": "Screen Flashlight",
+    "cluster": "lighting",
+    "description": "Instant max-brightness white fill — turns your screen into a portable flashlight for finding things in the dark.",
+    "relatedSlugs": ["zoom-light-screen", "ring-light-screen", "white-screen"]
+  },
+  {
+    "slug": "broken-screen-dummy",
+    "name": "Broken Screen Dummy",
+    "cluster": "prank",
+    "description": "Convincing cracked-screen overlays — pick from spiderweb, shatter, glitch, or LCD bleed styles to prank a friend.",
+    "relatedSlugs": ["fake-update-screen", "no-signal-screen", "black-screen"]
+  },
+  {
+    "slug": "fake-update-screen",
+    "name": "Fake Update Screen",
+    "cluster": "prank",
+    "description": "Classic Windows, macOS, or Linux-style fake update screens — lock the display and watch coworkers think you're updating.",
+    "relatedSlugs": ["broken-screen-dummy", "no-signal-screen", "black-screen"]
+  },
+  {
+    "slug": "no-signal-screen",
+    "name": "No Signal Screen",
+    "cluster": "prank",
+    "description": "Animated TV static with a bouncing NO SIGNAL overlay — convincing enough to make someone check the cables.",
+    "relatedSlugs": ["broken-screen-dummy", "fake-update-screen", "black-screen"]
+  },
+  {
+    "slug": "dead-pixel-test",
+    "name": "Dead Pixel Test",
+    "cluster": "utility",
+    "description": "Cycle through full-screen colors to spot dead or stuck pixels — includes a rapid-flash mode that can sometimes fix them.",
+    "relatedSlugs": ["screen-cleaner", "countdown-timer-fullscreen", "white-screen", "black-screen"]
+  },
+  {
+    "slug": "screen-cleaner",
+    "name": "Screen Cleaner",
+    "cluster": "utility",
+    "description": "Input-locked white or black screen so you can safely wipe your display without triggering random clicks or taps.",
+    "relatedSlugs": ["dead-pixel-test", "countdown-timer-fullscreen", "white-screen", "black-screen"]
+  },
+  {
+    "slug": "countdown-timer-fullscreen",
+    "name": "Countdown Timer Fullscreen",
+    "cluster": "utility",
+    "description": "Large full-screen countdown timer over a solid background — great for presentations, test-taking, or cooking timers.",
+    "relatedSlugs": ["dead-pixel-test", "screen-cleaner", "white-screen"]
+  }
+]

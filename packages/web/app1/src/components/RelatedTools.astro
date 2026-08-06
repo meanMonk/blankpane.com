@@ -1,0 +1,30 @@
+---
+import tools from "../data/tools.json";
+import colors from "../data/colors.json";
+
+interface Props {
+  slugs: string[];
+}
+
+const { slugs } = Astro.props;
+const items = slugs
+  .map((s) => {
+    const tool = tools.find((t) => t.slug === s);
+    const color = colors.find((c) => c.slug === s);
+    if (tool) return { slug: tool.slug, name: tool.name, kind: "tool" as const };
+    if (color) return { slug: color.slug, name: color.name, kind: "color" as const };
+    return null;
+  })
+  .filter(Boolean) as { slug: string; name: string; kind: "tool" | "color" }[];
+
+if (items.length === 0) return null;
+---
+
+<section style="border-top:1px solid var(--line);padding:20px 0;">
+  <h3 style="font-family:var(--display);font-size:1rem;margin:0 0 12px;text-align:center;color:var(--ink-dim);">Related tools &amp; pages</h3>
+  <div class="color-links">
+    {items.map((item) => (
+      <a href={item.kind === "tool" ? `/tools/${item.slug}/` : `/${item.slug}/`}>{item.name}</a>
+    ))}
+  </div>
+</section>

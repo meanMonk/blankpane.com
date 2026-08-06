@@ -1,0 +1,181 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "countdown-timer-fullscreen")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Countdown Timer Fullscreen",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Full-screen countdown timer over a solid background. Preset buttons for 1, 5, 10, and 25 minutes, plus custom input. Free, no download.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "Does the timer keep running if I switch tabs?", acceptedAnswer: { "@type": "Answer", text: "The timer relies on `setInterval` and wall-clock correction, so it will stay accurate. However, browsers may throttle inactive tabs — keep this page visible for the most precise countdown, especially for test-taking or presentations where every second counts." } },
+    { "@type": "Question", name: "Can I change the background color while the timer is running?", acceptedAnswer: { "@type": "Answer", text: "Yes — the color picker and preset color buttons work at any time. The countdown continues uninterrupted regardless of background changes." } },
+    { "@type": "Question", name: "What happens when the timer reaches zero?", acceptedAnswer: { "@type": "Answer", text: "The display flashes between white and the selected background color and shows 00:00. This visual pulse is hard to ignore even from across the room. Click anywhere or press Esc to stop it and reset the timer." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Countdown Timer", item: `${site}/tools/countdown-timer-fullscreen/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Countdown Timer Fullscreen — Big Digit Display on Solid Background"
+  description="Full-screen countdown timer with preset buttons (1, 5, 10, 25 min) and custom input. Big readable digits on a solid background — free & instant."
+  canonical={`${site}/tools/countdown-timer-fullscreen/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Countdown Timer Fullscreen</h1>
+    <p class="lede">
+      You're giving a presentation and need to keep to 10 minutes. You're proctoring an exam and students need
+      to see the remaining time from across the room. You're cooking and want a timer visible from the counter
+      without squinting at a tiny phone screen. This tool puts a giant digit countdown on a solid-color
+      background — readable from a projector, a wall-mounted monitor, or even the back of a classroom. Pick a
+      preset (1, 5, 10, or 25 minutes) or type your own custom time. Change the background color any time with
+      the color picker or preset swatches. When time's up, the display flashes to grab attention. No signup, no
+      download, no ads over the numbers — just a clean, readable timer.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Click a <strong>preset button</strong> (1/5/10/25 min) or enter a custom number of minutes.</li>
+        <li>Pick a <strong>background color</strong> using the swatches or color picker below.</li>
+        <li>Hit <strong>Full Screen</strong> for projector use, or <strong>Start</strong> to begin the countdown in the preview.</li>
+      </ol>
+    </section>
+
+    <div id="tool-area" style="margin:24px 0;">
+      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#1c1c2e;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;transition:background .3s;">
+        <div id="timer-display" style="font-family:var(--mono);font-size:clamp(2.5rem,8vw,5rem);font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.4);">00:00</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0;">
+        {[1,5,10,25].map(m => (
+          <button class="btn btn-outline" data-preset={m} style="font-size:.78rem;padding:8px 16px;">{m} min</button>
+        ))}
+        <div class="field" style="flex-direction:row;align-items:center;gap:6px;">
+          <label style="margin:0;white-space:nowrap;">Custom min</label>
+          <input type="number" id="custom-min" min="1" max="999" value="3" style="width:68px;font-size:.78rem;" />
+        </div>
+      </div>
+
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0;">
+        {["#1c1c2e","#0a0a14","#1a2e1a","#2e1a1a","#1a1a2e","#ffffff"].map(h => (
+          <button class="btn-color-swatch" data-hex={h} style="width:32px;height:32px;border-radius:50%;background:{h};border:2px solid {h==='#ffffff'?'var(--line)':'transparent'};cursor:pointer;padding:0;" aria-label={`Background ${h}`}></button>
+        ))}
+        <input type="color" id="bgPicker" value="#1c1c2e" style="width:36px;height:36px;border:none;border-radius:50%;padding:0;cursor:pointer;" />
+      </div>
+
+      <div class="action-row">
+        <button class="btn" id="start-btn">Start</button>
+        <button class="btn btn-outline" id="stop-btn">Pause</button>
+        <button class="btn btn-outline" id="reset-btn">Reset</button>
+        <button class="btn" id="full-btn">Full Screen</button>
+      </div>
+    </div>
+
+    <details open>
+      <summary>Does the timer keep running if I switch tabs?</summary>
+      <p>The timer relies on `setInterval` and wall-clock correction, so it will stay accurate. However, browsers may throttle inactive tabs — keep this page visible for the most precise countdown, especially for test-taking or presentations where every second counts.</p>
+    </details>
+    <details>
+      <summary>Can I change the background color while the timer is running?</summary>
+      <p>Yes — the color picker and preset color buttons work at any time. The countdown continues uninterrupted regardless of background changes.</p>
+    </details>
+    <details>
+      <summary>What happens when the timer reaches zero?</summary>
+      <p>The display flashes between white and the selected background color and shows 00:00. This visual pulse is hard to ignore even from across the room. Click anywhere or press Esc to stop it and reset the timer.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const preview = document.getElementById("preview");
+  const display = document.getElementById("timer-display");
+  const bgPicker = document.getElementById("bgPicker");
+  const customMin = document.getElementById("custom-min");
+  let running = false, paused = false;
+  let remaining = 0, startAt, id, flashId;
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function render() { const m = Math.floor(remaining / 60), s = remaining % 60; display.textContent = `${pad(m)}:${pad(s)}`; }
+  function tick() { if (remaining <= 0) { fire(); return; } remaining--; render(); }
+
+  function fire() {
+    clearInterval(id);
+    running = false; paused = false;
+    display.textContent = "00:00";
+    let flip = false;
+    flashId = setInterval(() => {
+      preview.style.background = flip ? "#fff" : bgPicker.value;
+      flip = !flip;
+    }, 400);
+    setTimeout(() => { clearInterval(flashId); preview.style.background = bgPicker.value; }, 8000);
+  }
+  preview.addEventListener("click", () => { if (flashId) { clearInterval(flashId); flashId=null; preview.style.background=bgPicker.value; } });
+
+  function startTimer(mins) {
+    clearInterval(id);
+    clearInterval(flashId);
+    flashId = null;
+    preview.style.background = bgPicker.value;
+    remaining = mins * 60;
+    if (remaining <= 0) remaining = 60;
+    render();
+    running = true;
+    paused = false;
+    id = setInterval(tick, 1000);
+  }
+
+  document.getElementById("start-btn").addEventListener("click", () => {
+    if (paused) { paused = false; id = setInterval(tick, 1000); return; }
+    if (running) return;
+    startTimer(parseInt(customMin.value) || 1);
+  });
+  document.getElementById("stop-btn").addEventListener("click", () => { if (running && !paused) { clearInterval(id); paused = true; } });
+  document.getElementById("reset-btn").addEventListener("click", () => { clearInterval(id); clearInterval(flashId); flashId=null; running=false;paused=false;remaining=0;preview.style.background=bgPicker.value;display.textContent="00:00"; });
+
+  document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => { startTimer(parseInt(b.dataset.preset)); }));
+
+  bgPicker.addEventListener("input", () => { if (!flashId) preview.style.background = bgPicker.value; });
+  document.querySelectorAll(".btn-color-swatch").forEach(b => b.addEventListener("click",()=>{ bgPicker.value=b.dataset.hex; if(!flashId)preview.style.background=b.dataset.hex; }));
+
+  document.getElementById("full-btn").addEventListener("click", () => {
+    const ov = document.getElementById("overlay");
+    ov.style.background = bgPicker.value;
+    ov.innerHTML = `<div style="font-family:var(--mono);font-size:clamp(3rem,12vw,8rem);font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.5);">${display.textContent}</div>`;
+    ov.style.display = "flex";
+    ov.style.alignItems = "center";
+    ov.style.justifyContent = "center";
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    if (running && !paused) {
+      const fsInt = setInterval(() => {
+        if (ov.style.display !== "flex") { clearInterval(fsInt); return; }
+        ov.querySelector("div").textContent = display.textContent;
+      }, 500);
+    }
+  });
+</script>

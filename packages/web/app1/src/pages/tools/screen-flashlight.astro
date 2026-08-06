@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "screen-flashlight")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Screen Flashlight",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Instant one-tap full-brightness white screen flashlight. Turn your monitor into a portable light source — free, no download, mobile-friendly.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "Is this brighter than my phone's flashlight?", acceptedAnswer: { "@type": "Answer", text: "A laptop or desktop monitor set to full-brightness white typically outputs more total lumens than a phone LED — and it covers a wider area. Great for finding lost items under desks or lighting a small room in a power outage." } },
+    { "@type": "Question", name: "Will this drain my laptop battery quickly?", acceptedAnswer: { "@type": "Answer", text: "Yes — max-brightness white on a laptop screen is one of the fastest ways to drain battery. Use plugged in whenever possible, and turn it off as soon as you're done." } },
+    { "@type": "Question", name: "Is it safe to look at a full-white screen?", acceptedAnswer: { "@type": "Answer", text: "Don't stare directly at it for long periods. In a dark room, the sudden brightness can be uncomfortable — squint or look to the side when you first turn it on. Keep the screen at least arm's length from your eyes." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Screen Flashlight", item: `${site}/tools/screen-flashlight/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Screen Flashlight — One-Tap Full-Brightness White Screen Light"
+  description="Instant full-brightness white screen — turn your monitor into a flashlight. Free, mobile-friendly, no download. One tap on, one tap off."
+  canonical={`${site}/tools/screen-flashlight/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Screen Flashlight</h1>
+    <p class="lede">
+      You drop something under the desk, the power goes out, or you need to find your keys in a dark car — your
+      screen is the biggest light source you already own. Tap the big button below and your entire display turns
+      into a max-brightness white panel. It's simpler and wider-reaching than a phone flashlight, and because it's
+      a browser page, it works on any device: laptop, tablet, or phone. No app to install, no permissions to grant.
+      Tap again or press Esc to turn it off. Just remember to turn your device brightness all the way up first.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li><strong>Turn your device brightness to maximum</strong> before you activate the light.</li>
+        <li>Tap or click the <strong>big white button</strong> below — the screen goes full white instantly.</li>
+        <li>Tap anywhere or press <strong>Esc</strong> to turn it off. Keep the screen at arm's length from your eyes.</li>
+      </ol>
+    </section>
+
+    <div id="tool-area" style="margin:28px 0;text-align:center;">
+      <div id="flash-preview" style="width:100%;aspect-ratio:1/1;max-width:320px;margin:0 auto;border-radius:50%;border:2px solid var(--line);background:var(--bg-raised);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s, box-shadow .15s;user-select:none;-webkit-user-select:none;">
+        <span id="flash-label" style="font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--ink-dim);">Tap to turn on</span>
+      </div>
+      <p id="caution" style="font-size:.72rem;color:var(--ink-dim);margin:12px 0 0;font-family:var(--mono);display:none;">
+        Keep screen at arm's length · Don't stare · Bright light may strain eyes
+      </p>
+    </div>
+
+    <details open>
+      <summary>Is this brighter than my phone's flashlight?</summary>
+      <p>A laptop or desktop monitor set to full-brightness white typically outputs more total lumens than a phone LED — and it covers a wider area. Great for finding lost items under desks or lighting a small room in a power outage.</p>
+    </details>
+    <details>
+      <summary>Will this drain my laptop battery quickly?</summary>
+      <p>Yes — max-brightness white on a laptop screen is one of the fastest ways to drain battery. Use plugged in whenever possible, and turn it off as soon as you're done.</p>
+    </details>
+    <details>
+      <summary>Is it safe to look at a full-white screen?</summary>
+      <p>Don't stare directly at it for long periods. In a dark room, the sudden brightness can be uncomfortable — squint or look to the side when you first turn it on. Keep the screen at least arm's length from your eyes.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const flashBtn = document.getElementById("flash-preview");
+  const flashLabel = document.getElementById("flash-label");
+  const caution = document.getElementById("caution");
+  const overlay = document.getElementById("overlay");
+
+  let on = false;
+  function turnOn() {
+    on = true;
+    flashBtn.style.background = "#fff";
+    flashBtn.style.boxShadow = "0 0 60px rgba(255,255,255,.4)";
+    flashLabel.textContent = "Tap to turn off";
+    flashLabel.style.color = "#111";
+    caution.style.display = "block";
+    overlay.style.background = "#fff";
+    overlay.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(()=>{});
+  }
+  function turnOff() {
+    on = false;
+    flashBtn.style.background = "var(--bg-raised)";
+    flashBtn.style.boxShadow = "";
+    flashLabel.textContent = "Tap to turn on";
+    flashLabel.style.color = "var(--ink-dim)";
+    caution.style.display = "none";
+    overlay.style.display = "none";
+    if (document.fullscreenElement) document.exitFullscreen?.();
+  }
+  flashBtn.addEventListener("click", () => on ? turnOff() : turnOn());
+  overlay.addEventListener("click", () => { if (on) turnOff(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && on) turnOff(); });
+  document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && on) turnOff(); });
+</script>

@@ -1,0 +1,191 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "no-signal-screen")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "No Signal Screen",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Realistic animated TV static with bouncing NO SIGNAL text. Free browser-based prank — looks like a disconnected monitor. Esc to exit.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "How does the TV static animation work?", acceptedAnswer: { "@type": "Answer", text: "It uses an HTML5 canvas that redraws random pixel data 15 times per second — the same technique retro games and demoscene productions use for noise effects. It's all client-side, no video file needed." } },
+    { "@type": "Question", name: "Can I pause the bouncing NO SIGNAL text?", acceptedAnswer: { "@type": "Answer", text: "The text bounces continuously like a DVD screensaver — there's no pause button for the text specifically, but pressing Esc exits the full screen view instantly." } },
+    { "@type": "Question", name: "Will this drain battery on a laptop?", acceptedAnswer: { "@type": "Answer", text: "The canvas repaint runs at 15 fps which is quite light — similar to watching a video. On a modern laptop you may lose 10–15% more battery per hour versus idle, but it won't cause rapid drain." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "No Signal Screen", item: `${site}/tools/no-signal-screen/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="No Signal Screen — Animated TV Static with Bouncing Text"
+  description="Realistic TV static noise with 'NO SIGNAL' bouncing text overlay. Free prank tool — looks like a disconnected monitor. Instant, no download."
+  canonical={`${site}/tools/no-signal-screen/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>No Signal Screen</h1>
+    <p class="lede">
+      You walk into a room, glance at someone's monitor, and see the classic bouncing "NO SIGNAL" box floating
+      across animated TV static. The immediate reaction is to check the cables. This tool recreates that exact
+      moment — it fills the screen with procedurally generated noise updated 15 times per second, plus a
+      bouncing text overlay that drifts around like a DVD screensaver. No video file, no WebGL, just a
+      lightweight canvas loop that runs smoothly on any device. Hit Full Screen, step back, and let the
+      confusion begin. Press Esc and your "signal" comes right back.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>The preview starts animating immediately — <strong>you'll see TV static right away.</strong></li>
+        <li>Click <strong>Full Screen</strong> to stretch the static across your entire monitor.</li>
+        <li>Press <strong>Esc</strong> (or click anywhere) to dismiss — your screen returns to normal.</li>
+      </ol>
+    </section>
+
+    <div id="preview-box" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);overflow:hidden;position:relative;background:#000;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);">
+      <canvas id="static-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      <div id="signal-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:monospace;font-size:clamp(1rem,3vw,2.5rem);font-weight:700;color:#fff;background:rgba(0,0,0,.7);padding:14px 28px;border:3px solid rgba(255,255,255,.6);border-radius:6px;white-space:nowrap;pointer-events:none;text-shadow:0 2px 4px rgba(0,0,0,.5);">NO SIGNAL</div>
+    </div>
+
+    <div class="action-row" style="margin-top:16px;">
+      <button class="btn" id="full-btn">Full Screen</button>
+    </div>
+
+    <details open>
+      <summary>How does the TV static animation work?</summary>
+      <p>It uses an HTML5 canvas that redraws random pixel data 15 times per second — the same technique retro games and demoscene productions use for noise effects. It's all client-side, no video file needed.</p>
+    </details>
+    <details>
+      <summary>Can I pause the bouncing NO SIGNAL text?</summary>
+      <p>The text bounces continuously like a DVD screensaver — there's no pause button for the text specifically, but pressing Esc exits the full screen view instantly.</p>
+    </details>
+    <details>
+      <summary>Will this drain battery on a laptop?</summary>
+      <p>The canvas repaint runs at 15 fps which is quite light — similar to watching a video. On a modern laptop you may lose 10–15% more battery per hour versus idle, but it won't cause rapid drain.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const canvas = document.getElementById("static-canvas");
+  const ctx = canvas.getContext("2d");
+  const textEl = document.getElementById("signal-text");
+  const container = document.getElementById("preview-box");
+  let animId;
+
+  function resize() {
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+
+  const imageData = ctx.createImageData(1, 1);
+  const data = imageData.data;
+
+  function drawNoise() {
+    const w = canvas.width, h = canvas.height;
+    const step = 6;
+    for (let y = 0; y < h; y += step) {
+      for (let x = 0; x < w; x += step) {
+        const v = Math.random() * 64 + (Math.random() > 0.7 ? Math.random() * 120 : 0);
+        const c = Math.min(255, v);
+        ctx.fillStyle = `rgb(${c},${c},${c})`;
+        ctx.fillRect(x, y, step, step);
+      }
+    }
+  }
+
+  function animate() {
+    drawNoise();
+    animId = requestAnimationFrame(animate);
+  }
+
+  let bx = 0, by = 0, dx = 1.2, dy = 1.2;
+
+  function bounce() {
+    const r = container.getBoundingClientRect();
+    const tr = textEl.getBoundingClientRect();
+    bx += dx; by += dy;
+    if (bx <= 0 || bx + tr.width >= r.width) dx *= -1;
+    if (by <= 0 || by + tr.height >= r.height) dy *= -1;
+    textEl.style.left = bx + "px";
+    textEl.style.top = by + "px";
+    textEl.style.transform = "none";
+    requestAnimationFrame(() => setTimeout(bounce, 16));
+  }
+
+  resize();
+  animate();
+  bounce();
+
+  const ro = new ResizeObserver(() => { resize(); });
+  ro.observe(container);
+
+  document.getElementById("full-btn").addEventListener("click", () => {
+    const ov = document.getElementById("overlay");
+    ov.style.background = "#000";
+    ov.innerHTML = "";
+    ov.style.display = "flex";
+    const bigCanvas = document.createElement("canvas");
+    bigCanvas.style.cssText = "position:absolute;inset:0;width:100vw;height:100vh;";
+    const bigText = document.createElement("div");
+    bigText.style.cssText = `position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:monospace;font-size:3rem;font-weight:700;color:#fff;background:rgba(0,0,0,.7);padding:20px 40px;border:3px solid rgba(255,255,255,.6);border-radius:8px;white-space:nowrap;text-shadow:0 3px 6px rgba(0,0,0,.5);`;
+    bigText.textContent = "NO SIGNAL";
+    ov.appendChild(bigCanvas);
+    ov.appendChild(bigText);
+    const bigCtx = bigCanvas.getContext("2d");
+    function fsNoise() {
+      bigCanvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+      bigCanvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+      const w = bigCanvas.width, h = bigCanvas.height;
+      const step = 4;
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          const v = Math.random() * 64 + (Math.random() > 0.7 ? Math.random() * 120 : 0);
+          const c = Math.min(255, v);
+          bigCtx.fillStyle = `rgb(${c},${c},${c})`;
+          bigCtx.fillRect(x, y, step, step);
+        }
+      }
+      if (ov.style.display === "flex") requestAnimationFrame(fsNoise);
+    }
+    fsNoise();
+
+    let fsbx=0, fsby=0, fsdx=2, fsdy=2;
+    function fsBounce(){
+      const tr=bigText.getBoundingClientRect();
+      fsbx+=fsdx;fsby+=fsdy;
+      if(fsbx<=0||fsbx+tr.width>=window.innerWidth)fsdx*=-1;
+      if(fsby<=0||fsby+tr.height>=window.innerHeight)fsdy*=-1;
+      bigText.style.left=fsbx+"px";bigText.style.top=fsby+"px";bigText.style.transform="none";
+      if(ov.style.display==="flex")requestAnimationFrame(()=>setTimeout(fsBounce,16));
+    }
+    fsBounce();
+
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  });
+</script>

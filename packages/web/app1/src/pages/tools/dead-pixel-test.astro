@@ -1,0 +1,202 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import tools from "../../data/tools.json";
+
+const tool = tools.find((t) => t.slug === "dead-pixel-test")!;
+const site = "https://blank-screen.pages.dev";
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Dead Pixel Test",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Free dead pixel tester — auto-cycle through full-screen colors to spot dead or stuck pixels. Includes stuck-pixel fix rapid-flash mode. No download.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "What's the difference between a dead pixel and a stuck pixel?", acceptedAnswer: { "@type": "Answer", text: "A dead pixel is permanently black — it never lights up. A stuck pixel shows a single color (red, green, blue, or white) because one subpixel is frozen in the 'on' position. Stuck pixels can sometimes be fixed with the rapid-flash mode on this page." } },
+    { "@type": "Question", name: "How does the rapid-flash stuck pixel fix work?", acceptedAnswer: { "@type": "Answer", text: "It rapidly cycles through white, black, red, green, and blue at high speed. The theory is that the fast color switching can unstick a frozen subpixel by repeatedly exercising the liquid crystal layer. Run it for 5–10 minutes and check again." } },
+    { "@type": "Question", name: "What colors should I test to find dead pixels?", acceptedAnswer: { "@type": "Answer", text: "Test white and black to spot any pixel that's permanently off or on. Then test solid red, green, and blue to check each subpixel individually. The gradient and checkerboard patterns help identify subtle issues like stuck subpixels or uneven brightness." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Tools", item: `${site}/tools/` },
+    { "@type": "ListItem", position: 3, name: "Dead Pixel Test", item: `${site}/tools/dead-pixel-test/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  title="Dead Pixel Test — Auto-Cycle Colors to Spot & Fix Screen Defects"
+  description="Free dead pixel checker — auto-cycle through white, black, red, green, blue, gradient and checkerboard. Includes stuck-pixel rapid-flash fix mode."
+  canonical={`${site}/tools/dead-pixel-test/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/tools/">← All tools</a></p>
+    <h1>Dead Pixel Test</h1>
+    <p class="lede">
+      You unbox a new monitor or phone and want to make sure every pixel works before the return window closes.
+      This tool auto-cycles through a sequence of full-screen colors — white, black, pure red, pure green, pure
+      blue, a smooth grayscale gradient, and a high-contrast checkerboard — so you can scan every inch of your
+      screen for dead, stuck, or dim pixels. Set the auto-advance speed to your liking, or step through
+      manually with previous/next buttons. If you find a stuck (not dead) pixel showing a constant color,
+      start the rapid-flash fix mode: it pounds through white, black, and primaries at high speed in an
+      attempt to unstick the liquid crystal. Run it for 5–10 minutes and check again. It's not a magic cure,
+      but it works often enough to be worth trying before you file for a replacement.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Hit <strong>Full Screen</strong> to remove all UI — walk close to the display and scan carefully.</li>
+        <li>Use the <strong>auto-cycle</strong> timer or the <strong>← Prev / Next →</strong> buttons to step through every color.</li>
+        <li>If you spot a stuck pixel, start <strong>Rapid Flash</strong> and let it run for 5–10 minutes, then re-check.</li>
+      </ol>
+    </section>
+
+    <div id="tool-area" style="margin:24px 0;">
+      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);display:flex;align-items:flex-end;justify-content:center;padding:14px;">
+        <span id="color-label" style="font-family:var(--mono);font-size:.7rem;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.5);color:#fff;">White</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;">
+        <button class="btn btn-outline" id="prev-btn" style="font-size:.75rem;padding:6px 12px;">← Prev</button>
+        <button class="btn btn-outline" id="next-btn" style="font-size:.75rem;padding:6px 12px;">Next →</button>
+        <div class="field" style="flex-direction:row;align-items:center;gap:8px;">
+          <label style="margin:0;">Auto every</label>
+          <select id="interval-select" style="width:auto;font-size:.75rem;padding:5px 8px;">
+            <option value="0">Off</option>
+            <option value="2" selected>2s</option>
+            <option value="4">4s</option>
+            <option value="8">8s</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn" id="full-btn">Full Screen</button>
+        <button class="btn btn-outline" id="flash-btn">⚡ Rapid Flash Fix</button>
+      </div>
+    </div>
+
+    <details open>
+      <summary>What's the difference between a dead pixel and a stuck pixel?</summary>
+      <p>A dead pixel is permanently black — it never lights up. A stuck pixel shows a single color (red, green, blue, or white) because one subpixel is frozen in the 'on' position. Stuck pixels can sometimes be fixed with the rapid-flash mode on this page.</p>
+    </details>
+    <details>
+      <summary>How does the rapid-flash stuck pixel fix work?</summary>
+      <p>It rapidly cycles through white, black, red, green, and blue at high speed. The theory is that the fast color switching can unstick a frozen subpixel by repeatedly exercising the liquid crystal layer. Run it for 5–10 minutes and check again.</p>
+    </details>
+    <details>
+      <summary>What colors should I test to find dead pixels?</summary>
+      <p>Test white and black to spot any pixel that's permanently off or on. Then test solid red, green, and blue to check each subpixel individually. The gradient and checkerboard patterns help identify subtle issues like stuck subpixels or uneven brightness.</p>
+    </details>
+
+    <RelatedTools slugs={tool.relatedSlugs} />
+  </div>
+</BaseLayout>
+
+<script>
+// @ts-nocheck
+  const preview = document.getElementById("preview");
+  const label = document.getElementById("color-label");
+  const intSel = document.getElementById("interval-select");
+
+  const colors = [
+    { hex: "#ffffff", name: "White", light: true },
+    { hex: "#000000", name: "Black", light: false },
+    { hex: "#ff0000", name: "Red", light: false },
+    { hex: "#00ff00", name: "Green", light: false },
+    { hex: "#0000ff", name: "Blue", light: false },
+    { hex: "linear-gradient(to right, #000, #fff)", name: "Gradient (grayscale)", light: false, isGrad: true },
+    { hex: "checker", name: "Checkerboard", light: true, isCheck: true },
+  ];
+
+  let idx = 0;
+  let timer;
+
+  function applyColor(i) {
+    idx = ((i % colors.length) + colors.length) % colors.length;
+    const c = colors[idx];
+    if (c.isCheck) {
+      preview.style.backgroundImage = "repeating-conic-gradient(#fff 0% 25%, #000 0% 50%) 50% / 40px 40px";
+      preview.style.background = "";
+    } else if (c.isGrad) {
+      preview.style.backgroundImage = "";
+      preview.style.background = c.hex;
+    } else {
+      preview.style.backgroundImage = "";
+      preview.style.background = c.hex;
+    }
+    label.textContent = c.name;
+    label.style.background = c.light ? "rgba(0,0,0,.5)" : "rgba(255,255,255,.3)";
+    label.style.color = c.light ? "#fff" : "#000";
+  }
+
+  function startAuto() {
+    clearInterval(timer);
+    const s = parseFloat(intSel.value);
+    if (s > 0) timer = setInterval(() => applyColor(idx + 1), s * 1000);
+  }
+
+  intSel.addEventListener("change", startAuto);
+  document.getElementById("prev-btn").addEventListener("click", () => applyColor(idx - 1));
+  document.getElementById("next-btn").addEventListener("click", () => applyColor(idx + 1));
+
+  document.getElementById("full-btn").addEventListener("click", () => {
+    const ov = document.getElementById("overlay");
+    const c = colors[idx];
+    ov.style.backgroundImage = "";
+    if (c.isCheck) {
+      ov.style.background = "repeating-conic-gradient(#fff 0% 25%, #000 0% 50%) 50% / 60px 60px";
+    } else if (c.isGrad) {
+      ov.style.background = c.hex;
+    } else {
+      ov.style.background = c.hex;
+    }
+    ov.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  });
+
+  const flashSeq = ["#fff","#000","#f00","#0f0","#00f"];
+  let flashIdx = 0, flashRun = false, flashId;
+  document.getElementById("flash-btn").addEventListener("click", () => {
+    if (flashRun) {
+      clearInterval(flashId);
+      flashRun = false;
+      document.getElementById("flash-btn").textContent = "⚡ Rapid Flash Fix";
+      applyColor(0);
+      return;
+    }
+    flashRun = true;
+    clearInterval(timer);
+    document.getElementById("flash-btn").textContent = "⏹ Stop Flash";
+    flashIdx = 0;
+    const ov = document.getElementById("overlay");
+    ov.style.backgroundImage = "";
+    flashId = setInterval(() => {
+      const hex = flashSeq[flashIdx % flashSeq.length];
+      flashIdx++;
+      preview.style.background = hex;
+      const isLight = hex === "#fff";
+      label.textContent = `Stuck-pixel fix — ${hex}`;
+      label.style.background = isLight ? "rgba(0,0,0,.5)" : "rgba(255,255,255,.3)";
+      label.style.color = isLight ? "#fff" : "#000";
+      ov.style.background = hex;
+      ov.style.display = "flex";
+    }, 90);
+  });
+
+  startAuto();
+</script>
