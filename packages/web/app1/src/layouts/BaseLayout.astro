@@ -89,6 +89,13 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <link rel="alternate" hreflang="x-default" href={alternateLinks[0]!.href} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G79NS7Y3R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G79NS7Y3R1', { send_page_view: true });
+    </script>
     <link
       rel="preload"
       as="style"
@@ -149,6 +156,9 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     </div>
 
     <script>
+      // page view analytics
+      gtag('event', 'page_view_extra', { event_category: 'page', event_label: window.location.pathname, page_path: window.location.pathname, page_title: document.title });
+
       const dropdown = document.querySelector("[data-lang-dropdown]");
       if (dropdown) {
         const toggle = dropdown.querySelector("[data-lang-toggle]")!;
@@ -158,7 +168,26 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
           content.classList.toggle("lang-show");
         });
         document.addEventListener("click", () => content.classList.remove("lang-show"));
+        content.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            gtag('event', 'language_switch', { event_category: 'navigation', event_label: a.getAttribute('hreflang') || a.textContent.trim() });
+          });
+        });
       }
+
+      document.querySelectorAll('.nav-link').forEach(a => {
+        a.addEventListener('click', () => gtag('event', 'nav_click', { event_category: 'navigation', event_label: a.textContent.trim() }));
+      });
+      document.querySelector('.brand')?.addEventListener('click', () => gtag('event', 'nav_click', { event_category: 'navigation', event_label: 'brand_home' }));
+      document.querySelectorAll('.foot-links a').forEach(a => {
+        a.addEventListener('click', () => gtag('event', 'footer_click', { event_category: 'navigation', event_label: a.textContent.trim() }));
+      });
+      document.querySelectorAll('.color-links a').forEach(a => {
+        a.addEventListener('click', () => gtag('event', 'color_link_click', { event_category: 'navigation', event_label: a.textContent.trim() }));
+      });
+      document.querySelectorAll('.blog-card').forEach(a => {
+        a.addEventListener('click', () => gtag('event', 'card_click', { event_category: 'navigation', event_label: a.querySelector('h3')?.textContent?.trim() || a.getAttribute('href') }));
+      });
 
       const ov = document.getElementById("overlay");
       if (ov) {
