@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const ja: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "無料のブラウザツール・インストール不要",
   heroTitle: "画面をワンクリックで全ページの白、黒、またはカラーのスクリーンに変えましょう。",
   heroLede:

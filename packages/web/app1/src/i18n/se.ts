@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const se: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Gratis webbläsarverktyg · ingen installation",
   heroTitle: "Förvandla din skärm till en helsides vit, svart eller färgad skärm — direkt.",
   heroLede:

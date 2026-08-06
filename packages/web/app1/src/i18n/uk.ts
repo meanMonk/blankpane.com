@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const uk: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Безкоштовний інструмент у браузері · без встановлення",
   heroTitle: "Миттєво перетворіть екран на повнокольоровий білий, чорний або кольоровий екран.",
   heroLede:

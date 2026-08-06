@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const ko: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "무료 브라우저 도구 · 설치 불필요",
   heroTitle: "화면을 즉시 전체 페이지의 흰색, 검은색 또는 컬러 화면으로 바꿔보세요.",
   heroLede:

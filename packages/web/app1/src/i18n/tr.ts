@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const tr: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Ücretsiz tarayıcı aracı · kurulum gerekmez",
   heroTitle: "Ekranınızı anında tam sayfa beyaz, siyah veya renkli bir ekrana dönüştürün.",
   heroLede:

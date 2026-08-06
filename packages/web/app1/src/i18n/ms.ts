@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const ms: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Alat penyemak imbas percuma · tanpa pemasangan",
   heroTitle: "Ubah skrin anda menjadi skrin putih, hitam atau berwarna sepenuh halaman — serta-merta.",
   heroLede:

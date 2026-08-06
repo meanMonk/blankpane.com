@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const de: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Kostenloses Browser-Tool · keine Installation",
   heroTitle: "Verwandle deinen Bildschirm sofort in ein vollflächiges Weiß, Schwarz oder eine beliebige Farbe.",
   heroLede:

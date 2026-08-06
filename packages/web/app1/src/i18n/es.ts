@@ -2,8 +2,8 @@ import type { UI } from "./types";
 import { buildColorPage } from "./template";
 
 const es: UI = {
-  brandA: "full",
-  brandB: "screen",
+  brandA: "Blank",
+  brandB: "Pane",
   eyebrow: "Herramienta gratuita en el navegador · sin instalar",
   heroTitle: "Convierte tu pantalla en una pantalla blanca, negra o de color a página completa — al instante.",
   heroLede:
