@@ -127,7 +127,7 @@ const serializable = {
       });
       tile.querySelector(".tile-expand").addEventListener("click", (e) => {
         e.stopPropagation();
-        gtag('event', 'fullscreen', { event_category: 'tool', event_label: c.name });
+        track('fullscreen', { event_category: 'tool', event_label: c.name });
         goFullScreen(c.hex);
       });
       grid.appendChild(tile);
@@ -141,7 +141,7 @@ const serializable = {
     customPicker.value = hex;
     updatePreview();
     renderTiles();
-    if (typeof gtag !== 'undefined') gtag('event', 'select_color', { event_category: 'tool', event_label: name || hex, value: name ? 0 : 1 });
+    track('select_color', { event_category: 'tool', event_label: name || hex, value: name ? 0 : 1 });
   }
 
   function updatePreview() {
@@ -156,13 +156,13 @@ const serializable = {
     selectColor(customPicker.value, "Custom", isLightHex(customPicker.value));
     clearTimeout(customPickerDebounce);
     customPickerDebounce = setTimeout(() => {
-      gtag('event', 'custom_color', { event_category: 'tool', event_label: customPicker.value });
+      track('custom_color', { event_category: 'tool', event_label: customPicker.value });
     }, 1200);
   });
 
   sizePreset.addEventListener("change", () => {
     const val = sizePreset.value;
-    gtag('event', 'preset_change', { event_category: 'tool', event_label: val });
+    track('preset_change', { event_category: 'tool', event_label: val });
     if (val === "custom") return;
     const [w, h] = val.split("x");
     widthInput.value = w;
@@ -177,13 +177,13 @@ const serializable = {
     });
   });
 
-  document.getElementById("goFullBtn").addEventListener("click", () => { gtag('event', 'fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
-  document.getElementById("stageExpand").addEventListener("click", () => { gtag('event', 'fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
+  document.getElementById("goFullBtn").addEventListener("click", () => { track('fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
+  document.getElementById("stageExpand").addEventListener("click", () => { track('fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
 
   document.getElementById("downloadBtn").addEventListener("click", () => {
     const w = Math.min(8000, Math.max(1, parseInt(widthInput.value) || 1920));
     const h = Math.min(8000, Math.max(1, parseInt(heightInput.value) || 1080));
-    gtag('event', 'download_png', { event_category: 'tool', event_label: `${state.name}-${w}x${h}` });
+    track('download_png', { event_category: 'tool', event_label: `${state.name}-${w}x${h}` });
     const canvas = document.createElement("canvas");
     canvas.width = w;
     canvas.height = h;
