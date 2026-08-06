@@ -98,35 +98,27 @@ const breadcrumbLd = {
 
 <script>
 // @ts-nocheck
-  const overlay = document.getElementById("overlay");
   const autoSelect = document.getElementById("autoTimer");
+  function getOV() { return document.getElementById("overlay"); }
 
   let locked = false;
   let autoId;
 
   function lock(color) {
     locked = true;
-    overlay.style.background = color;
-    overlay.style.display = "flex";
-    overlay.style.flexDirection = "column";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.gap = "12px";
-    overlay.innerHTML = `
-      <div id="clean-msg" style="font-family:var(--display);font-weight:600;font-size:clamp(1rem,2vw,1.5rem);text-align:center;padding:20px 32px;border-radius:14px;background:${color==="#fff"?"rgba(0,0,0,.55)":"rgba(255,255,255,.15)"};color:${color==="#fff"?"#fff":"#eee"};cursor:pointer;">
-        Safe to wipe — tap here or press Esc to unlock
-      </div>
-      <div style="font-size:.75rem;color:${color==="#fff"?"#333":"#888"};font-family:var(--mono);">
-        ${autoSelect.value !== "0" ? `Auto-unlock in ${autoSelect.value}s` : ""}
-      </div>
-    `;
+    const ov = getOV();
+    if (!ov) return;
+    ov.style.background = color;
+    ov.style.display = "flex";
+    ov.style.flexDirection = "column";
+    ov.style.alignItems = "center";
+    ov.style.justifyContent = "center";
+    ov.style.gap = "12px";
+    ov.innerHTML = `<div id="clean-msg" style="font-family:var(--display);font-weight:600;font-size:clamp(1rem,2vw,1.5rem);text-align:center;padding:20px 32px;border-radius:14px;background:${color==="#fff"?"rgba(0,0,0,.55)":"rgba(255,255,255,.15)"};color:${color==="#fff"?"#fff":"#eee"};cursor:pointer;">Safe to wipe — tap here or press Esc to unlock</div><div style="font-size:.75rem;color:${color==="#fff"?"#333":"#888"};font-family:var(--mono);">${autoSelect.value !== "0" ? `Auto-unlock in ${autoSelect.value}s` : ""}</div>`;
     document.getElementById("clean-msg").addEventListener("click", unlock);
 
     const t = parseInt(autoSelect.value);
-    if (t > 0) {
-      clearTimeout(autoId);
-      autoId = setTimeout(() => unlock(), t * 1000);
-    }
+    if (t > 0) { clearTimeout(autoId); autoId = setTimeout(() => unlock(), t * 1000); }
 
     function inputBlocker(e) {
       if (!locked) return;
@@ -135,23 +127,20 @@ const breadcrumbLd = {
       e.stopPropagation();
     }
     document.addEventListener("keydown", inputBlocker, true);
-    document.addEventListener("click", (e) => {
-      if (locked && e.target === overlay) unlock();
+    document.addEventListener("click", function(e) {
+      if (locked) { const ov2 = getOV(); if (ov2 && e.target === ov2) unlock(); }
     }, true);
-    document.addEventListener("pointerdown", (e) => {
-      if (locked && e.target === overlay) { e.preventDefault(); e.stopPropagation(); }
+    document.addEventListener("pointerdown", function(e) {
+      if (locked) { const ov2 = getOV(); if (ov2 && e.target === ov2) { e.preventDefault(); e.stopPropagation(); } }
     }, true);
-    overlay._cleanup = () => {
-      document.removeEventListener("keydown", inputBlocker, true);
-    };
+    ov._cleanup = () => { document.removeEventListener("keydown", inputBlocker, true); };
   }
 
   function unlock() {
     locked = false;
     clearTimeout(autoId);
-    overlay.style.display = "none";
-    overlay.innerHTML = '<div class="exit-hint">Press Esc to exit</div>';
-    if (overlay._cleanup) { overlay._cleanup(); overlay._cleanup = null; }
+    const ov = getOV();
+    if (ov) { ov.style.display = "none"; ov.innerHTML = '<div class="exit-hint">Press Esc to exit</div>'; if (ov._cleanup) { ov._cleanup(); ov._cleanup = null; } }
     if (document.fullscreenElement) document.exitFullscreen?.();
   }
 
@@ -160,7 +149,6 @@ const breadcrumbLd = {
       const color = btn.dataset.color;
       lock(color);
       document.documentElement.requestFullscreen?.().catch(() => {});
-      // Navigate away blocker
       window.addEventListener("beforeunload", (e) => {
         if (locked) { e.preventDefault(); e.returnValue = ""; }
       });

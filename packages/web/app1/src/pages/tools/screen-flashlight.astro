@@ -93,9 +93,9 @@ const breadcrumbLd = {
   const flashBtn = document.getElementById("flash-preview");
   const flashLabel = document.getElementById("flash-label");
   const caution = document.getElementById("caution");
-  const overlay = document.getElementById("overlay");
 
   let on = false;
+  function getOV() { return document.getElementById("overlay"); }
   function turnOn() {
     on = true;
     flashBtn.style.background = "#fff";
@@ -103,8 +103,7 @@ const breadcrumbLd = {
     flashLabel.textContent = "Tap to turn off";
     flashLabel.style.color = "#111";
     caution.style.display = "block";
-    overlay.style.background = "#fff";
-    overlay.style.display = "flex";
+    const ov = getOV(); if (ov) { ov.style.background = "#fff"; ov.style.display = "flex"; }
     document.documentElement.requestFullscreen?.().catch(()=>{});
   }
   function turnOff() {
@@ -114,11 +113,15 @@ const breadcrumbLd = {
     flashLabel.textContent = "Tap to turn on";
     flashLabel.style.color = "var(--ink-dim)";
     caution.style.display = "none";
-    overlay.style.display = "none";
+    const ov = getOV(); if (ov) ov.style.display = "none";
     if (document.fullscreenElement) document.exitFullscreen?.();
   }
   flashBtn.addEventListener("click", () => on ? turnOff() : turnOn());
-  overlay.addEventListener("click", () => { if (on) turnOff(); });
+  document.addEventListener("click", (e) => {
+    if (!on) return;
+    const ov = getOV();
+    if (ov && e.target === ov) turnOff();
+  });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && on) turnOff(); });
   document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && on) turnOff(); });
 </script>

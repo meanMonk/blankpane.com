@@ -62,9 +62,9 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
         <header class="hero">
           <p class="eyebrow">{t.eyebrow}</p>
           <h1>{page.h1}</h1>
-          <p class="lede">{page.intro}</p>
         </header>
         <ColorTool t={t} tiles={tiles} initialHex={c.hex} initialName={page.h1} initialLight={c.light} />
+        <p class="lede">{page.intro}</p>
         <section id="uses">
           <h2>{page.whyTitle}</h2>
           <div class="use-grid">

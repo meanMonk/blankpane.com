@@ -96,7 +96,6 @@ const serializable = {
   const sizePreset = document.getElementById("sizePreset");
   const widthInput = document.getElementById("widthInput");
   const heightInput = document.getElementById("heightInput");
-  const overlay = document.getElementById("overlay");
 
   let state = { hex: initial.hex, name: initial.name || "White", light: initial.light };
 
@@ -201,20 +200,31 @@ const serializable = {
   });
 
   function goFullScreen(hex) {
-    overlay.style.background = hex;
-    overlay.style.display = "flex";
+    const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.style.background = hex;
+    ov.style.display = "flex";
     document.documentElement.requestFullscreen?.().catch(() => {});
   }
   function exitOverlay() {
-    overlay.style.display = "none";
+    const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.style.display = "none";
     if (document.fullscreenElement) document.exitFullscreen?.();
   }
-  overlay.addEventListener("click", exitOverlay);
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") exitOverlay();
   });
   document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement) overlay.style.display = "none";
+    if (!document.fullscreenElement) {
+      const ov = document.getElementById("overlay");
+      if (ov) ov.style.display = "none";
+    }
+  });
+  document.addEventListener("click", (e) => {
+    const ov = document.getElementById("overlay");
+    if (ov && ov.style.display === "flex" && e.target === ov) exitOverlay();
   });
 
   renderTiles();
