@@ -1,0 +1,12 @@
+[
+  {"slug":"white-screen","name":"White Screen","hex":"#ffffff","light":true,"intent":"lighting, photography, testing","volume":"5,000,000+"},
+  {"slug":"black-screen","name":"Black Screen","hex":"#000000","light":false,"intent":"battery saving, screensaver, focus","volume":"5,000,000+"},
+  {"slug":"green-screen","name":"Green Screen","hex":"#00b140","light":false,"intent":"chroma key, streaming, zoom","volume":"50,000+"},
+  {"slug":"blue-screen","name":"Blue Screen","hex":"#1656ff","light":false,"intent":"chroma key, calming light","volume":"5,000+"},
+  {"slug":"red-screen","name":"Red Screen","hex":"#e11d2e","light":false,"intent":"night light, alerts, testing","volume":"500+"},
+  {"slug":"pink-screen","name":"Pink Screen","hex":"#ff5fa2","light":false,"intent":"aesthetic, streaming overlay","volume":"500+"},
+  {"slug":"yellow-screen","name":"Yellow Screen","hex":"#ffd400","light":true,"intent":"testing, alerts","volume":"500+"},
+  {"slug":"gray-screen","name":"Gray Screen","hex":"#808080","light":false,"intent":"calibration, neutral background","volume":"500+"},
+  {"slug":"blank-screen","name":"Blank Screen","hex":"#ffffff","light":true,"intent":"generic blank / distraction-free","volume":"500+"},
+  {"slug":"zoom-background-screen","name":"Zoom Background Screen","hex":"#ffffff","light":true,"intent":"video call plain background","volume":"50,000+"}
+]

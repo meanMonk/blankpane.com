@@ -1,0 +1,18 @@
+---
+// app1 — static Astro page.
+const API_URL = import.meta.env.VITE_API_URL ?? "/api";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app1</title>
+  </head>
+  <body style="font-family: system-ui; padding: 2rem">
+    <h1>app1</h1>
+    <p>API base: <code>{API_URL}</code></p>
+    <p>Edit <code>packages/web/app1/src/pages/index.astro</code> to start building.</p>
+  </body>
+</html>
