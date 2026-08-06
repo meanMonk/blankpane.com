@@ -1,0 +1,139 @@
+---
+import "../styles/global.css";
+import { getUI, locales, type UI } from "../i18n";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  langSwitcher?: boolean;
+  canonical?: string;
+  jsonLd?: object[];
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+  langSwitcher = true,
+  canonical,
+  jsonLd = [],
+} = Astro.props;
+
+const t: UI = getUI(lang);
+const pageUrl = canonical ?? (Astro.url.origin + Astro.url.pathname);
+const currentPath = lang !== "en" && Astro.url.pathname.startsWith(`/${lang}/`)
+  ? Astro.url.pathname.slice(lang.length + 1)
+  : Astro.url.pathname.replace(/\/$/, "") + "/";
+const alternateLinks = locales.map((l) => ({
+  code: l.code,
+  href: (l.code === "en" ? "/" : `/${l.code}/`) + currentPath.replace(/^\//, ""),
+}));
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: t.faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const webAppJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Full Screen Color Tool",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: t.heroLede,
+};
+
+const allJsonLd = [webAppJsonLd, faqJsonLd, ...jsonLd];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta name="robots" content="index, follow" />
+    {alternateLinks.map((l) => (
+      <link rel="alternate" hreflang={l.code} href={l.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={alternateLinks[0]!.href} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    {allJsonLd.map((obj) => (
+      <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+    ))}
+  </head>
+  <body>
+    <nav class="site-nav">
+      <a class="brand" href={lang === "en" ? "/" : `/${lang}/`}>
+        {t.brandA}<span>{t.brandB}</span>
+      </a>
+      <div class="nav-links">
+        {langSwitcher && (
+          <div class="lang-dropdown" data-lang-dropdown>
+            <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>
+              {t.langLabel} ▾
+            </button>
+            <div class="lang-dropdown-content" data-lang-content>
+              {locales.map((l) => (
+                <a href={l.href} class:list={{ active: l.code === lang }}>
+                  {l.native}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+
+    <slot />
+
+    <footer>
+      <div class="wrap">
+        <div class="foot-links">
+          <a href={lang === "en" ? "/about/" : `/${lang}/about/`}>{t.footerAbout}</a>
+          <a href={lang === "en" ? "/privacy-policy/" : `/${lang}/privacy-policy/`}>{t.footerPrivacy}</a>
+          <a href={lang === "en" ? "/terms-of-service/" : `/${lang}/terms-of-service/`}>{t.footerTerms}</a>
+          <a href={lang === "en" ? "/cookie-policy/" : `/${lang}/cookie-policy/`}>{t.footerCookies}</a>
+          <a href={lang === "en" ? "/disclaimer/" : `/${lang}/disclaimer/`}>{t.footerDisclaimer}</a>
+          <a href={lang === "en" ? "/contact/" : `/${lang}/contact/`}>{t.footerContact}</a>
+        </div>
+        <p>© 2026 FullScreenColor. {t.footerNote}</p>
+      </div>
+    </footer>
+
+    <div id="overlay">
+      <div class="exit-hint">{t.exitHint}</div>
+    </div>
+
+    <script>
+      const dropdown = document.querySelector("[data-lang-dropdown]");
+      if (dropdown) {
+        const toggle = dropdown.querySelector("[data-lang-toggle]")!;
+        const content = dropdown.querySelector("[data-lang-content]")!;
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          content.classList.toggle("lang-show");
+        });
+        document.addEventListener("click", () => content.classList.remove("lang-show"));
+      }
+    </script>
+  </body>
+</html>

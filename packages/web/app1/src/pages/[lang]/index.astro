@@ -1,24 +1,29 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ColorTool from "../components/ColorTool.astro";
-import { getUI } from "../i18n";
-import colors from "../data/colors.json";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ColorTool from "../../components/ColorTool.astro";
+import { getUI, locales } from "../../i18n";
+import colors from "../../data/colors.json";
 
-const t = getUI("en");
+export function getStaticPaths() {
+  return locales.filter((l) => l.code !== "en").map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params;
+const t = getUI(lang);
 const site = "https://blank-screen.pages.dev";
 const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light }));
 
 const colorLinks = colors.map((c) => ({
-  href: `/${c.slug}/`,
+  href: `/${lang}/${c.slug}/`,
   label: t.colorName[c.slug] ?? c.name,
 }));
 ---
 
 <BaseLayout
-  lang="en"
-  title="Full Screen Color | White Screen, Black Screen & Color Screen Tool"
+  lang={lang}
+  title={t.heroTitle}
   description={t.heroLede}
-  canonical={`${site}/`}
+  canonical={`${site}/${lang}/`}
 >
   <div class="content-shell">
     <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>

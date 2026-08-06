@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { blogPosts } from "../../data/blog";
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const site = "https://blank-screen.pages.dev";
+---
+
+<BaseLayout
+  lang="en"
+  title={`${post.title} | Full Screen Color Blog`}
+  description={post.excerpt}
+  canonical={`${site}/blog/${post.slug}/`}
+>
+  <div class="page">
+    <p class="back"><a href="/blog/">← Blog</a></p>
+    <h1>{post.title}</h1>
+    <div class="date" style="font-family:var(--mono);font-size:.75rem;color:var(--ink-dim);">{post.date}</div>
+    {post.body.map((para) => (
+      <p>{para}</p>
+    ))}
+    <p style="margin-top:40px;"><a href="/">Open the full-screen color tool →</a></p>
+  </div>
+</BaseLayout>

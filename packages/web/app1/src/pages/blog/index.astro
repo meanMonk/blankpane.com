@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { blogPosts } from "../../data/blog";
+
+const site = "https://blank-screen.pages.dev";
+---
+
+<BaseLayout
+  lang="en"
+  title="Full Screen Color Blog — Monitor Tests, Zoom Backgrounds & Lighting Tips"
+  description="Practical guides on using solid-color screens for dead-pixel testing, Zoom backgrounds, lighting, and focus."
+  canonical={`${site}/blog/`}
+>
+  <div class="page">
+    <p class="back"><a href="/">← fullscreen</a></p>
+    <h1>Blog</h1>
+    <p class="lede">Practical guides on using solid-color screens day to day.</p>
+    <div class="blog-grid">
+      {blogPosts.map((post) => (
+        <a class="blog-card" href={`/blog/${post.slug}/`}>
+          <div class="date">{post.date}</div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

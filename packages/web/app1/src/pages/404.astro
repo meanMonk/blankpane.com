@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getUI } from "../i18n";
+
+const t = getUI("en");
+---
+
+<BaseLayout
+  lang="en"
+  title="Page not found — FullScreenColor"
+  description="The page you're looking for could not be found."
+  canonical="https://blank-screen.pages.dev/404/"
+>
+  <div class="page" style="text-align:center;">
+    <h1>404</h1>
+    <p class="lede">This page doesn't exist. Let's get you back to a full-screen color.</p>
+    <p><a class="btn" href="/">Go to the tool</a></p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getUI } from "../../i18n";
+import colors from "../../data/colors.json";
+
+const t = getUI("en");
+const site = "https://blank-screen.pages.dev";
+---
+
+<BaseLayout
+  lang="en"
+  title="All Full-Screen Colors — Free Browser Tool"
+  description={t.popularLede}
+  canonical={`${site}/colors/`}
+>
+  <div class="page">
+    <p class="back"><a href="/">← {t.brandA}{t.brandB}</a></p>
+    <h1>{t.popularTitle}</h1>
+    <p class="lede">{t.popularLede}</p>
+    <div class="color-links" style="justify-content:flex-start;">
+      {colors.map((c) => (
+        <a href={`/${c.slug}/`}>{t.colorName[c.slug] ?? c.name}</a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

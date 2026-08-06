@@ -1,0 +1,222 @@
+---
+import type { UI } from "../i18n";
+
+interface Tile {
+  hex: string;
+  name: string;
+  light?: boolean;
+}
+
+interface Props {
+  t: UI;
+  tiles: Tile[];
+  initialHex?: string;
+  initialName?: string;
+  initialLight?: boolean;
+}
+
+const { t, tiles, initialHex = "#ffffff", initialName = "", initialLight = true } = Astro.props;
+const initial = { hex: initialHex, name: initialName, light: initialLight };
+
+const serializable = {
+  ui: {
+    customColor: t.customColor,
+    goFullScreen: t.goFullScreen,
+    downloadPng: t.downloadPng,
+    hint: t.hint,
+    sizePreset: t.sizePreset,
+    presetFHD: t.presetFHD,
+    preset4K: t.preset4K,
+    presetSquare: t.presetSquare,
+    presetStory: t.presetStory,
+    presetA4: t.presetA4,
+    presetCustom: t.presetCustom,
+    customSize: t.customSize,
+    width: t.width,
+    height: t.height,
+    px: t.px,
+    exitHint: t.exitHint,
+  },
+  tiles,
+  initial,
+};
+---
+
+<div class="tool-panel">
+  <div class="preview-stage" id="previewStage">
+    <div class="stage-info">
+      <span class="stage-name" id="stageName">{initialName || "White"}</span>
+      <span class="stage-meta" id="stageMeta">#FFFFFF · 1920 × 1080 px</span>
+    </div>
+    <button class="stage-expand" id="stageExpand" aria-label={t.openFull} title={t.openFull}>⛶</button>
+  </div>
+
+  <div class="control-row">
+    <div class="field">
+      <label for="sizePreset">{t.sizePreset}</label>
+      <select id="sizePreset">
+        <option value="1920x1080" selected>{t.presetFHD}</option>
+        <option value="3840x2160">{t.preset4K}</option>
+        <option value="1080x1080">{t.presetSquare}</option>
+        <option value="1080x1920">{t.presetStory}</option>
+        <option value="2480x3508">{t.presetA4}</option>
+        <option value="custom">{t.presetCustom}</option>
+      </select>
+    </div>
+    <div class="field dims">
+      <label for="widthInput">{t.width}</label>
+      <input type="number" id="widthInput" value="1920" min="1" max="8000" />
+      <label for="heightInput">{t.height}</label>
+      <input type="number" id="heightInput" value="1080" min="1" max="8000" />
+      <span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);">{t.px}</span>
+    </div>
+    <div class="field">
+      <label for="customPicker">{t.customColor}</label>
+      <input type="color" id="customPicker" value={initialHex} />
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn" id="goFullBtn">{t.goFullScreen}</button>
+    <button class="btn btn-outline" id="downloadBtn">{t.downloadPng}</button>
+  </div>
+</div>
+
+<div class="tile-grid" id="swatchGrid"></div>
+<p class="hint">{t.hint}</p>
+
+<script define:vars={{ cfg: serializable }}>
+  const { ui, tiles, initial } = cfg;
+
+  const grid = document.getElementById("swatchGrid");
+  const previewStage = document.getElementById("previewStage");
+  const stageName = document.getElementById("stageName");
+  const stageMeta = document.getElementById("stageMeta");
+  const customPicker = document.getElementById("customPicker");
+  const sizePreset = document.getElementById("sizePreset");
+  const widthInput = document.getElementById("widthInput");
+  const heightInput = document.getElementById("heightInput");
+  const overlay = document.getElementById("overlay");
+
+  let state = { hex: initial.hex, name: initial.name || "White", light: initial.light };
+
+  function isLightHex(hex) {
+    const h = hex.replace("#", "");
+    const r = parseInt(h.substring(0, 2), 16);
+    const g = parseInt(h.substring(2, 4), 16);
+    const b = parseInt(h.substring(4, 6), 16);
+    return 0.299 * r + 0.587 * g + 0.114 * b > 175;
+  }
+
+  function renderTiles() {
+    grid.innerHTML = "";
+    tiles.forEach((c) => {
+      const tile = document.createElement("div");
+      const light = !!c.light;
+      tile.className = "tile" + (light ? " light" : "") + (c.hex === state.hex ? " active" : "");
+      tile.style.background = c.hex;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.setAttribute("aria-label", c.name + " — preview");
+      tile.innerHTML = `<span class="tile-name">${c.name}</span><button class="tile-expand" aria-label="full screen" title="full screen">⛶</button>`;
+      tile.addEventListener("click", (e) => {
+        if (e.target.closest(".tile-expand")) return;
+        selectColor(c.hex, c.name, light);
+      });
+      tile.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") selectColor(c.hex, c.name, light);
+      });
+      tile.querySelector(".tile-expand").addEventListener("click", (e) => {
+        e.stopPropagation();
+        goFullScreen(c.hex);
+      });
+      grid.appendChild(tile);
+    });
+  }
+
+  function selectColor(hex, name, light) {
+    state.hex = hex;
+    state.light = light !== undefined ? light : isLightHex(hex);
+    state.name = name || hex.toUpperCase();
+    customPicker.value = hex;
+    updatePreview();
+    renderTiles();
+  }
+
+  function updatePreview() {
+    previewStage.style.background = state.hex;
+    previewStage.classList.toggle("light-bg", state.light);
+    stageName.textContent = state.name;
+    stageMeta.textContent = `${state.hex.toUpperCase()} · ${widthInput.value} × ${heightInput.value} px`;
+  }
+
+  customPicker.addEventListener("input", () => {
+    selectColor(customPicker.value, "Custom", isLightHex(customPicker.value));
+  });
+
+  sizePreset.addEventListener("change", () => {
+    const val = sizePreset.value;
+    if (val === "custom") return;
+    const [w, h] = val.split("x");
+    widthInput.value = w;
+    heightInput.value = h;
+    updatePreview();
+  });
+
+  [widthInput, heightInput].forEach((inp) => {
+    inp.addEventListener("input", () => {
+      sizePreset.value = "custom";
+      updatePreview();
+    });
+  });
+
+  document.getElementById("goFullBtn").addEventListener("click", () => goFullScreen(state.hex));
+  document.getElementById("stageExpand").addEventListener("click", () => goFullScreen(state.hex));
+
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    const w = Math.min(8000, Math.max(1, parseInt(widthInput.value) || 1920));
+    const h = Math.min(8000, Math.max(1, parseInt(heightInput.value) || 1080));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = state.hex;
+    ctx.fillRect(0, 0, w, h);
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const safeName = state.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "color";
+        a.href = url;
+        a.download = `${safeName}-${w}x${h}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      },
+      "image/png",
+      1.0
+    );
+  });
+
+  function goFullScreen(hex) {
+    overlay.style.background = hex;
+    overlay.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  }
+  function exitOverlay() {
+    overlay.style.display = "none";
+    if (document.fullscreenElement) document.exitFullscreen?.();
+  }
+  overlay.addEventListener("click", exitOverlay);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") exitOverlay();
+  });
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) overlay.style.display = "none";
+  });
+
+  renderTiles();
+  updatePreview();
+</script>

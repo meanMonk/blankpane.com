@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ColorTool from "../../components/ColorTool.astro";
+import { getUI, locales } from "../../i18n";
+import colors from "../../data/colors.json";
+import { legalPages } from "../../data/legal";
+
+export function getStaticPaths() {
+  const paths: Array<{
+    params: { lang: string; page: string };
+    props: { lang: string; kind: "color" | "legal"; c?: (typeof colors)[number]; p?: (typeof legalPages)[number] };
+  }> = [];
+  for (const l of locales) {
+    if (l.code === "en") continue;
+    for (const c of colors) paths.push({ params: { lang: l.code, page: c.slug }, props: { lang: l.code, kind: "color", c } });
+    for (const p of legalPages) paths.push({ params: { lang: l.code, page: p.slug }, props: { lang: l.code, kind: "legal", p } });
+  }
+  return paths;
+}
+
+const { lang, kind } = Astro.props;
+const t = getUI(lang);
+const site = "https://blank-screen.pages.dev";
+const tiles = colors.map((x) => ({ hex: x.hex, name: t.colorName[x.slug] ?? x.name, light: x.light }));
+
+const isColor = kind === "color";
+const c = (isColor ? Astro.props.c : null)!;
+const p = (isColor ? null : Astro.props.p)!;
+
+const colorName = isColor ? t.colorName[c.slug] ?? c.name : "";
+const page = (isColor ? t.colorPage({ name: colorName, hex: c.hex, intent: c.intent }) : null)!;
+const siblings = isColor ? colors.filter((x) => x.slug !== c.slug).slice(0, 8) : [];
+
+const isContact = !isColor && p.slug === "contact";
+const title = isColor ? page.metaTitle : isContact ? t.contact.title : p.title;
+const description = isColor ? page.intro : isContact ? t.contact.lede : p.lede;
+const pageSlug = Astro.params.page;
+---
+
+<BaseLayout lang={lang} title={title} description={description} canonical={`${site}/${lang}/${pageSlug}/`}>
+  {isColor ? (
+    <div class="content-shell">
+      <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
+      <div class="main-col">
+        <header class="hero">
+          <p class="eyebrow">{t.eyebrow}</p>
+          <h1>{page.h1}</h1>
+          <p class="lede">{page.intro}</p>
+        </header>
+        <ColorTool t={t} tiles={tiles} initialHex={c.hex} initialName={page.h1} initialLight={c.light} />
+        <section id="uses">
+          <h2>{page.whyTitle}</h2>
+          <div class="use-grid">
+            {page.uses.map((u) => (
+              <div class="use-card">
+                <h3>{u.title}</h3>
+                <p>{u.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section id="faq">
+          <h2>{page.faqTitle}</h2>
+          {page.faqs.map((f, i) => (
+            <details open={i === 0}>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </section>
+        <section id="siblings">
+          <h2>{page.linksTitle}</h2>
+          <div class="color-links">
+            {siblings.map((s) => (
+              <a href={`/${lang}/${s.slug}/`}>{t.colorName[s.slug] ?? s.name}</a>
+            ))}
+          </div>
+        </section>
+      </div>
+      <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
+    </div>
+  ) : (
+    <div class="page">
+      <p class="back"><a href={`/${lang}/`}>← {t.brandA}{t.brandB}</a></p>
+      <h1>{isContact ? t.contact.title : p.title}</h1>
+      <p class="lede">{description}</p>
+      {p.sections.map((s) => (
+        <section style="border-top:none;padding:16px 0;">
+          <h2>{s.h}</h2>
+          <p>{s.body}</p>
+        </section>
+      ))}
+    </div>
+  )}
+</BaseLayout>
