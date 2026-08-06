@@ -104,25 +104,27 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
   </head>
   <body>
     <nav class="site-nav">
-      <a class="brand" href={lang === "en" ? "/" : `/${lang}/`}>
-        {t.brandA}<span>{t.brandB}</span>
-      </a>
-      <div class="nav-links">
-        <a href="/tools/" class="nav-link">Tools</a>
-        {langSwitcher && (
-          <div class="lang-dropdown" data-lang-dropdown>
-            <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>
-              {t.langLabel} ▾
-            </button>
-            <div class="lang-dropdown-content" data-lang-content>
-              {locales.map((l) => (
-                <a href={l.href} class:list={{ active: l.code === lang }}>
-                  {l.native}
-                </a>
-              ))}
+      <div class="nav-inner">
+        <a class="brand" href={lang === "en" ? "/" : `/${lang}/`}>
+          {t.brandA}<span>{t.brandB}</span>
+        </a>
+        <div class="nav-links">
+          <a href="/tools/" class="nav-link">Tools</a>
+          {langSwitcher && (
+            <div class="lang-dropdown" data-lang-dropdown>
+              <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>
+                {t.langLabel} ▾
+              </button>
+              <div class="lang-dropdown-content" data-lang-content>
+                {locales.map((l) => (
+                  <a href={l.href} class:list={{ active: l.code === lang }}>
+                    {l.native}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </nav>
 
