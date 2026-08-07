@@ -23,8 +23,6 @@ const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.na
   canonical={`${site}/${lang}/`}
 >
   <div class="content-shell">
-    <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
-
     <div class="main-col">
       <header class="hero">
         <p class="eyebrow">{t.eyebrow}</p>
@@ -60,7 +58,5 @@ const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.na
         ))}
       </section>
     </div>
-
-    <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
   </div>
 </BaseLayout>

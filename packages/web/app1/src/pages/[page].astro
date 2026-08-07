@@ -52,7 +52,6 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
 <BaseLayout lang="en" title={title} description={description} canonical={`${site}/${canonicalPath}/`} localized={isColor}>
   {isColor ? (
     <div class="content-shell">
-      <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
       <div class="main-col">
         <header class="hero">
           <p class="eyebrow">{t.eyebrow}</p>
@@ -92,7 +91,6 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
         <ColorHub t={t} />
         <ToolCards title="More Screen Tools" limit={6} />
       </div>
-      <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>
     </div>
   ) : (
     <div class="page">
