@@ -51,7 +51,18 @@ Images are written as `NN-<slug>.png` (1344x768, 16:9) into
 | 13 | `13-water-damage.png` |
 | 14 | `14-crushed-lcd.png` |
 | 15 | `15-black-screen-of-death.png` |
+| 16 | `16-radar.png` |
+| 17 | `17-hacker-simulator.png` |
+| 18 | `18-fake-video-call.png` |
+| 19 | `19-fake-update-windows10.png` |
+| 20 | `20-fake-update-windows-xp.png` |
+| 21 | `21-fake-update-mac.png` |
+| 22 | `22-fake-update-ubuntu.png` |
+| 23 | `23-fake-update-chromeos.png` |
+| 24 | `24-dvd-screensaver.png` |
+| 25 | `25-flip-clock-screensaver.png` |
+| 26 | `26-matrix-screensaver.png` |
 
-Prompts are written as **pure flat screen effects** (crack, glitch, static, etc.) filling the frame edge-to-edge — no monitor, device, bezel, frame, UI, icons, or text, so images work as direct wallpapers for any laptop or screen.
+Prompts are written as **pure flat screen effects or interfaces** (crack, glitch, static, terminal, update screen, screensaver, etc.) filling the frame edge-to-edge — no monitor, device, bezel, or frame, so images work as direct wallpapers for any laptop or screen.
 
 To edit a prompt, open the `WALLPAPERS` array at the top of the script.
