@@ -11,7 +11,8 @@
     "dev": "pnpm -r --if-present --parallel dev",
     "build": "pnpm -r --if-present build",
     "typecheck": "pnpm -r --if-present typecheck",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "screens:gen": "node scripts/generate-wallpapers.mjs"
   },
   "devDependencies": {
     "tsx": "^4.19.0",
