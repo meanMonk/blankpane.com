@@ -13,6 +13,7 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "deploy": "bash scripts/deploy.sh",
     "screens:gen": "node scripts/generate-wallpapers.mjs",
+    "videos:gen": "node scripts/generate-color-videos.mjs",
     "seo:local": "node scripts/seo-audit.mjs --mode local --out seo-report-local.json",
     "seo:prod": "node scripts/seo-audit.mjs --mode prod --out seo-report-prod.json",
     "seo:all": "pnpm seo:local && pnpm seo:prod",

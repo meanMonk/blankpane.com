@@ -1,5 +1,22 @@
 # Scripts
 
+## generate-color-videos.mjs
+
+Generates 12 solid-color screen videos (10h, 1fps, ~tens of MB) from
+`packages/web/app1/src/data/colors.json` into `packages/web/app1/public/videos/`.
+Each video is sized for YouTube upload + on-site embed. YouTube SEO content
+(titles, descriptions, tags) for every video is in [README-videos.md](README-videos.md).
+
+```bash
+node scripts/generate-color-videos.mjs             # all 12 colors
+node scripts/generate-color-videos.mjs 1,3,7       # specific set
+node scripts/generate-color-videos.mjs green-screen # by slug
+pnpm videos:gen                                     # npm alias
+```
+
+Requires `ffmpeg` on PATH. Env options: `VIDEO_WIDTH`, `VIDEO_HEIGHT`, `VIDEO_FPS`,
+`VIDEO_DURATION`, `VIDEO_CRF`, `VIDEO_PRESET`, `VIDEO_CODEC`.
+
 ## generate-wallpapers.mjs
 
 Generates 15 desktop "broken screen" wallpapers via [fal.ai](https://fal.ai) (FLUX dev model) and saves them to `packages/web/app1/public/screens/`.
