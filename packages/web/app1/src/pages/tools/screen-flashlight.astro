@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Screen Flashlight — One-Tap Full-Brightness White Screen Light"
   description="Instant full-brightness white screen — turn your monitor into a flashlight. Free, mobile-friendly, no download. One tap on, one tap off."
   canonical={`${site}/tools/screen-flashlight/`}
@@ -73,6 +74,7 @@ const breadcrumbLd = {
       <p id="caution" style="font-size:.72rem;color:var(--ink-dim);margin:12px 0 0;font-family:var(--mono);display:none;">
         Keep screen at arm's length · Don't stare · Bright light may strain eyes
       </p>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
 
     <details open>
@@ -130,4 +132,6 @@ const breadcrumbLd = {
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && on) turnOff(); });
   document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && on) turnOff(); });
+
+  window.__blankpaneFullscreen = turnOn;
 </script>

@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Fake Update Screen — Windows, macOS & Linux Style Prank"
   description="3 convincing fake update screens: Windows spinner, macOS progress bar, Linux terminal scroll. Free instant prank — Esc to exit, harmless fun."
   canonical={`${site}/tools/fake-update-screen/`}
@@ -88,6 +89,7 @@ const breadcrumbLd = {
     <div class="action-row" style="margin-top:16px;">
       <button class="btn" id="full-btn">Full Screen</button>
     </div>
+    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>Is it illegal to prank someone with a fake update screen?</summary>
@@ -220,4 +222,6 @@ const breadcrumbLd = {
     ov.style.display = "flex";
     document.documentElement.requestFullscreen?.().catch(() => {});
   });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>

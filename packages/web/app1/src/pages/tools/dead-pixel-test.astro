@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Dead Pixel Test — Auto-Cycle Colors to Spot & Fix Screen Defects"
   description="Free dead pixel checker — auto-cycle through white, black, red, green, blue, gradient and checkerboard. Includes stuck-pixel rapid-flash fix mode."
   canonical={`${site}/tools/dead-pixel-test/`}
@@ -92,6 +93,7 @@ const breadcrumbLd = {
         <button class="btn" id="full-btn">Full Screen</button>
         <button class="btn btn-outline" id="flash-btn">⚡ Rapid Flash Fix</button>
       </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
 
     <details open>
@@ -204,5 +206,6 @@ const breadcrumbLd = {
     }, 90);
   });
 
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
   startAuto();
 </script>

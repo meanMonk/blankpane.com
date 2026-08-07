@@ -44,6 +44,7 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Broken Screen Dummy — Realistic Crack & Shatter Effect Prank"
   description="5 realistic broken-screen styles: spiderweb crack, full shatter, LCD bleed, glitch, dead-pixel lines. Free, instant, Esc to exit — harmless prank."
   canonical={`${site}/tools/broken-screen-dummy/`}
@@ -87,6 +88,7 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
       <button class="btn" id="full-btn">Full Screen</button>
       <button class="btn btn-outline" id="dl-btn">Download PNG</button>
     </div>
+    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>Will this actually damage my screen?</summary>
@@ -265,5 +267,7 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
     };
     img.src = url;
   });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>
 

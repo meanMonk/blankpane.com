@@ -12,7 +12,12 @@
     "build": "pnpm -r --if-present build",
     "typecheck": "pnpm -r --if-present typecheck",
     "deploy": "bash scripts/deploy.sh",
-    "screens:gen": "node scripts/generate-wallpapers.mjs"
+    "screens:gen": "node scripts/generate-wallpapers.mjs",
+    "seo:local": "node scripts/seo-audit.mjs --mode local --out seo-report-local.json",
+    "seo:prod": "node scripts/seo-audit.mjs --mode prod --out seo-report-prod.json",
+    "seo:all": "pnpm seo:local && pnpm seo:prod",
+    "lh:local": "node scripts/lh-audit.mjs --mode local --out lh-report-local.json",
+    "lh:prod": "node scripts/lh-audit.mjs --mode prod --out lh-report-prod.json"
   },
   "devDependencies": {
     "tsx": "^4.19.0",

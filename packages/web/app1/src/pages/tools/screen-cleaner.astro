@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Screen Cleaner — Input-Locked Display for Safe Wiping"
   description="Lock your screen to clean it safely — no accidental clicks or taps. Toggle white or black fill, auto-unlock timer. Free & instant."
   canonical={`${site}/tools/screen-cleaner/`}
@@ -72,6 +73,7 @@ const breadcrumbLd = {
       <button class="btn" data-color="#fff" style="font-size:.85rem;">White (dust & smudges)</button>
       <button class="btn btn-outline" data-color="#111" style="font-size:.85rem;">Black (streaks)</button>
     </div>
+    <p class="hint">Tip: press F to lock the screen in cleaning mode · Esc unlocks</p>
 
     <div class="field" style="display:flex;flex-direction:row;align-items:center;gap:8px;justify-content:center;">
       <label style="margin:0;font-size:.7rem;">Auto-unlock after</label>
@@ -160,4 +162,6 @@ const breadcrumbLd = {
       });
     });
   });
+
+  window.__blankpaneFullscreen = () => lock("#fff");
 </script>

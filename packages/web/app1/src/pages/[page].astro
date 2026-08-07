@@ -49,7 +49,7 @@ const colorToTools: Record<string, string[]> = {
 const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
 ---
 
-<BaseLayout lang="en" title={title} description={description} canonical={`${site}/${canonicalPath}/`}>
+<BaseLayout lang="en" title={title} description={description} canonical={`${site}/${canonicalPath}/`} localized={isColor}>
   {isColor ? (
     <div class="content-shell">
       <aside class="ad-rail"><div class="ad-slot">Ad space<br />300 × 600</div></aside>

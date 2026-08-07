@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Zoom Light Screen — Adjustable Color Temperature Fill Light for Video Calls"
   description="Dial in 2700K to 6500K screen light for Zoom, Teams & Meet. Free, instant, no download — adjust brightness, pick a preset, and download a PNG."
   canonical={`${site}/tools/zoom-light-screen/`}
@@ -89,10 +90,20 @@ const breadcrumbLd = {
         ))}
       </div>
 
+      <div style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px;">
+        <p style="font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.04em;text-align:center;margin:0 0 8px;">One-click use-case presets</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <button class="btn btn-outline" data-usecase="video-call" style="font-size:.75rem;padding:7px 12px;">Video Call Fill Light</button>
+          <button class="btn btn-outline" data-usecase="tracing" style="font-size:.75rem;padding:7px 12px;">Flipbook Tracing</button>
+          <button class="btn btn-outline" data-usecase="reading" style="font-size:.75rem;padding:7px 12px;">Reading Light</button>
+        </div>
+      </div>
+
       <div class="action-row">
         <button class="btn" id="full-btn">Full Screen</button>
         <button class="btn btn-outline" id="dl-btn">Download PNG</button>
       </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
 
     <details open>
@@ -165,4 +176,22 @@ const breadcrumbLd = {
     ctx.fillRect(0,0,1920,1080);
     c.toBlob(b=>{if(!b)return;const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=`zoom-light-${kelvin.value}k.png`;a.click();}, "image/png", 1.0);
   });
+
+  const usecases = {
+    "video-call": { k: 5500, b: 85, name: "Video Call Fill Light" },
+    "tracing": { k: 6000, b: 100, name: "Flipbook Tracing" },
+    "reading": { k: 3200, b: 80, name: "Reading Light" },
+  };
+  document.querySelectorAll("[data-usecase]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const u = usecases[btn.dataset.usecase];
+      if (!u) return;
+      kelvin.value = u.k;
+      brightness.value = u.b;
+      update();
+      track('use_preset', { event_category: 'tool', event_label: u.name });
+    });
+  });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>

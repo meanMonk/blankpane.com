@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Ring Light Screen — Soft Halo Effect for Video Calls"
   description="Free on-screen ring light with adjustable width, radius & color temperature. Shrink your call window to the glowing center — no physical gear needed."
   canonical={`${site}/tools/ring-light-screen/`}
@@ -86,6 +87,7 @@ const breadcrumbLd = {
         <button class="btn" id="full-btn">Full Screen</button>
         <button class="btn btn-outline" id="dl-btn">Download PNG</button>
       </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
 
     <details open>
@@ -207,4 +209,6 @@ const breadcrumbLd = {
     mctx.fill("evenodd");
     mc.toBlob(b=>{if(!b)return;const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="ring-light.png";a.click();},"image/png",1.0);
   });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>

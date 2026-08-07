@@ -10,6 +10,8 @@ interface Props {
   canonical?: string;
   jsonLd?: object[];
   isHome?: boolean;
+  localized?: boolean;
+  robots?: string;
 }
 
 const {
@@ -20,6 +22,8 @@ const {
   canonical,
   jsonLd = [],
   isHome = false,
+  localized = true,
+  robots = "index, follow",
 } = Astro.props;
 
 const t: UI = getUI(lang);
@@ -27,10 +31,12 @@ const pageUrl = canonical ?? (Astro.url.origin + Astro.url.pathname);
 const currentPath = lang !== "en" && Astro.url.pathname.startsWith(`/${lang}/`)
   ? Astro.url.pathname.slice(lang.length + 1)
   : Astro.url.pathname.replace(/\/$/, "") + "/";
-const alternateLinks = locales.map((l) => ({
-  code: l.code,
-  href: (l.code === "en" ? "/" : `/${l.code}/`) + currentPath.replace(/^\//, ""),
-}));
+const alternateLinks = localized
+  ? locales.map((l) => ({
+      code: l.code,
+      href: (l.code === "en" ? "/" : `/${l.code}/`) + currentPath.replace(/^\//, ""),
+    }))
+  : [{ code: lang, href: Astro.url.pathname }];
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -86,7 +92,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content="https://blankpane.com/og-default.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     {alternateLinks.map((l) => (
       <link rel="alternate" hreflang={l.code} href={l.href} />
     ))}
@@ -102,7 +108,15 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     {allJsonLd.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
     ))}
@@ -115,6 +129,8 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
         </a>
         <div class="nav-links">
           <a href="/tools/" class="nav-link">Tools</a>
+          <a href="/colors/" class="nav-link">{t.navColors}</a>
+          <a href="/blog/" class="nav-link">{t.navBlog}</a>
           {langSwitcher && (
             <div class="lang-dropdown" data-lang-dropdown>
               <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>

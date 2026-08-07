@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="No Signal Screen — Animated TV Static with Bouncing Text"
   description="Realistic TV static noise with 'NO SIGNAL' bouncing text overlay. Free prank tool — looks like a disconnected monitor. Instant, no download."
   canonical={`${site}/tools/no-signal-screen/`}
@@ -75,6 +76,7 @@ const breadcrumbLd = {
     <div class="action-row" style="margin-top:16px;">
       <button class="btn" id="full-btn">Full Screen</button>
     </div>
+    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>How does the TV static animation work?</summary>
@@ -194,4 +196,6 @@ const breadcrumbLd = {
 
     document.documentElement.requestFullscreen?.().catch(() => {});
   });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>

@@ -41,6 +41,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   lang="en"
+  localized={false}
   title="Countdown Timer Fullscreen — Big Digit Display on Solid Background"
   description="Full-screen countdown timer with preset buttons (1, 5, 10, 25 min) and custom input. Big readable digits on a solid background — free & instant."
   canonical={`${site}/tools/countdown-timer-fullscreen/`}
@@ -96,6 +97,7 @@ const breadcrumbLd = {
         <button class="btn btn-outline" id="reset-btn">Reset</button>
         <button class="btn" id="full-btn">Full Screen</button>
       </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
 
     <details open>
@@ -194,4 +196,6 @@ const breadcrumbLd = {
       }, 500);
     }
   });
+
+  window.__blankpaneFullscreen = () => document.getElementById("full-btn").click();
 </script>

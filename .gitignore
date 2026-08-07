@@ -8,3 +8,7 @@ build/
 coverage/
 .wrangler/
 .astro/
+
+# SEO audit reports
+seo-report*.json
+lh-report*.json
