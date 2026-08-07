@@ -77,13 +77,43 @@ const serializable = {
   </div>
 
   <div class="action-row">
-    <button class="btn" id="goFullBtn">{t.goFullScreen}</button>
+    <button class="btn" id="goFullBtn" aria-keyshortcuts="F">{t.goFullScreen}</button>
     <button class="btn btn-outline" id="downloadBtn">{t.downloadPng}</button>
   </div>
 </div>
 
 <div class="tile-grid" id="swatchGrid"></div>
 <p class="hint">{t.hint}</p>
+
+<section class="screens-section">
+  <h2>Screens</h2>
+  <div class="video-grid" id="videoGrid">
+    {Array.from({ length: 8 }, (_, i) => {
+      const n = i + 1;
+      return (
+        <div class="video-thumb" data-video={n}>
+          <video
+            src={`/videos/screen-${n}.mp4`}
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label={`Screen ${n} preview`}
+          />
+          <span class="video-thumb-label">Screen {n}</span>
+          <span class="video-thumb-play" aria-hidden="true">&#9654;</span>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoModalClose" aria-label="Close video">&times;</button>
+    <video id="videoModalPlayer" muted loop playsinline />
+  </div>
+</div>
 
 <script define:vars={{ cfg: serializable }}>
   const { tiles, initial } = cfg;
@@ -238,4 +268,47 @@ const serializable = {
 
   renderTiles();
   updatePreview();
+
+  const videoModal = document.getElementById("videoModal");
+  const videoModalPlayer = document.getElementById("videoModalPlayer");
+  const videoModalClose = document.getElementById("videoModalClose");
+  let savedScrollY = 0;
+
+  function openVideoModal(src) {
+    savedScrollY = window.scrollY;
+    videoModalPlayer.src = src;
+    videoModal.classList.add("open");
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.width = "100%";
+    videoModalPlayer.play().catch(() => {});
+  }
+
+  function closeVideoModal() {
+    videoModal.classList.remove("open");
+    videoModalPlayer.pause();
+    videoModalPlayer.src = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, savedScrollY);
+  }
+
+  document.querySelectorAll(".video-thumb").forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      const n = thumb.dataset.video;
+      track('video_play', { event_category: 'tool', event_label: `screen-${n}` });
+      openVideoModal(`/videos/screen-${n}.mp4`);
+    });
+  });
+
+  videoModalClose.addEventListener("click", closeVideoModal);
+  videoModal.addEventListener("click", (e) => {
+    if (e.target === videoModal) closeVideoModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && videoModal.classList.contains("open")) closeVideoModal();
+  });
+
+  window.__blankpaneFullscreen = () => goFullScreen(state.hex);
 </script>
