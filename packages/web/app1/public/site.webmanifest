@@ -1,21 +1,27 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "id": "/",
+  "name": "BlankPane — Fullscreen Color, Light & Screen Tools",
+  "short_name": "BlankPane",
+  "description": "Turn your screen into a fullscreen white, black, or color light. Dead pixel test, screen cleaner, ring light, countdown timer and more — installable PWA, no download.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#14141a",
+  "theme_color": "#4c6fff",
+  "categories": ["utilities", "photo"],
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }
