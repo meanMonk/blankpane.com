@@ -1,21 +1,27 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { blogPosts } from "../../data/blog";
-import tools from "../../data/tools.json";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getUI, locales } from "../../../i18n";
+import { blogPosts } from "../../../data/blog";
+import tools from "../../../data/tools.json";
 
+export function getStaticPaths() {
+  return locales.filter((l) => l.code !== "en").map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params;
+const t = getUI(lang);
 const site = "https://blankpane.com";
 const toolSlugs = ["dead-pixel-test", "zoom-light-screen", "screen-cleaner", "screen-flashlight"];
 ---
 
 <BaseLayout
-  lang="en"
-  localized={false}
+  lang={lang}
   title="BlankPane Blog — Monitor Tests, Zoom Backgrounds & Lighting Tips"
   description="Practical guides on using solid-color screens for dead-pixel testing, Zoom backgrounds, lighting, and focus."
-  canonical={`${site}/blog/`}
+  canonical={`${site}/${lang}/blog/`}
 >
   <div class="page">
-    <p class="back"><a href="/">← fullscreen</a></p>
+    <p class="back"><a href={`/${lang}/`}>← {t.brandA}{t.brandB}</a></p>
     <h1>Blog</h1>
     <p class="lede">Practical guides on using solid-color screens day to day.</p>
 
@@ -50,7 +56,7 @@ const toolSlugs = ["dead-pixel-test", "zoom-light-screen", "screen-cleaner", "sc
       <h2 style="text-align:center;font-size:1.2rem;">Need a solid-color screen right now?</h2>
       <p style="color:var(--ink-dim);">Open the tool, pick a color, and go full screen in one tap.</p>
       <p style="margin:16px 0 0;">
-        <a class="btn" href="/" style="display:inline-block;">Open BlankPane</a>
+        <a class="btn" href={`/${lang}/`} style="display:inline-block;">Open BlankPane</a>
       </p>
     </section>
   </div>

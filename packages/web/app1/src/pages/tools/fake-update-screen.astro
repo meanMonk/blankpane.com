@@ -4,6 +4,7 @@ import RelatedTools from "../../components/RelatedTools.astro";
 import tools from "../../data/tools.json";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
+import ScreenGallery from "../../components/ScreenGallery.astro";
 import { getUI } from "../../i18n";
 
 const tool = tools.find((t) => t.slug === "fake-update-screen")!;
@@ -104,6 +105,11 @@ const breadcrumbLd = {
       <p>The Windows-style spinning-dots update is the most universally recognized. macOS is great for creative workplaces. The Linux terminal scroll is best for tech-savvy audiences who'd recognize a fake `apt-get` output.</p>
     </details>
 
+    <ScreenGallery
+      title="Fake Update Screen Wallpapers"
+      files={["19-fake-update-windows10", "20-fake-update-windows-xp", "21-fake-update-mac", "23-fake-update-chromeos"]}
+      lede="Free fake update screen wallpaper images for Windows, macOS, and ChromeOS pranks — set one as your desktop background."
+    />
     <RelatedTools slugs={tool.relatedSlugs} />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />

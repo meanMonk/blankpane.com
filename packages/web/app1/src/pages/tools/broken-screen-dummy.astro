@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
+import ScreenGallery from "../../components/ScreenGallery.astro";
 import { getUI } from "../../i18n";
 import tools from "../../data/tools.json";
 
@@ -103,6 +104,11 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
       <p>The spiderweb crack with a dark background is the most convincing — the radiating lines from the impact point create a familiar shattered-glass look. LCD bleed works best if your target has seen a physically damaged LCD before.</p>
     </details>
 
+    <ScreenGallery
+      title="Realistic Broken Screen Wallpapers"
+      files={["01-spiderweb-crack", "02-full-shatter", "11-cracked-corner-impact", "05-lcd-backlight-bleed", "08-pressure-damage", "14-crushed-lcd"]}
+      lede="Free cracked and shattered screen wallpaper images you can download and set as a prank desktop background."
+    />
     <RelatedTools slugs={tool.relatedSlugs} />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />

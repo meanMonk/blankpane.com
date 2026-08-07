@@ -1,10 +1,12 @@
 ---
 import type { UI } from "../i18n";
+import { screens, screensByColor } from "../data/screens";
 
 interface Tile {
   hex: string;
   name: string;
   light?: boolean;
+  slug?: string;
 }
 
 interface Props {
@@ -13,10 +15,11 @@ interface Props {
   initialHex?: string;
   initialName?: string;
   initialLight?: boolean;
+  initialSlug?: string;
 }
 
-const { t, tiles, initialHex = "#ffffff", initialName = "", initialLight = true } = Astro.props;
-const initial = { hex: initialHex, name: initialName, light: initialLight };
+const { t, tiles, initialHex = "#ffffff", initialName = "", initialLight = true, initialSlug = "" } = Astro.props;
+const initial = { hex: initialHex, name: initialName, light: initialLight, slug: initialSlug };
 
 const serializable = {
   ui: {
@@ -39,6 +42,8 @@ const serializable = {
   },
   tiles,
   initial,
+  screens,
+  screensByColor,
 };
 ---
 
@@ -87,36 +92,28 @@ const serializable = {
 
 <section class="screens-section">
   <h2>Screens</h2>
-  <div class="video-grid" id="videoGrid">
-    {Array.from({ length: 8 }, (_, i) => {
-      const n = i + 1;
-      return (
-        <div class="video-thumb" data-video={n}>
-          <video
-            src={`/videos/screen-${n}.mp4`}
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            aria-label={`Screen ${n} preview`}
-          />
-          <span class="video-thumb-label">Screen {n}</span>
-          <span class="video-thumb-play" aria-hidden="true">&#9654;</span>
-        </div>
-      );
-    })}
+  <div class="screen-viewer">
+    <button type="button" class="screen-nav" id="screenPrev" aria-label="Previous screen">&larr;</button>
+    <button type="button" class="screen-stage" id="screenStage" title="Open full size">
+      <img id="screenImg" src="/screens/01-spiderweb-crack.png" alt="Spiderweb Crack" loading="lazy" />
+      <span class="screen-label" id="screenLabel">Spiderweb Crack</span>
+      <span class="screen-expand" aria-hidden="true">⛶</span>
+    </button>
+    <button type="button" class="screen-nav" id="screenNext" aria-label="Next screen">&rarr;</button>
   </div>
+  <p class="screen-counter" id="screenCounter">1 / 23</p>
 </section>
 
-<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player">
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Screen viewer">
   <div class="video-modal-inner">
-    <button class="video-modal-close" id="videoModalClose" aria-label="Close video">&times;</button>
-    <video id="videoModalPlayer" muted loop playsinline />
+    <button class="video-modal-close" id="videoModalClose" aria-label="Close viewer">&times;</button>
+    <img id="videoModalPlayer" alt="Screen preview" />
   </div>
 </div>
 
 <script define:vars={{ cfg: serializable }}>
-  const { tiles, initial } = cfg;
+// @ts-nocheck
+  const { tiles, initial, screens: allScreens, screensByColor } = cfg;
 
   const grid = document.getElementById("swatchGrid");
   const previewStage = document.getElementById("previewStage");
@@ -127,7 +124,7 @@ const serializable = {
   const widthInput = document.getElementById("widthInput");
   const heightInput = document.getElementById("heightInput");
 
-  let state = { hex: initial.hex, name: initial.name || "White", light: initial.light };
+  let state = { hex: initial.hex, name: initial.name || "White", light: initial.light, slug: initial.slug || "" };
 
   function isLightHex(hex) {
     const h = hex.replace("#", "");
@@ -140,8 +137,8 @@ const serializable = {
   function renderTiles() {
     grid.innerHTML = "";
     tiles.forEach((c) => {
-      const tile = document.createElement("div");
       const light = !!c.light;
+      const tile = document.createElement("div");
       tile.className = "tile" + (light ? " light" : "") + (c.hex === state.hex ? " active" : "");
       tile.style.background = c.hex;
       tile.setAttribute("role", "button");
@@ -150,10 +147,10 @@ const serializable = {
       tile.innerHTML = `<span class="tile-name">${c.name}</span><button class="tile-expand" aria-label="full screen" title="full screen">⛶</button>`;
       tile.addEventListener("click", (e) => {
         if (e.target.closest(".tile-expand")) return;
-        selectColor(c.hex, c.name, light);
+        selectColor(c.hex, c.name, light, c.slug);
       });
       tile.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") selectColor(c.hex, c.name, light);
+        if (e.key === "Enter" || e.key === " ") selectColor(c.hex, c.name, light, c.slug);
       });
       tile.querySelector(".tile-expand").addEventListener("click", (e) => {
         e.stopPropagation();
@@ -164,13 +161,15 @@ const serializable = {
     });
   }
 
-  function selectColor(hex, name, light) {
+  function selectColor(hex, name, light, slug) {
     state.hex = hex;
     state.light = light !== undefined ? light : isLightHex(hex);
     state.name = name || hex.toUpperCase();
+    state.slug = slug || "";
     customPicker.value = hex;
     updatePreview();
     renderTiles();
+    setShown(state.slug);
     track('select_color', { event_category: 'tool', event_label: name || hex, value: name ? 0 : 1 });
   }
 
@@ -183,7 +182,7 @@ const serializable = {
 
   let customPickerDebounce;
   customPicker.addEventListener("input", () => {
-    selectColor(customPicker.value, "Custom", isLightHex(customPicker.value));
+    selectColor(customPicker.value, "Custom", isLightHex(customPicker.value), "");
     clearTimeout(customPickerDebounce);
     customPickerDebounce = setTimeout(() => {
       track('custom_color', { event_category: 'tool', event_label: customPicker.value });
@@ -266,27 +265,72 @@ const serializable = {
     if (ov && ov.style.display === "flex" && e.target === ov) exitOverlay();
   });
 
-  renderTiles();
-  updatePreview();
+  // Screens gallery: 1 per page, filtered by the selected color
+  const screenStage = document.getElementById("screenStage");
+  const screenImg = document.getElementById("screenImg");
+  const screenLabel = document.getElementById("screenLabel");
+  const screenCounter = document.getElementById("screenCounter");
+  const screenPrev = document.getElementById("screenPrev");
+  const screenNext = document.getElementById("screenNext");
+  let shown = allScreens;
+  let shownIdx = 0;
 
+  function pickScreens(slug) {
+    const list = slug && screensByColor[slug] ? allScreens.filter((s) => screensByColor[slug].includes(s.file)) : allScreens;
+    return list.length ? list : allScreens;
+  }
+
+  function renderScreen() {
+    const s = shown[shownIdx];
+    if (!s) return;
+    screenImg.src = `/screens/${s.file}.png`;
+    screenImg.alt = s.label;
+    screenLabel.textContent = s.label;
+    screenCounter.textContent = `${shownIdx + 1} / ${shown.length}`;
+    screenPrev.disabled = shown.length <= 1;
+    screenNext.disabled = shown.length <= 1;
+  }
+
+  function setShown(slug) {
+    shown = pickScreens(slug);
+    shownIdx = 0;
+    renderScreen();
+  }
+
+  screenPrev.addEventListener("click", () => {
+    shownIdx = (shownIdx - 1 + shown.length) % shown.length;
+    renderScreen();
+    track('screen_nav', { event_category: 'tool', event_label: 'prev' });
+  });
+  screenNext.addEventListener("click", () => {
+    shownIdx = (shownIdx + 1) % shown.length;
+    renderScreen();
+    track('screen_nav', { event_category: 'tool', event_label: 'next' });
+  });
+  screenStage.addEventListener("click", () => {
+    const s = shown[shownIdx];
+    if (!s) return;
+    track('screen_open', { event_category: 'tool', event_label: s.file });
+    openViewer(`/screens/${s.file}.png`);
+  });
+
+  // Lightbox viewer (full-size screen image)
   const videoModal = document.getElementById("videoModal");
   const videoModalPlayer = document.getElementById("videoModalPlayer");
   const videoModalClose = document.getElementById("videoModalClose");
   let savedScrollY = 0;
 
-  function openVideoModal(src) {
+  function openViewer(src) {
     savedScrollY = window.scrollY;
     videoModalPlayer.src = src;
     videoModal.classList.add("open");
     document.body.style.position = "fixed";
     document.body.style.top = `-${savedScrollY}px`;
     document.body.style.width = "100%";
-    videoModalPlayer.play().catch(() => {});
   }
 
-  function closeVideoModal() {
+  function closeViewer() {
     videoModal.classList.remove("open");
-    videoModalPlayer.pause();
     videoModalPlayer.src = "";
     document.body.style.position = "";
     document.body.style.top = "";
@@ -294,21 +338,17 @@ const serializable = {
     window.scrollTo(0, savedScrollY);
   }
 
-  document.querySelectorAll(".video-thumb").forEach((thumb) => {
-    thumb.addEventListener("click", () => {
-      const n = thumb.dataset.video;
-      track('video_play', { event_category: 'tool', event_label: `screen-${n}` });
-      openVideoModal(`/videos/screen-${n}.mp4`);
-    });
-  });
-
-  videoModalClose.addEventListener("click", closeVideoModal);
+  videoModalClose.addEventListener("click", closeViewer);
   videoModal.addEventListener("click", (e) => {
-    if (e.target === videoModal) closeVideoModal();
+    if (e.target === videoModal) closeViewer();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && videoModal.classList.contains("open")) closeVideoModal();
+    if (e.key === "Escape" && videoModal.classList.contains("open")) closeViewer();
   });
+
+  renderTiles();
+  updatePreview();
+  setShown(state.slug);
 
   window.__blankpaneFullscreen = () => goFullScreen(state.hex);
 </script>

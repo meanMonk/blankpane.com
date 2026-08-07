@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ColorHub from "../../../components/ColorHub.astro";
+import { getUI, locales } from "../../../i18n";
+import tools from "../../../data/tools.json";
+
+export function getStaticPaths() {
+  return locales.filter((l) => l.code !== "en").map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params;
+const t = getUI(lang);
+const site = "https://blankpane.com";
+const clusters = [
+  { slug: "lighting", name: "Lighting", lede: "Control exactly how your screen lights your face for video calls." },
+  { slug: "prank", name: "Prank & Fun", lede: "Harmless screen tricks that look convincingly real." },
+  { slug: "utility", name: "Testing & Utility", lede: "Diagnostic and helper tools for your display." },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title="Screen Tools | BlankPane"
+  description="Free, no-download browser tools that turn your screen into a light, a test pattern, a timer, or a prank — all with one click."
+  canonical={`${site}/${lang}/tools/`}
+>
+  <div class="page">
+    <p class="back"><a href={`/${lang}/`}>← {t.brandA}{t.brandB}</a></p>
+    <h1>Screen Tools</h1>
+    <p class="lede">Free, no-download browser tools that turn your screen into a light, a test pattern, a timer, or a prank — all with one click.</p>
+
+    {clusters.map((cluster) => {
+      const items = tools.filter((tool) => tool.cluster === cluster.slug);
+      return (
+        <section style="border-top:1px solid var(--line);padding:28px 0;">
+          <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">{cluster.name}</h2>
+          <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">{cluster.lede}</p>
+          <div class="blog-grid">
+            {items.map((tool) => (
+              <a class="blog-card" href={`/tools/${tool.slug}/`}>
+                <h3>{tool.name}</h3>
+                <p>{tool.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+    <ColorHub t={t} lang={lang} />
+  </div>
+</BaseLayout>

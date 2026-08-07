@@ -27,6 +27,7 @@ const {
 } = Astro.props;
 
 const t: UI = getUI(lang);
+const localePrefix = lang === "en" ? "" : `/${lang}`;
 const pageUrl = canonical ?? (Astro.url.origin + Astro.url.pathname);
 const currentPath = lang !== "en" && Astro.url.pathname.startsWith(`/${lang}/`)
   ? Astro.url.pathname.slice(lang.length + 1)
@@ -84,6 +85,14 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="BlankPane" />
+    <script is:inline>
+      // Theme: apply persisted choice before first paint to avoid flash (light/dark/system — colors only)
+      (function () {
+        var t = "system";
+        try { t = localStorage.getItem("blankpane-theme") || "system"; } catch (e) {}
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -130,13 +139,21 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
   <body>
     <nav class="site-nav">
       <div class="nav-inner">
-        <a class="brand" href={lang === "en" ? "/" : `/${lang}/`}>
+        <a class="brand" href={`${localePrefix}/`}>
           {t.brandA}<span>{t.brandB}</span>
         </a>
         <div class="nav-links">
-          <a href="/tools/" class="nav-link">Tools</a>
-          <a href="/colors/" class="nav-link">{t.navColors}</a>
-          <a href="/blog/" class="nav-link">{t.navBlog}</a>
+          <a href={`${localePrefix}/tools/`} class="nav-link">Tools</a>
+          <a href={`${localePrefix}/colors/`} class="nav-link">{t.navColors}</a>
+          <a href={`${localePrefix}/blog/`} class="nav-link">{t.navBlog}</a>
+          <div class="lang-dropdown" data-theme-dropdown>
+            <button class="theme-select" type="button" data-theme-toggle aria-label="Theme">System</button>
+            <div class="lang-dropdown-content" data-theme-content>
+              <button type="button" data-theme-option="light">Light</button>
+              <button type="button" data-theme-option="dark">Dark</button>
+              <button type="button" data-theme-option="system">System</button>
+            </div>
+          </div>
           {langSwitcher && (
             <div class="lang-dropdown" data-lang-dropdown>
               <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>
@@ -206,6 +223,44 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
             track('language_switch', { event_category: 'navigation', event_label: a.getAttribute('hreflang') || a.textContent.trim() });
           });
         });
+      }
+
+      // Theme switcher (light / dark / system — colors only)
+      const themeDropdown = document.querySelector("[data-theme-dropdown]");
+      if (themeDropdown) {
+        const toggle = themeDropdown.querySelector("[data-theme-toggle]")!;
+        const content = themeDropdown.querySelector("[data-theme-content]")!;
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        function applyTheme(t) {
+          document.documentElement.setAttribute("data-theme", t);
+          try { localStorage.setItem("blankpane-theme", t); } catch (e) {}
+          if (toggle) toggle.textContent = t;
+          content.querySelectorAll("[data-theme-option]").forEach((b) => {
+            const active = b.dataset.themeOption === t;
+            b.classList.toggle("theme-active", active);
+            b.setAttribute("aria-pressed", String(active));
+          });
+          const isLight = t === "light" || (t === "system" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+          if (themeMeta) themeMeta.setAttribute("content", isLight ? "#f5f5f8" : "#4c6fff");
+          track('theme_change', { event_category: 'ui', event_label: t });
+        }
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          content.classList.toggle("lang-show");
+        });
+        document.addEventListener("click", () => content.classList.remove("lang-show"));
+        content.querySelectorAll("[data-theme-option]").forEach((b) => {
+          b.addEventListener("click", () => {
+            applyTheme(b.dataset.themeOption);
+            content.classList.remove("lang-show");
+          });
+        });
+        applyTheme(document.documentElement.getAttribute("data-theme") || "system");
+        if (window.matchMedia) {
+          window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+            if (document.documentElement.getAttribute("data-theme") === "system") applyTheme("system");
+          });
+        }
       }
 
       document.querySelectorAll('.nav-link').forEach(a => {

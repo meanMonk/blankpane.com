@@ -1,0 +1,75 @@
+---
+import { screens } from "../data/screens";
+
+interface Props {
+  files?: string[];
+  title?: string;
+  lede?: string;
+}
+
+const { files, title = "Realistic Screen Wallpapers", lede } = Astro.props;
+const items = files
+  ? files
+      .map((f) => screens.find((s) => s.file === f))
+      .filter((s): s is NonNullable<typeof s> => Boolean(s))
+  : screens;
+---
+
+<section class="screens-section">
+  <h2 style="font-family:var(--display);font-size:1.1rem;margin:0 0 6px;text-align:center;">{title}</h2>
+  {lede && <p class="center-lede" style="font-size:.85rem;color:var(--ink-dim);">{lede}</p>}
+  <div class="screen-gallery">
+    {items.map((s) => (
+      <figure class="screen-card">
+        <img
+          src={`/screens/${s.file}.png`}
+          alt={`${s.label} — ${s.desc}`}
+          loading="lazy"
+          decoding="async"
+          width="1344"
+          height="768"
+        />
+        <figcaption>
+          <h3>{s.label}</h3>
+          <p>{s.desc}</p>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .screen-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .screen-card {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-raised);
+    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.5);
+  }
+  .screen-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .screen-card figcaption {
+    padding: 10px 12px 12px;
+  }
+  .screen-card h3 {
+    font-size: 0.82rem;
+    margin: 0 0 4px;
+  }
+  .screen-card p {
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+    margin: 0;
+    line-height: 1.45;
+  }
+</style>

@@ -1,29 +1,33 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getUI } from "../../i18n";
-import colors from "../../data/colors.json";
-import tools from "../../data/tools.json";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getUI, locales } from "../../../i18n";
+import colors from "../../../data/colors.json";
+import tools from "../../../data/tools.json";
 
-const t = getUI("en");
+export function getStaticPaths() {
+  return locales.filter((l) => l.code !== "en").map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params;
+const t = getUI(lang);
 const site = "https://blankpane.com";
 const toolSlugs = ["screen-cleaner", "dead-pixel-test", "zoom-light-screen", "ring-light-screen", "screen-flashlight", "countdown-timer-fullscreen"];
 ---
 
 <BaseLayout
-  lang="en"
-  localized={false}
-  title="All Full-Screen Colors | BlankPane"
+  lang={lang}
+  title={t.popularTitle}
   description={t.popularLede}
-  canonical={`${site}/colors/`}
+  canonical={`${site}/${lang}/colors/`}
 >
   <div class="page">
-    <p class="back"><a href="/">← {t.brandA}{t.brandB}</a></p>
+    <p class="back"><a href={`/${lang}/`}>← {t.brandA}{t.brandB}</a></p>
     <h1>{t.popularTitle}</h1>
     <p class="lede">{t.popularLede}</p>
 
     <div class="color-links" style="justify-content:flex-start;margin-bottom:8px;">
       {colors.map((c) => (
-        <a href={`/${c.slug}/`}>{t.colorName[c.slug] ?? c.name}</a>
+        <a href={`/${lang}/${c.slug}/`}>{t.colorName[c.slug] ?? c.name}</a>
       ))}
     </div>
 
@@ -57,7 +61,7 @@ const toolSlugs = ["screen-cleaner", "dead-pixel-test", "zoom-light-screen", "ri
     </section>
 
     <p style="text-align:center;margin:28px 0 0;">
-      <a class="btn" href="/" style="display:inline-block;">Open the full-screen color tool</a>
+      <a class="btn" href={`/${lang}/`} style="display:inline-block;">Open the full-screen color tool</a>
     </p>
   </div>
 </BaseLayout>

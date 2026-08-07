@@ -4,6 +4,7 @@ import RelatedTools from "../../components/RelatedTools.astro";
 import tools from "../../data/tools.json";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
+import ScreenGallery from "../../components/ScreenGallery.astro";
 import { getUI } from "../../i18n";
 
 const tool = tools.find((t) => t.slug === "dead-pixel-test")!;
@@ -109,6 +110,11 @@ const breadcrumbLd = {
       <p>Test white and black to spot any pixel that's permanently off or on. Then test solid red, green, and blue to check each subpixel individually. The gradient and checkerboard patterns help identify subtle issues like stuck subpixels or uneven brightness.</p>
     </details>
 
+    <ScreenGallery
+      title="Dead Pixel & Display Defect Wallpapers"
+      files={["03-dead-pixels", "04-vertical-glitch", "07-horizontal-line-failure", "10-gpu-artifact-failure"]}
+      lede="Free dead pixel and display defect wallpaper images — useful visual references for spotting dead, stuck, and failing pixels."
+    />
     <RelatedTools slugs={tool.relatedSlugs} />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />
