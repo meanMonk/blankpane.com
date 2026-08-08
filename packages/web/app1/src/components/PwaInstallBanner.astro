@@ -1,0 +1,147 @@
+---
+// PwaInstallBanner — prompts to install BlankPane as a PWA.
+//   • Chrome/Android/Edge: shows on `beforeinstallprompt`, install via prompt().
+//   • iOS Safari: shows a "Share → Add to Home Screen" hint (no prompt event).
+//   • Hidden in standalone/installed mode, or after the user dismisses (7-day
+//     snooze in localStorage).
+const SNOOZE_KEY = "blankpane-pwa-dismissed";
+const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
+---
+
+<div class="pwa-banner" data-pwa-banner hidden>
+  <div class="pwa-inner">
+    <div class="pwa-icon" aria-hidden="true">⬜</div>
+    <div class="pwa-copy">
+      <strong data-pwa-title>Install BlankPane</strong>
+      <span data-pwa-body>Use it like an app — fullscreen colors, no browser tabs.</span>
+    </div>
+    <div class="pwa-actions">
+      <button type="button" class="btn pwa-install" data-pwa-install>Install</button>
+      <button type="button" class="pwa-dismiss" data-pwa-dismiss aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .pwa-banner {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 955;
+    width: min(92vw, 360px);
+  }
+  .pwa-banner[hidden] { display: none; }
+  .pwa-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--glass-strong);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .pwa-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .pwa-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .pwa-copy strong { font-size: 0.9rem; }
+  .pwa-copy span { font-size: 0.78rem; color: var(--ink-dim); line-height: 1.4; }
+  .pwa-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .pwa-install { font-size: 0.8rem; padding: 8px 14px; }
+  .pwa-dismiss {
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 4px 6px;
+  }
+  .pwa-dismiss:hover { color: var(--ink); }
+  @media (max-width: 480px) {
+    .pwa-banner { left: 12px; right: 12px; width: auto; bottom: 12px; }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  const banner = document.querySelector("[data-pwa-banner]");
+  const installBtn = banner.querySelector("[data-pwa-install]");
+  const dismissBtn = banner.querySelector("[data-pwa-dismiss]");
+  const titleEl = banner.querySelector("[data-pwa-title]");
+  const bodyEl = banner.querySelector("[data-pwa-body]");
+  let deferredPrompt = null;
+
+  const snoozed = () => {
+    try {
+      const t = Number(localStorage.getItem(SNOOZE_KEY) || 0);
+      return t > Date.now();
+    } catch (e) {
+      return false;
+    }
+  };
+  const isStandalone = () =>
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  const show = () => {
+    if (snoozed() || isStandalone()) return;
+    banner.hidden = false;
+    window.track && window.track("pwa_banner_show", { event_category: "pwa" });
+  };
+  const hide = () => {
+    banner.hidden = true;
+  };
+
+  // Chrome / Android / Edge — capture the install prompt.
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    titleEl.textContent = "Install BlankPane";
+    bodyEl.textContent = "Use it like an app — fullscreen colors, no browser tabs.";
+    show();
+  });
+
+  // iOS Safari — no beforeinstallprompt; show a "Add to Home Screen" hint.
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS && !isStandalone()) {
+    titleEl.textContent = "Add to Home Screen";
+    bodyEl.textContent = "Tap Share, then “Add to Home Screen” to use BlankPane like an app.";
+    installBtn.textContent = "Got it";
+  }
+
+  installBtn.addEventListener("click", async () => {
+    if (deferredPrompt) {
+      hide();
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (outcome !== "accepted") {
+        try {
+          localStorage.setItem(SNOOZE_KEY, String(Date.now() + SNOOZE_MS));
+        } catch (e) {}
+      }
+      window.track && window.track("pwa_install_choice", { event_category: "pwa", event_label: outcome });
+    } else {
+      hide();
+    }
+  });
+
+  dismissBtn.addEventListener("click", () => {
+    try {
+      localStorage.setItem(SNOOZE_KEY, String(Date.now() + SNOOZE_MS));
+    } catch (e) {}
+    hide();
+    window.track && window.track("pwa_banner_dismiss", { event_category: "pwa" });
+  });
+</script>

@@ -3,6 +3,7 @@ import "../styles/global.css";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import FeedbackModal from "../components/FeedbackModal.astro";
 import CookieBanner from "../components/CookieBanner.astro";
+import PwaInstallBanner from "../components/PwaInstallBanner.astro";
 import { getUI, locales, type UI } from "../i18n";
 
 interface Props {
@@ -229,6 +230,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
 
     <FeedbackModal />
     <CookieBanner />
+    <PwaInstallBanner />
 
     <script>
       // @ts-nocheck

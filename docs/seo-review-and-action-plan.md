@@ -204,7 +204,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 9. **Social proof block** — Google-form rating (like whitescreen.online 8.4/10) displayed on homepage.
 10. **Resolution-pill URLs or meta coverage** — capture "white screen 4k/8k" queries in FAQs.
 11. **Profile footprint** — fill `Organization.sameAs` (Twitter/X, Pinterest, GitHub, blog) and get `google-site-verification`.
-12. **PWA install prompt** — manifest + service worker install banner (whitescreen.dev uses one to drive re-engagement).
+12. **PWA install prompt** ✅ DONE (2026-08-08) — `PwaInstallBanner.astro` wired into BaseLayout: shows on `beforeinstallprompt` (Chrome/Android/Edge), an "Add to Home Screen" hint on iOS Safari, hidden in standalone mode, 7-day snooze on dismiss. Manifest + `sw.js` + SW registration were already live.
 13. **Multilingual depth** — extend the current 11 languages to match competitors' long-tail translation coverage.
 
 ---
@@ -303,6 +303,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **P0 #2 — use-case sections on color pages** (2026-08-08): `UseCaseAccordion.astro` + `src/data/useCases.ts` (57 long-tail items across 12 colors), wired into EN + all localized color pages and the homepage. White-screen video section (`WatchVideo.astro`, opens fullscreen) shipped on white-screen pages. Color tiles now link to each color's dedicated page (`ColorSwatches.astro`) instead of client-side switching. New i18n keys in all 13 locales.
 - ✅ **UX/UI fixes (uncommitted until push)**: tool-page reorder (interactive tool first), locale-aware color tiles, ThemeSwitcher icon buttons (nav + footer), WatchVideo inline player, VideoCard on color pages. Follow-up round: SVG icon rendering (`set:html`), slug-preserving language switcher (`alternateLinks`), real color videos. Final round: `preview-stage` hover/click → fullscreen with a new `fullscreenHint` chip on the stage (13 locales), `stage-expand` bolder/bigger, `ScreenGallery` + color-page screen viewer open in the shared `#overlay` fullscreen instead of a lightbox modal, and visible "⛶ Tap or press F for full screen" chips on all 9 tool-page preview stages (countdown preview now also opens fullscreen on click).
 - ✅ **AdSense readiness items** (2026-08-08): `public/ads.txt` (placeholder pub ID), `CookieBanner.astro` (EU/UK consent), `FeedbackModal.astro` (rating + comment + email, success/error + mailto fallback), Cloudflare Pages Function `functions/api/feedback.ts`, and strengthened legal pages (GDPR/CCPA rights, log files, children <13, effective dates, feedback on /contact/). Playbook in `docs/adsense-readiness.md`.
+- ✅ **P2 #12 — PWA install prompt** (2026-08-08): `PwaInstallBanner.astro` wired into BaseLayout — shows on `beforeinstallprompt` (Chrome/Android/Edge), iOS Safari "Add to Home Screen" hint, hidden in standalone mode, 7-day snooze on dismiss. Manifest + `sw.js` + SW registration already live.
 
 ### Remaining (priorities updated 2026-08-08 per `docs/keyword-clustering-plan.md`)
 - ✅ **P0 #3** `/guides/how-to-make-a-white-background/` (263K/mo) — new "design" cluster guide (online editor, Photoshop, Canva, GIMP, capture methods); wired into guides hub, llms.txt, RelatedGuides.
@@ -315,7 +316,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
   - ✅ **"Black and white backgrounds" guide** (CLUSTER F): new `design` cluster guide linking gray/black/white pages.
   - ✅ **Internal linking pass**: editor + wallpaper links on white/black/gray color pages and the guides hub; guide wired into llms.txt.
   - ☐ **Skipped this round**: `/passport-photo-white-background/` (43.8K/mo), `/black-screen-video/` + `/white-screen-video/` (5.7M/mo), and the 5 whitescreen.im tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static) — deferred for a later round.
-- **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
+- **P2 #9–13**: social proof (#9), resolution-pill URLs (#10), profile footprint (#11), ✅ PWA install prompt (#12 — `PwaInstallBanner.astro`), multilingual depth (#13).
 - **§5 AdSense**: ✅ cookie banner, ✅ feedback modal, ✅ `ads.txt`, ✅ strengthened legal (GDPR/CCPA/children/dates). Remaining (manual): verify Search Console ownership; apply after a few weeks of indexed traffic; after approval replace pub ID in `ads.txt`, add AdSense script, enable Auto Ads (Min), set `LEADS_API_URL` + `LEADS_API_KEY` (feedback → VaayaLabs leads API); revisit premium brokers at ~10K visits/mo. See `docs/adsense-readiness.md`.
 - **§6 YouTube**: generate 12 videos (`pnpm videos:gen`), set up `blankscreen` channel + playlist, upload 12 videos with the per-video metadata from `docs/archive/README-videos.md`.
 - **§7 Backlinks**: Product Hunt / BetaList / AlternativeTo listings; 3–5 contextual Reddit answers (r/monitor, r/animation, r/techsupport); 1–2 edu/org resource-list links; Quora/StackExchange dead-pixel answer. Do after P0 content lands.
