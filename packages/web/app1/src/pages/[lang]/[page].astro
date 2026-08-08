@@ -4,6 +4,8 @@ import ColorTool from "../../components/ColorTool.astro";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import UseCaseAccordion from "../../components/UseCaseAccordion.astro";
+import WatchVideo from "../../components/WatchVideo.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
 import { legalPages } from "../../data/legal";
@@ -71,8 +73,10 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
           <p class="eyebrow">{t.eyebrow}</p>
           <h1>{page.h1}</h1>
         </header>
-        <ColorTool t={t} tiles={tiles} initialHex={c.hex} initialName={page.h1} initialLight={c.light} initialSlug={c.slug} />
+        <ColorTool t={t} tiles={tiles} initialHex={c.hex} initialName={page.h1} initialLight={c.light} initialSlug={c.slug} lang={lang} />
         <p class="lede">{page.intro}</p>
+        {c.slug === "white-screen" && <WatchVideo t={t} />}
+        <UseCaseAccordion t={t} slug={c.slug} />
         <section id="uses">
           <h2>{page.whyTitle}</h2>
           <div class="use-grid">

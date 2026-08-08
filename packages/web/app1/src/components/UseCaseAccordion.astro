@@ -1,0 +1,32 @@
+---
+import type { UI } from "../i18n";
+import { useCasesByColor } from "../data/useCases";
+
+interface Props {
+  t: UI;
+  slug: string;
+}
+
+const { t, slug } = Astro.props;
+const items = useCasesByColor[slug] ?? [];
+const colorName = t.colorName[slug] ?? slug;
+---
+
+{
+  items.length > 0 && (
+    <section id="use-cases">
+      <h2>{t.useCasesTitle(colorName)}</h2>
+      {items.map((u) => (
+        <details>
+          <summary>{u.title}</summary>
+          <p>{u.body}</p>
+          {u.href && (
+            <p class="use-case-link">
+              <a href={u.href}>{u.hrefLabel}</a>
+            </p>
+          )}
+        </details>
+      ))}
+    </section>
+  )
+}

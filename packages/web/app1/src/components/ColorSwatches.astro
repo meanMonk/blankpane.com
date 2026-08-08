@@ -1,0 +1,34 @@
+---
+import type { UI } from "../i18n";
+
+interface Tile {
+  hex: string;
+  name: string;
+  light?: boolean;
+  slug?: string;
+}
+
+interface Props {
+  t: UI;
+  tiles: Tile[];
+  currentSlug?: string;
+  lang?: string;
+}
+
+const { t, tiles, currentSlug = "", lang } = Astro.props;
+const prefix = lang && lang !== "en" ? `/${lang}` : "";
+---
+
+<div class="tile-grid">
+  {tiles.map((c) => (
+    <a
+      href={`${prefix}/${c.slug}/`}
+      class:list={["tile", c.light && "light", c.slug === currentSlug && "active"]}
+      style={`background:${c.hex}`}
+      aria-label={c.name}
+      title={c.name}
+    >
+      <span class="tile-name">{c.name}</span>
+    </a>
+  ))}
+</div>

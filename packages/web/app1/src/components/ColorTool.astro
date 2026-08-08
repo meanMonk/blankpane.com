@@ -1,5 +1,6 @@
 ---
 import type { UI } from "../i18n";
+import ColorSwatches from "./ColorSwatches.astro";
 import { screens, screensByColor } from "../data/screens";
 
 interface Tile {
@@ -16,9 +17,10 @@ interface Props {
   initialName?: string;
   initialLight?: boolean;
   initialSlug?: string;
+  lang?: string;
 }
 
-const { t, tiles, initialHex = "#ffffff", initialName = "", initialLight = true, initialSlug = "" } = Astro.props;
+const { t, tiles, initialHex = "#ffffff", initialName = "", initialLight = true, initialSlug = "", lang } = Astro.props;
 const initial = { hex: initialHex, name: initialName, light: initialLight, slug: initialSlug };
 
 const serializable = {
@@ -26,7 +28,6 @@ const serializable = {
     customColor: t.customColor,
     goFullScreen: t.goFullScreen,
     downloadPng: t.downloadPng,
-    hint: t.hint,
     sizePreset: t.sizePreset,
     presetFHD: t.presetFHD,
     preset4K: t.preset4K,
@@ -34,13 +35,10 @@ const serializable = {
     presetStory: t.presetStory,
     presetA4: t.presetA4,
     presetCustom: t.presetCustom,
-    customSize: t.customSize,
     width: t.width,
     height: t.height,
     px: t.px,
-    exitHint: t.exitHint,
   },
-  tiles,
   initial,
   screens,
   screensByColor,
@@ -87,7 +85,7 @@ const serializable = {
   </div>
 </div>
 
-<div class="tile-grid" id="swatchGrid"></div>
+<ColorSwatches t={t} tiles={tiles} currentSlug={initialSlug} lang={lang} />
 <p class="hint">{t.hint}</p>
 
 <section class="screens-section">
@@ -113,9 +111,8 @@ const serializable = {
 
 <script define:vars={{ cfg: serializable }}>
 // @ts-nocheck
-  const { tiles, initial, screens: allScreens, screensByColor } = cfg;
+  const { initial, screens: allScreens, screensByColor } = cfg;
 
-  const grid = document.getElementById("swatchGrid");
   const previewStage = document.getElementById("previewStage");
   const stageName = document.getElementById("stageName");
   const stageMeta = document.getElementById("stageMeta");
@@ -134,45 +131,6 @@ const serializable = {
     return 0.299 * r + 0.587 * g + 0.114 * b > 175;
   }
 
-  function renderTiles() {
-    grid.innerHTML = "";
-    tiles.forEach((c) => {
-      const light = !!c.light;
-      const tile = document.createElement("div");
-      tile.className = "tile" + (light ? " light" : "") + (c.hex === state.hex ? " active" : "");
-      tile.style.background = c.hex;
-      tile.setAttribute("role", "button");
-      tile.setAttribute("tabindex", "0");
-      tile.setAttribute("aria-label", c.name + " — preview");
-      tile.innerHTML = `<span class="tile-name">${c.name}</span><button class="tile-expand" aria-label="full screen" title="full screen">⛶</button>`;
-      tile.addEventListener("click", (e) => {
-        if (e.target.closest(".tile-expand")) return;
-        selectColor(c.hex, c.name, light, c.slug);
-      });
-      tile.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") selectColor(c.hex, c.name, light, c.slug);
-      });
-      tile.querySelector(".tile-expand").addEventListener("click", (e) => {
-        e.stopPropagation();
-        track('fullscreen', { event_category: 'tool', event_label: c.name });
-        goFullScreen(c.hex);
-      });
-      grid.appendChild(tile);
-    });
-  }
-
-  function selectColor(hex, name, light, slug) {
-    state.hex = hex;
-    state.light = light !== undefined ? light : isLightHex(hex);
-    state.name = name || hex.toUpperCase();
-    state.slug = slug || "";
-    customPicker.value = hex;
-    updatePreview();
-    renderTiles();
-    setShown(state.slug);
-    track('select_color', { event_category: 'tool', event_label: name || hex, value: name ? 0 : 1 });
-  }
-
   function updatePreview() {
     previewStage.style.background = state.hex;
     previewStage.classList.toggle("light-bg", state.light);
@@ -182,10 +140,16 @@ const serializable = {
 
   let customPickerDebounce;
   customPicker.addEventListener("input", () => {
-    selectColor(customPicker.value, "Custom", isLightHex(customPicker.value), "");
+    const hex = customPicker.value;
+    state.hex = hex;
+    state.light = isLightHex(hex);
+    state.name = "Custom";
+    state.slug = "";
+    updatePreview();
+    setShown(state.slug);
     clearTimeout(customPickerDebounce);
     customPickerDebounce = setTimeout(() => {
-      track('custom_color', { event_category: 'tool', event_label: customPicker.value });
+      track('custom_color', { event_category: 'tool', event_label: hex });
     }, 1200);
   });
 
@@ -265,7 +229,7 @@ const serializable = {
     if (ov && ov.style.display === "flex" && e.target === ov) exitOverlay();
   });
 
-  // Screens gallery: 1 per page, filtered by the selected color
+  // Screens gallery: 1 per page, filtered by the page's color
   const screenStage = document.getElementById("screenStage");
   const screenImg = document.getElementById("screenImg");
   const screenLabel = document.getElementById("screenLabel");
@@ -346,7 +310,6 @@ const serializable = {
     if (e.key === "Escape" && videoModal.classList.contains("open")) closeViewer();
   });
 
-  renderTiles();
   updatePreview();
   setShown(state.slug);
 

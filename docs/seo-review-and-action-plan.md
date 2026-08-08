@@ -170,9 +170,10 @@ Applied per page on blankpane.com (mostly already present — see gaps):
    - Add `/guides/` to nav, footer, llms.txt, sitemap (priority 0.8).
    - This is the internal-linking backbone every competitor has and we lack.
 
-2. **Add "white screen for ___" use-case sections to color pages**
+2. **Add "white screen for ___" use-case sections to color pages** ✅ DONE (2026-08-08)
    - Extend `i18n/template.ts` so each color page renders a 6–10 item use-case grid targeting long-tail ("white screen for reading", "black screen for focus", "green screen for chroma key").
    - One template change → covers all 12 color pages → directly replicates the #1 traffic driver.
+   - **Implemented as:** shared `UseCaseAccordion.astro` component (per-color `<details>` accordion driven by `src/data/useCases.ts` — 8 items white, 6 black, 8 green, 4 zoom, 5 blue, 4 red, 4 pink, 3 yellow, 4 gray, 3 purple, 3 orange, 3 blank). Wired into EN `[page].astro`, localized `[lang]/[page].astro`, and homepage. Each item targets a keyword-planner long-tail query (e.g. "green screen for zoom", "blue screen for photography", "white monitors for gaming"), with original wording, and links to related tools (`/tools/dead-pixel-test/`, `/tools/screen-cleaner/`, blog posts) where relevant. Also shipped: white-screen video section (`WatchVideo.astro`, `/videos/white-screen.mp4`, opens fullscreen on its own — not the ScreenGallery image pattern) and color tiles now link to each color's dedicated page instead of switching colors client-side (`ColorSwatches.astro`). New i18n keys added to all 13 locales: `useCasesTitle`, `watchVideoTitle`, `watchVideoBody`, `watchVideoButton` (+ updated `hint`).
 
 3. **Reframe blog → guides & deepen**
    - Bump blog to 6–8 posts, each targeting a question query (`how to clean your monitor with a white screen`, `how to fix stuck pixels`, `white screen vs gray screen for OLED`).
@@ -213,3 +214,18 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - Search Console: submit updated sitemap after `/guides/` + new pages land.
 - Track: indexed pages count, "white screen" + "white screen for X" impressions, avg position.
 - After P0: expect new long-tail impressions within 2–4 weeks; positions improve as `/guides/` passes internal link equity.
+
+---
+
+## 6. What's done / remaining
+
+### Done
+- ✅ **P0 #2 — use-case sections on color pages** (2026-08-08): `UseCaseAccordion.astro` + `src/data/useCases.ts` (57 long-tail items across 12 colors), wired into EN + all localized color pages and the homepage. White-screen video section (`WatchVideo.astro`, opens fullscreen) shipped on white-screen pages. Color tiles now link to each color's dedicated page (`ColorSwatches.astro`) instead of client-side switching. New i18n keys in all 13 locales.
+
+### Remaining
+- **P0 #1** `/guides/` hub page.
+- **P0 #3** Reframe blog → guides & deepen (6–8 posts).
+- **P0 #4** Downloadable image pages (`/white-screen-image/` + 2–3 colors).
+- **P1 #5–8**: keywords meta + rich JSON-LD, new tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static), VideoObject microdata for Screens grid, internal-linking pass.
+- **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
+- **Follow-ups from this change**: translate the 57 use-case items per-locale (currently English-only); consider a `green screen for ___` / `blue screen for ___` use-case depth on the `zoom-background-screen` page; add VideoObject microdata for the white-screen video.

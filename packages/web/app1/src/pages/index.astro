@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ColorTool from "../components/ColorTool.astro";
 import ColorHub from "../components/ColorHub.astro";
 import ToolCards from "../components/ToolCards.astro";
+import UseCaseAccordion from "../components/UseCaseAccordion.astro";
 import { getUI } from "../i18n";
 import colors from "../data/colors.json";
 
@@ -31,6 +32,8 @@ const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.na
 
       <ColorHub t={t} />
       <ToolCards title="Screen Tools" limit={6} />
+
+      <UseCaseAccordion t={t} slug="white-screen" />
 
       <section id="uses">
         <h2>{t.usesTitle}</h2>

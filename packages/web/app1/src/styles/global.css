@@ -351,6 +351,25 @@ section p.center-lede { color: var(--ink-dim); max-width: 560px; margin: -6px au
 details { border-bottom: 1px solid var(--line); padding: 14px 0; }
 summary { cursor: pointer; font-weight: 600; font-family: var(--display); font-size: 0.95rem; }
 details p { color: var(--ink-dim); margin: 10px 0 0; font-size: 0.88rem; }
+details .use-case-link { margin-top: 10px; }
+details .use-case-link a { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; display: inline-block; }
+details .use-case-link a:hover { border-color: var(--accent); }
+
+/* WATCH VIDEO */
+.watch-video { text-align: center; }
+.watch-video-cta { margin: 20px 0 0; }
+.watch-video-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.watch-video-layer[hidden] { display: none; }
+.watch-video-layer video { max-width: 100vw; max-height: 100vh; }
 
 /* STATIC PAGES (about / legal / contact) */
 .page { max-width: 720px; margin: 0 auto; padding: 48px 24px 24px; }

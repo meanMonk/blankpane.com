@@ -63,6 +63,10 @@ export interface UI {
   exitHint: string;
   previewLabel: string;
   openFull: string;
+  useCasesTitle: (name: string) => string;
+  watchVideoTitle: string;
+  watchVideoBody: string;
+  watchVideoButton: string;
   navColors: string;
   navBlog: string;
   footerAbout: string;

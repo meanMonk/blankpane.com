@@ -1,0 +1,69 @@
+---
+import type { UI } from "../i18n";
+
+interface Props {
+  t: UI;
+}
+
+const { t } = Astro.props;
+const src = "/videos/white-screen.mp4";
+---
+
+<section class="watch-video">
+  <h2>{t.watchVideoTitle}</h2>
+  <p class="center-lede">{t.watchVideoBody}</p>
+  <p class="watch-video-cta">
+    <button type="button" class="btn" id="watchVideoBtn" aria-keyshortcuts="V">{t.watchVideoButton}</button>
+  </p>
+  <div class="watch-video-layer" id="watchVideoLayer" aria-hidden="true" hidden>
+    <video id="watchVideoPlayer" src={src} playsinline controls muted loop preload="none"></video>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  const btn = document.getElementById("watchVideoBtn");
+  const layer = document.getElementById("watchVideoLayer");
+  const player = document.getElementById("watchVideoPlayer");
+
+  function openFullscreenVideo() {
+    if (!btn || !layer || !player) return;
+    track('watch_video', { event_category: 'video', event_label: 'white-screen' });
+    player.controls = true;
+    player.play().catch(() => {});
+    layer.hidden = false;
+    layer.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    player.requestFullscreen?.().then(() => player.play()).catch(() => {});
+  }
+
+  function closeVideo() {
+    if (!layer || !player) return;
+    player.pause();
+    layer.hidden = true;
+    layer.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  btn?.addEventListener("click", openFullscreenVideo);
+  layer?.addEventListener("click", (e) => {
+    if (e.target === layer) {
+      if (document.fullscreenElement) document.exitFullscreen?.();
+      else closeVideo();
+    }
+  });
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement && player && !player.paused) player.pause();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && layer && !layer.hidden && !document.fullscreenElement) closeVideo();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!e.key || e.key.toLowerCase() !== "v") return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") return;
+    e.preventDefault();
+    openFullscreenVideo();
+  });
+</script>
