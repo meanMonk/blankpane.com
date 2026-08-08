@@ -57,6 +57,20 @@ const colorToTools: Record<string, string[]> = {
   "zoom-background-screen": ["zoom-light-screen", "ring-light-screen"],
 };
 const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
+
+const videoLd = isColor
+  ? {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: `Fullscreen ${colorName} Video`,
+      description: `${colorName} — a full-screen solid ${c?.hex} video that fills your entire display. Free, no download, works in any browser.`,
+      thumbnailUrl: [`https://blankpane.com/og-default.png`],
+      uploadDate: "2026-03-13T00:00:00.000Z",
+      duration: "PT10H",
+      contentUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
+      embedUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
+    }
+  : null;
 ---
 
 <BaseLayout
@@ -66,6 +80,7 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
   canonical={`${site}/${lang}/${pageSlug}/`}
   localized={isColor}
   robots={isColor ? "index, follow" : "noindex, follow"}
+  jsonLd={videoLd ? [videoLd] : []}
 >
   {isColor ? (
     <div class="content-shell">

@@ -225,7 +225,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **`ads.txt`** present — `public/ads.txt` (placeholder pub ID; **replace with real Publisher ID after approval**).
 - ☐ **Verify site ownership in Search Console** (google-site-verification) before/at application.
 - ☐ **Build steady organic traffic first** — apply after the P0 keyword pages + guides have been indexed a few weeks.
-- ☐ **After approval (manual)**: paste real pub ID into `ads.txt`, add AdSense script to `BaseLayout`, enable Auto Ads (Min load), set `FEEDBACK_WEBHOOK_URL` in Cloudflare Pages.
+- ☐ **After approval (manual)**: paste real pub ID into `ads.txt`, add AdSense script to `BaseLayout`, enable Auto Ads (Min load), set `LEADS_API_URL` + `LEADS_API_KEY` in Cloudflare Pages (feedback → VaayaLabs leads API).
 
 ### Placement rules (critical for a click-heavy tool site)
 - **Below the fold** + in the "uses"/FAQ grid. Never over the tool controls.
@@ -309,7 +309,12 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **P0 #4** `/white-background-editor/` page (351K/mo) — dedicated page embedding the ColorTool editor; WebApplication + FAQ JSON-LD; links to guide + wallpaper.
 - ✅ **P0 #5** `/white-wallpaper/` download page (5.3M/mo cluster) — 9 generated solid-color PNGs (white 1080p/1440p/4K/8K, black 1080p/4K, gray/blue/green 1080p) + resolution table + ImageObject JSON-LD; nav "Wallpaper" link.
 - ✅ **P0 #6** On-page keyword deployment pass on `/`, `/white-screen/`, `/black-screen/` — front-loaded "white background"/"black screen" head keywords in title/description/intro/FAQ; white/black pages get custom EN meta via `template.ts`.
-- **P1** keywords meta + rich JSON-LD; new tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static + `passport-photo-white-background` 43.8K/mo + `black-screen-video`/`white-screen-video` 5.7M/mo); VideoObject microdata for Screens grid; internal-linking pass.
+- **P1** 
+  - ✅ **keywords meta + rich JSON-LD**: homepage now emits a long-tail `keywords` meta and a `@graph`-style trust stack — ItemList (10 top pages) + Organization `sameAs` (Twitter/GitHub) in BaseLayout.
+  - ✅ **VideoObject microdata**: every EN + localized color page now emits VideoObject JSON-LD pointing at `/videos/<slug>.mp4` (PT10H).
+  - ✅ **"Black and white backgrounds" guide** (CLUSTER F): new `design` cluster guide linking gray/black/white pages.
+  - ✅ **Internal linking pass**: editor + wallpaper links on white/black/gray color pages and the guides hub; guide wired into llms.txt.
+  - ☐ **Skipped this round**: `/passport-photo-white-background/` (43.8K/mo), `/black-screen-video/` + `/white-screen-video/` (5.7M/mo), and the 5 whitescreen.im tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static) — deferred for a later round.
 - **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
 - **§5 AdSense**: ✅ cookie banner, ✅ feedback modal, ✅ `ads.txt`, ✅ strengthened legal (GDPR/CCPA/children/dates). Remaining (manual): verify Search Console ownership; apply after a few weeks of indexed traffic; after approval replace pub ID in `ads.txt`, add AdSense script, enable Auto Ads (Min), set `FEEDBACK_WEBHOOK_URL`; revisit premium brokers at ~10K visits/mo. See `docs/adsense-readiness.md`.
 - **§6 YouTube**: generate 12 videos (`pnpm videos:gen`), set up `blankscreen` channel + playlist, upload 12 videos with the per-video metadata from `docs/archive/README-videos.md`.

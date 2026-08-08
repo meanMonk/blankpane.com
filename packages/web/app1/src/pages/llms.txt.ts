@@ -36,6 +36,7 @@ export async function GET() {
 
 ### Design & Backgrounds
 - [How to Make a White Background](https://blankpane.com/guides/how-to-make-a-white-background/): Make a white background in any photo, product shot, or design — online, Photoshop, Canva, and GIMP.
+- [Black and White Backgrounds](https://blankpane.com/guides/how-to-use-black-and-white-backgrounds/): Minimal, aesthetic monochrome looks — white, black, and gray backgrounds and when to choose each.
 
 ## Screen Tools
 

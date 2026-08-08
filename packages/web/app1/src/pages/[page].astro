@@ -50,9 +50,23 @@ const colorToTools: Record<string, string[]> = {
   "zoom-background-screen": ["zoom-light-screen", "ring-light-screen"],
 };
 const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
+
+const videoLd = isColor
+  ? {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: `Fullscreen ${colorName} Video`,
+      description: `${colorName} — a full-screen solid ${c?.hex} video that fills your entire display. Free, no download, works in any browser.`,
+      thumbnailUrl: [`https://blankpane.com/og-default.png`],
+      uploadDate: "2026-03-13T00:00:00.000Z",
+      duration: "PT10H",
+      contentUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
+      embedUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
+    }
+  : null;
 ---
 
-<BaseLayout lang="en" title={title} description={description} canonical={`${site}/${canonicalPath}/`} localized={isColor}>
+<BaseLayout lang="en" title={title} description={description} canonical={`${site}/${canonicalPath}/`} localized={isColor} jsonLd={videoLd ? [videoLd] : []}>
   {isColor ? (
     <div class="content-shell">
       <div class="main-col">
@@ -92,10 +106,10 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
             ))}
           </div>
         </section>
-        {c?.slug === "white-screen" && (
+        {["white-screen", "black-screen", "gray-screen"].includes(c?.slug || "") && (
           <section style="border-top:1px solid var(--line);padding:28px 0;">
-            <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">White background tools</h2>
-            <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Need a white background for an image, a photo, or your desktop? Try these free tools.</p>
+            <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Monochrome & wallpaper tools</h2>
+            <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Solid-color backgrounds and downloads for every need.</p>
             <div class="blog-grid">
               <a class="blog-card" href="/white-background-editor/">
                 <h3 style="font-size:.9rem;">White Background Editor</h3>

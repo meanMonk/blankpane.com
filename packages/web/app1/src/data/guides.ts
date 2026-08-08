@@ -472,4 +472,46 @@ export const guides: Guide[] = [
     relatedGuides: ["how-to-download-a-color-screen-as-an-image", "how-to-use-a-white-screen-as-a-ring-light"],
     keyword: "how to make a white background",
   },
+  {
+    slug: "how-to-use-black-and-white-backgrounds",
+    title: "Black and White Backgrounds — Aesthetic, Minimal, and Monochrome Looks",
+    excerpt: "Black-and-white backgrounds are the most versatile minimal look for wallpapers, screens, photos, and focus. Here's how to get each one and when to choose it.",
+    cluster: "design",
+    intro:
+      "Monochrome never goes out of style. A black and white background strips the screen to pure contrast — clean, calm, and legible. Whether you want a stark white desktop, a deep black focus screen, or a mid-gray neutral, the exact same tool that fills your screen with any color can give you a perfect monochrome backdrop in one tap.",
+    sections: [
+      {
+        h2: "White backgrounds: bright, clean, and minimal",
+        paragraphs: [
+          "A pure white background (#FFFFFF) is the bright end of monochrome. It makes dark icons, widgets, and text pop, and it reads as clean and professional in screenshots, screen-sharing calls, and product photos.",
+          "White also works as a uniform backlight for reading, tracing, or photography. Fill your screen white, and you've got a soft light source or tracing light in an instant.",
+        ],
+      },
+      {
+        h2: "Black backgrounds: deep, calm, and battery-friendly",
+        paragraphs: [
+          "A pure black background (#000000) is the opposite end of the scale — deep, immersive, and less harsh at night. On OLED and AMOLED displays, black pixels are physically turned off, so a black screen genuinely uses less battery.",
+          "Black is also the classic choice for focus work and screensavers: nothing on screen competes for attention, and the display fades into the room.",
+        ],
+      },
+      {
+        h2: "Gray backgrounds: the neutral middle ground",
+        paragraphs: [
+          "Mid-gray (#808080) sits between white and black. It's softer than pure white and less stark than black, which makes it a comfortable choice for reading, calibration tests, and interfaces where you want a neutral tone without extremes.",
+          "Gray is also the standard test color for checking screen uniformity and backlight bleed — bright enough to reveal clouding, dark enough to spot uneven glow.",
+        ],
+      },
+      {
+        h2: "When to use each black-and-white look",
+        paragraphs: [
+          "Pick white when you want maximum brightness, a clean photo backdrop, or a soft light source. Pick black when you want calm, focus, battery savings, or a dramatic contrast look. Pick gray when you want a gentle neutral that works in any lighting.",
+          "All three can be downloaded as lossless PNGs at any size or opened full screen directly in your browser — no downloads, no install.",
+        ],
+      },
+    ],
+    relatedColors: ["black-screen", "gray-screen", "white-screen"],
+    relatedTools: ["screen-cleaner", "dead-pixel-test"],
+    relatedGuides: ["how-to-make-a-white-background", "how-to-use-a-black-screen-to-save-battery"],
+    keyword: "black and white backgrounds",
+  },
 ];

@@ -15,6 +15,7 @@ interface Props {
   isHome?: boolean;
   localized?: boolean;
   robots?: string;
+  keywords?: string;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   isHome = false,
   localized = true,
   robots = "index, follow",
+  keywords = "",
 } = Astro.props;
 
 const t: UI = getUI(lang);
@@ -68,12 +70,32 @@ const orgJsonLd = {
   name: "BlankPane",
   url: "https://blankpane.com",
   logo: "https://blankpane.com/og-default.png",
-  sameAs: [],
-  // TODO: add social profile URLs to sameAs array when available
+  sameAs: [
+    "https://twitter.com/blankpane",
+    "https://github.com/meanMonk/blankpane.com",
+  ],
+};
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "BlankPane screen tools",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "White Screen", url: "https://blankpane.com/white-screen/" },
+    { "@type": "ListItem", position: 2, name: "Black Screen", url: "https://blankpane.com/black-screen/" },
+    { "@type": "ListItem", position: 3, name: "White Background Editor", url: "https://blankpane.com/white-background-editor/" },
+    { "@type": "ListItem", position: 4, name: "White Wallpaper", url: "https://blankpane.com/white-wallpaper/" },
+    { "@type": "ListItem", position: 5, name: "Green Screen", url: "https://blankpane.com/green-screen/" },
+    { "@type": "ListItem", position: 6, name: "Dead Pixel Test", url: "https://blankpane.com/tools/dead-pixel-test/" },
+    { "@type": "ListItem", position: 7, name: "Screen Cleaner", url: "https://blankpane.com/tools/screen-cleaner/" },
+    { "@type": "ListItem", position: 8, name: "Countdown Timer", url: "https://blankpane.com/tools/countdown-timer-fullscreen/" },
+    { "@type": "ListItem", position: 9, name: "Screen Guides", url: "https://blankpane.com/guides/" },
+    { "@type": "ListItem", position: 10, name: "Screen Tools", url: "https://blankpane.com/tools/" },
+  ],
 };
 
 const baseJsonLd: object[] = [webAppJsonLd, faqJsonLd];
-if (isHome) baseJsonLd.unshift(orgJsonLd);
+if (isHome) baseJsonLd.unshift(orgJsonLd, itemListJsonLd);
 const allJsonLd = [...baseJsonLd, ...jsonLd];
 ---
 
@@ -103,6 +125,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <link rel="canonical" href={pageUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
