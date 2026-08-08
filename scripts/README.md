@@ -5,7 +5,7 @@
 Generates 12 solid-color screen videos (10h, 1fps, ~tens of MB) from
 `packages/web/app1/src/data/colors.json` into `packages/web/app1/public/videos/`.
 Each video is sized for YouTube upload + on-site embed. YouTube SEO content
-(titles, descriptions, tags) for every video is in [README-videos.md](README-videos.md).
+(titles, descriptions, tags) for every video is in [README-videos.md](../docs/archive/README-videos.md).
 
 ```bash
 node scripts/generate-color-videos.mjs             # all 12 colors
