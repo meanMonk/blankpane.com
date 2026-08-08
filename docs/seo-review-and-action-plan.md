@@ -300,10 +300,10 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **UX/UI fixes (uncommitted until push)**: tool-page reorder (interactive tool first), locale-aware color tiles, ThemeSwitcher icon buttons (nav + footer), WatchVideo inline player, VideoCard on color pages. Follow-up round: SVG icon rendering (`set:html`), slug-preserving language switcher (`alternateLinks`), real color videos. Final round: `preview-stage` hover/click → fullscreen with a new `fullscreenHint` chip on the stage (13 locales), `stage-expand` bolder/bigger, `ScreenGallery` + color-page screen viewer open in the shared `#overlay` fullscreen instead of a lightbox modal, and visible "⛶ Tap or press F for full screen" chips on all 9 tool-page preview stages (countdown preview now also opens fullscreen on click).
 
 ### Remaining (priorities updated 2026-08-08 per `docs/keyword-clustering-plan.md`)
-- **P0 #3** `/guides/how-to-make-a-white-background/` (263K/mo) — reframe blog → guides; wire into all color pages.
-- **P0 #4** `/white-background-editor/` page (351K/mo) — claim "editor" intent with existing custom-color/PNG tool.
-- **P0 #5** `/white-wallpaper/` download page (5.3M/mo cluster) — 4K/FHD PNG assets + resolution table.
-- **P0 #6** On-page keyword deployment pass on `/`, `/white-screen/`, `/black-screen/` (head keyword + variants at all 10 placement types).
+- ✅ **P0 #3** `/guides/how-to-make-a-white-background/` (263K/mo) — new "design" cluster guide (online editor, Photoshop, Canva, GIMP, capture methods); wired into guides hub, llms.txt, RelatedGuides.
+- ✅ **P0 #4** `/white-background-editor/` page (351K/mo) — dedicated page embedding the ColorTool editor; WebApplication + FAQ JSON-LD; links to guide + wallpaper.
+- ✅ **P0 #5** `/white-wallpaper/` download page (5.3M/mo cluster) — 9 generated solid-color PNGs (white 1080p/1440p/4K/8K, black 1080p/4K, gray/blue/green 1080p) + resolution table + ImageObject JSON-LD; nav "Wallpaper" link.
+- ✅ **P0 #6** On-page keyword deployment pass on `/`, `/white-screen/`, `/black-screen/` — front-loaded "white background"/"black screen" head keywords in title/description/intro/FAQ; white/black pages get custom EN meta via `template.ts`.
 - **P1** keywords meta + rich JSON-LD; new tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static + `passport-photo-white-background` 43.8K/mo + `black-screen-video`/`white-screen-video` 5.7M/mo); VideoObject microdata for Screens grid; internal-linking pass.
 - **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
 - **§5 AdSense**: cookie banner for EU/UK; keep text content growing (approval gate); revisit premium brokers (Ezoic/Snigel/MonetizeMore/Playwire) at ~10K visits/mo; `data-google-vignette="false"` on tool buttons if Auto Ads hijack clicks.

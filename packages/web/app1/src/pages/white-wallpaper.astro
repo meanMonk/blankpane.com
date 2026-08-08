@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorHub from "../components/ColorHub.astro";
+import ToolCards from "../components/ToolCards.astro";
+import RelatedGuides from "../components/RelatedGuides.astro";
+import { getUI } from "../i18n";
+
+const t = getUI("en");
+const site = "https://blankpane.com";
+
+const wallpapers = [
+  { label: "White Wallpaper 1080p (Full HD)", file: "white-1920x1080.png", width: 1920, height: 1080, size: "~8 KB" },
+  { label: "White Wallpaper 1440p (QHD)", file: "white-2560x1440.png", width: 2560, height: 1440, size: "~14 KB" },
+  { label: "White Wallpaper 4K UHD", file: "white-3840x2160.png", width: 3840, height: 2160, size: "~29 KB" },
+  { label: "White Wallpaper 8K UHD", file: "white-7680x4320.png", width: 7680, height: 4320, size: "~105 KB" },
+  { label: "Black Wallpaper 1080p (Full HD)", file: "black-1920x1080.png", width: 1920, height: 1080, size: "~6 KB" },
+  { label: "Black Wallpaper 4K UHD", file: "black-3840x2160.png", width: 3840, height: 2160, size: "~24 KB" },
+  { label: "Gray Wallpaper 1080p (Full HD)", file: "gray-1920x1080.png", width: 1920, height: 1080, size: "~8 KB" },
+  { label: "Blue Wallpaper 1080p (Full HD)", file: "blue-1920x1080.png", width: 1920, height: 1080, size: "~8 KB" },
+  { label: "Green Wallpaper 1080p (Full HD)", file: "green-1920x1080.png", width: 1920, height: 1080, size: "~8 KB" },
+];
+
+const imageLd = {
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  name: "White Wallpaper 4K",
+  contentUrl: `${site}/images/wallpapers/white-3840x2160.png`,
+  encodingFormat: "image/png",
+  width: 3840,
+  height: 2160,
+  license: `${site}/terms-of-service/`,
+  creator: { "@type": "Organization", name: "BlankPane", url: site },
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "White Wallpaper", item: `${site}/white-wallpaper/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  localized={false}
+  title="White Wallpaper — Free White Background Wallpapers for Desktop & Phone"
+  description="Download free white wallpapers in 1080p, 1440p, 4K and 8K — plus black, gray, blue and green backgrounds. Lossless PNG, instant download, no sign-up."
+  canonical={`${site}/white-wallpaper/`}
+  jsonLd={[imageLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:760px;">
+    <p class="back"><a href="/">← fullscreen</a></p>
+    <h1>White Wallpaper</h1>
+    <p class="lede">
+      A clean white wallpaper is minimal, bright, and makes your desktop icons and widgets pop. Download free,
+      lossless white wallpapers here in Full HD (1080p), QHD (1440p), 4K UHD, and 8K UHD — plus a few matching
+      black, gray, blue, and green backgrounds. Every file is a pure solid-color PNG rendered at the exact native
+      resolution, so it stays crisp on any monitor. Instant download, no sign-up, and no images uploaded.
+    </p>
+
+    <section style="border-top:1px solid var(--line);padding:28px 0;">
+      <h2 style="text-align:left;font-size:1.2rem;margin:0 0 14px;">Download white wallpaper</h2>
+      <div class="blog-grid">
+        {wallpapers.map((w) => (
+          <a class="blog-card" href={`/images/wallpapers/${w.file}`} download style="display:block;">
+            <div
+              style={`height:110px;border-radius:10px;border:1px solid var(--line);margin-bottom:10px;background:${w.file.startsWith("white") ? "#fff" : w.file.startsWith("black") ? "#000" : w.file.startsWith("gray") ? "#808080" : w.file.startsWith("blue") ? "#1656ff" : "#00b140"};`}
+              aria-hidden="true"
+            ></div>
+            <h3 style="font-size:.9rem;margin:0 0 4px;">{w.label}</h3>
+            <p style="font-size:.78rem;color:var(--ink-dim);margin:0;">{w.width} × {w.height} px · {w.size} · PNG</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2>Which white wallpaper resolution do I need?</h2>
+      <ul>
+        <li><strong>1080p (1920×1080)</strong> — most laptops and 24"–27" monitors.</li>
+        <li><strong>1440p (2560×1440)</strong> — 27" QHD displays.</li>
+        <li><strong>4K (3840×2160)</strong> — 4K monitors, TVs, and any display you want extra-sharp.</li>
+        <li><strong>8K (7680×4320)</strong> — 8K TVs or for print-quality assets.</li>
+      </ul>
+    </section>
+
+    <details open>
+      <summary>Why use a plain white wallpaper?</summary>
+      <p>A solid white background keeps your desktop calm and legible, makes dark icons and widgets stand out, and looks clean in screenshots and screen-sharing calls. Many people also use white wallpapers as a uniform backlight for video calls or product photography.</p>
+    </details>
+    <details>
+      <summary>Do you want a specific color as a wallpaper?</summary>
+      <p>Yes — open the <a href="/white-background-editor/">white background editor</a> and pick any color, then download it as a lossless PNG at exactly the size you need. You can also go full screen with it instantly.</p>
+    </details>
+    <details>
+      <summary>Is the white wallpaper free to use commercially?</summary>
+      <p>Yes. These wallpapers are plain solid colors with no marks or branding — free to download and use for personal or commercial projects under our <a href="/terms-of-service/">Terms of Service</a>.</p>
+    </details>
+
+    <RelatedGuides colorSlug="white-screen" limit={3} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
+  </div>
+</BaseLayout>

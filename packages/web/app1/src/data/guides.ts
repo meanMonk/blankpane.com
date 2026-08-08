@@ -7,7 +7,7 @@ export interface Guide {
   slug: string;
   title: string;
   excerpt: string;
-  cluster: "monitor-testing" | "cleaning" | "lighting" | "focus" | "pranks";
+  cluster: "monitor-testing" | "cleaning" | "lighting" | "focus" | "pranks" | "design";
   intro: string;
   sections: GuideSection[];
   relatedColors: string[];
@@ -421,5 +421,55 @@ export const guides: Guide[] = [
     relatedTools: ["dead-pixel-test"],
     relatedGuides: ["how-to-check-for-dead-pixels", "how-to-set-up-a-green-screen-for-zoom"],
     keyword: "how to download a color screen as an image",
+  },
+  {
+    slug: "how-to-make-a-white-background",
+    title: "How to Make a White Background in Any Photo or Image",
+    excerpt: "The quickest ways to make a plain white background in a photo, product shot, or design — using our free online white background editor, plus the manual Photoshop and Canva methods.",
+    cluster: "design",
+    intro:
+      "A clean white background is the most requested look for product photos, passport shots, thumbnails, and e-commerce listings. You don't need a studio: a bright even light source plus a few clicks in the right tool will give you a pure, even white background in under a minute.",
+    sections: [
+      {
+        h2: "The fastest method: use a free white background editor",
+        paragraphs: [
+          "If you just need a solid white background to drop behind an image, a web page, or a video, you don't need to edit anything — generate it. Our white background editor fills your screen (or exports a PNG) with pure #FFFFFF at any size you choose: Full HD, 4K, square, or story.",
+          "Open the white background editor, pick your size, and download a lossless PNG. It renders entirely in your browser, so nothing is uploaded. This is the quickest way to get a perfect white background with zero software.",
+        ],
+      },
+      {
+        h2: "How to make a white background in Photoshop",
+        paragraphs: [
+          "Open your image and select the background. In Photoshop, use the Quick Selection tool to select the subject, then Ctrl/Cmd+Shift+I to invert the selection so the background is selected.",
+          "Fill the selected area with white: press Shift+F5, set Contents to White, and click OK. For a cleaner result on product shots, add a white Solid Color fill layer behind the subject instead.",
+          "Finally, use Select & Mask (or the Remove Background button in newer versions) to refine edges and avoid white halos around hair or fur.",
+        ],
+      },
+      {
+        h2: "How to make a white background in Canva",
+        paragraphs: [
+          "Canva's Background Remover does most of the work. Open your design, select the image, and click Edit Image → BG Remover. The app erases the background and lets you set a solid white canvas behind it.",
+          "If the subject has busy edges, use the Erase and Restore brushes to tidy up any leftover background. Then drag the subject onto a white background or set the page background color to white.",
+        ],
+      },
+      {
+        h2: "How to make a white background in GIMP (free)",
+        paragraphs: [
+          "In GIMP, open your image and select the background with the Fuzzy Select tool, then choose Select → Invert so the subject is selected instead.",
+          "Now press Delete to clear the background and add a new white layer behind the subject: Layer → New Layer, fill it with white, and drag it below the subject layer. Use Layer → Transparency → Add Alpha Channel first if Delete doesn't work.",
+        ],
+      },
+      {
+        h2: "Capture it right instead of editing it",
+        paragraphs: [
+          "The best 'white background' is the one you photograph. Place the subject on white paper, light it evenly from both sides so there are no shadows, and set exposure so the paper reads as pure white rather than gray.",
+          "If the background still looks slightly off-white, raise exposure slightly — the camera sensor records true white as just below clipping. Then you can skip most of the manual cleanup above.",
+        ],
+      },
+    ],
+    relatedColors: ["white-screen", "blank-screen"],
+    relatedTools: ["screen-flashlight"],
+    relatedGuides: ["how-to-download-a-color-screen-as-an-image", "how-to-use-a-white-screen-as-a-ring-light"],
+    keyword: "how to make a white background",
   },
 ];

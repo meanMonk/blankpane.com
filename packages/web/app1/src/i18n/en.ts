@@ -5,9 +5,9 @@ const en: UI = {
   brandA: "Blank",
   brandB: "Pane",
   eyebrow: "Free browser tool · no install",
-  heroTitle: "Turn your screen into a full-page white, black, or color screen — instantly.",
+  heroTitle: "White Screen, Black Screen & Color Screen Tool — instant full-page backgrounds",
   heroLede:
-    "Tap any swatch below and your entire screen fills edge-to-edge with that color. Preview it large, download it as a high-quality PNG at any size, or go full screen in one click. Use it for lighting, Zoom backgrounds, monitor testing, and dead-pixel checks.",
+    "Tap any swatch below and your entire screen fills edge-to-edge with that color — white screen, black screen, or any color background. Preview it large, download it as a high-quality PNG at any size, or go full screen in one click. Use it for lighting, Zoom backgrounds, plain white backgrounds, monitor testing, and dead-pixel checks.",
   customColor: "Custom color",
   goFullScreen: "Go Full Screen",
   downloadPng: "Download PNG",
@@ -37,7 +37,7 @@ const en: UI = {
   ],
   faqTitle: "Frequently asked questions",
   faqs: [
-    { q: "How do I make my screen fully white?", a: "Select the white tile, then press Go Full Screen. Your browser fills the entire screen edge-to-edge with pure white (#FFFFFF). Tap anywhere or press Escape to exit." },
+    { q: "How do I make my screen fully white?", a: "Select the white tile, then press Go Full Screen. Your browser fills the entire screen edge-to-edge with a pure white background (#FFFFFF). Tap anywhere or press Escape to exit." },
     { q: "Can I download a color as an image?", a: "Yes. Choose a color, pick a size preset or type a custom width and height in pixels, then press Download PNG. You'll get a lossless, high-quality PNG at exactly that size, rendered in your browser — nothing is uploaded." },
     { q: "Will this work on my phone?", a: "Yes — it works on any modern phone, tablet, or desktop browser. On iPhone Safari, allow full screen when prompted for the smoothest edge-to-edge result." },
     { q: "Does this drain my battery?", a: "A black full screen typically uses less power on OLED/AMOLED screens since those pixels turn off. White or bright colors use more power, similar to normal bright browsing." },

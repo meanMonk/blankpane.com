@@ -148,6 +148,9 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
           {lang === "en" && (
             <a href={`${localePrefix}/guides/`} class="nav-link">Guides</a>
           )}
+          {lang === "en" && (
+            <a href="/white-wallpaper/" class="nav-link">Wallpaper</a>
+          )}
           <a href={`${localePrefix}/colors/`} class="nav-link">{t.navColors}</a>
           <a href={`${localePrefix}/blog/`} class="nav-link">{t.navBlog}</a>
           <ThemeSwitcher ariaLabel={t.langLabel ?? "Theme"} />

@@ -92,6 +92,22 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
             ))}
           </div>
         </section>
+        {c?.slug === "white-screen" && (
+          <section style="border-top:1px solid var(--line);padding:28px 0;">
+            <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">White background tools</h2>
+            <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Need a white background for an image, a photo, or your desktop? Try these free tools.</p>
+            <div class="blog-grid">
+              <a class="blog-card" href="/white-background-editor/">
+                <h3 style="font-size:.9rem;">White Background Editor</h3>
+                <p style="font-size:.8rem;">Make a solid white background and download it as a lossless PNG at any size.</p>
+              </a>
+              <a class="blog-card" href="/white-wallpaper/">
+                <h3 style="font-size:.9rem;">White Wallpaper</h3>
+                <p style="font-size:.8rem;">Download free white wallpapers in 1080p, 1440p, 4K, and 8K.</p>
+              </a>
+            </div>
+          </section>
+        )}
         <RelatedTools slugs={relatedSlugs} />
         <RelatedGuides colorSlug={c.slug} />
         <ColorHub t={t} />

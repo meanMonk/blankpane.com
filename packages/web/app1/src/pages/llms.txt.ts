@@ -9,6 +9,8 @@ export async function GET() {
 - [Home](https://blankpane.com/): Pick a color, preview it, go full screen, or download as PNG at any resolution.
 - [Tools Hub](https://blankpane.com/tools/): All screen utilities grouped by cluster.
 - [Guides](https://blankpane.com/guides/): Step-by-step guides for monitor testing, cleaning, lighting, focus, and pranks.
+- [White Background Editor](https://blankpane.com/white-background-editor/): Make a solid white background, preview full screen, and download as PNG at any size.
+- [White Wallpaper](https://blankpane.com/white-wallpaper/): Download free white wallpapers in 1080p, 1440p, 4K, and 8K.
 
 ## Guides
 
@@ -31,6 +33,9 @@ export async function GET() {
 
 ### Pranks
 - [How to Prank with a Broken Screen](https://blankpane.com/guides/how-to-prank-someone-with-a-broken-screen/): Cracked screen, fake update, and no-signal pranks with a clean exit.
+
+### Design & Backgrounds
+- [How to Make a White Background](https://blankpane.com/guides/how-to-make-a-white-background/): Make a white background in any photo, product shot, or design — online, Photoshop, Canva, and GIMP.
 
 ## Screen Tools
 

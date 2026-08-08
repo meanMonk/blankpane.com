@@ -23,9 +23,21 @@ const faqAnswers = {
 
 const dict: Record<string, Partial<ColorPageText>> = {
   en: {
-    title: (n) => `${n} — BlankPane`,
+    title: (n) => (n === "White Screen"
+      ? "White Screen — Free Fullscreen White Background Tool"
+      : n === "Black Screen"
+        ? "Black Screen — Free Fullscreen Black Background"
+        : `${n} — BlankPane`),
     h1: (n) => n,
-    intro: (n, hex, intent) => `Open a full-page ${n.toLowerCase()} instantly in your browser. This free tool fills your entire screen with pure ${hex} in one tap — perfect for ${intent}. No download, no install, works on any device.`,
+    intro: (n, hex, intent) => {
+      if (n === "White Screen") {
+        return `Open a full-screen white background instantly in your browser. This free white screen tool fills your entire display with pure #FFFFFF in one tap — perfect for lighting, plain white backgrounds, product photos, Zoom calls, and monitor testing. No download, no install, works on any device.`;
+      }
+      if (n === "Black Screen") {
+        return `Open a full-screen black background instantly in your browser. This free black screen tool fills your entire display with pure #000000 in one tap — perfect for saving battery on OLED, dark plain backgrounds, focus, screensavers, and monitor testing. No download, no install, works on any device.`;
+      }
+      return `Open a full-page ${n.toLowerCase()} instantly in your browser. This free tool fills your entire screen with pure ${hex} in one tap — perfect for ${intent}. No download, no install, works on any device.`;
+    },
     whyTitle: "Why people use this",
     uses: [
       { title: (n) => `Fill the screen with ${n.toLowerCase()}`, body: (n, hex) => `Display pure ${hex} edge-to-edge on any monitor, laptop, phone, or tablet. Tap any tile to preview, then go full screen with one click.` },

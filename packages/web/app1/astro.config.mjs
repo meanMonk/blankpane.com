@@ -15,6 +15,9 @@ export default defineConfig({
         if (item.url === "https://blankpane.com/") {
           priority = 1.0;
           changefreq = "weekly";
+        } else if (/white-wallpaper|white-background-editor/.test(item.url)) {
+          priority = 0.9;
+          changefreq = "weekly";
         } else if (item.url.includes("/tools/")) {
           priority = 0.8;
           changefreq = "weekly";

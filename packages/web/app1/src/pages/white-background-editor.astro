@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorTool from "../components/ColorTool.astro";
+import ColorHub from "../components/ColorHub.astro";
+import ToolCards from "../components/ToolCards.astro";
+import RelatedGuides from "../components/RelatedGuides.astro";
+import { getUI } from "../i18n";
+import colors from "../data/colors.json";
+import { guides } from "../data/guides";
+
+const t = getUI("en");
+const site = "https://blankpane.com";
+const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light, slug: c.slug }));
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "White Background Editor",
+  applicationCategory: "GraphicsApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description: "Free online white background editor — make a solid white background, pick any color, preview it full screen, and download a lossless PNG at any size. No upload, no sign-up.",
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "How do I make a white background for an image?", acceptedAnswer: { "@type": "Answer", text: "Use this white background editor: pick white (or any color), choose a size preset or type a custom width and height, then press Download PNG. You get a lossless, pure-white background image rendered in your browser — nothing is uploaded." } },
+    { "@type": "Question", name: "Can I make a white background transparent or replace one?", acceptedAnswer: { "@type": "Answer", text: "This tool creates a solid white background. To replace an existing photo background with white, use the free BG Remover in Canva or the Remove Background tool in Photoshop, then set a white background behind your subject." } },
+    { "@type": "Question", name: "Is the white background editor free?", acceptedAnswer: { "@type": "Answer", text: "Yes, it is 100% free and works entirely in your browser. No account, no sign-up, no watermark, and no images are uploaded or stored." } },
+    { "@type": "Question", name: "What sizes can I download a white background in?", acceptedAnswer: { "@type": "Answer", text: "Full HD (1920×1080), 4K UHD (3840×2160), square (1080×1080), story (1080×1920), A4 print at 300dpi, or any custom pixel width and height up to 8000px." } },
+  ],
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "White Background Editor", item: `${site}/white-background-editor/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  localized={false}
+  title="White Background Editor — Make a Solid White Background Online"
+  description="Free white background editor: pick a color, preview it full screen, and download a pure-white background as a lossless PNG at any size. No upload, no sign-up."
+  canonical={`${site}/white-background-editor/`}
+  jsonLd={[webAppLd, faqLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:720px;">
+    <p class="back"><a href="/">← fullscreen</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <ColorTool
+        t={t}
+        tiles={tiles}
+        initialHex="#ffffff"
+        initialName="White Background"
+        initialLight={true}
+        initialSlug="white-screen"
+      />
+    </div>
+
+    <h1>White Background Editor</h1>
+    <p class="lede">
+      Need a clean white background for a product photo, YouTube thumbnail, social post, or video call — without
+      opening heavy design software? This free white background editor fills your screen with pure white (#FFFFFF)
+      in one tap, lets you preview it large, and downloads it as a lossless PNG at any size you need. Choose Full HD,
+      4K, square, story, A4 print, or type a custom pixel size. Everything renders in your browser, so nothing is
+      uploaded and nothing is stored. Make a white background for any use case in under a minute, completely free.
+    </p>
+
+    <section>
+      <h2>How to make a white background</h2>
+      <ol>
+        <li>Select the <strong>white tile</strong> (or pick any color with the custom picker).</li>
+        <li>Choose a <strong>size preset</strong> — Full HD, 4K, square, story, or A4 — or type a custom width and height.</li>
+        <li>Press <strong>Download PNG</strong> for a lossless image, or <strong>Go Full Screen</strong> to use the white background immediately on your display.</li>
+      </ol>
+    </section>
+
+    <details open>
+      <summary>What can I use a white background for?</summary>
+      <p>Product photos and e-commerce listings, passport and ID photos, YouTube thumbnails, video-call backdrops, design mockups, and lighting — a plain white background keeps the focus on your subject and reads as clean and professional.</p>
+    </details>
+    <details>
+      <summary>Do you upload my images?</summary>
+      <p>No. The white background is rendered directly in your browser. Nothing you do here is uploaded, stored, or shared — it works offline once the page is loaded.</p>
+    </details>
+    <details>
+      <summary>How do I remove an existing background and make it white?</summary>
+      <p>For an existing photo, use the Background Remover in Canva (Edit Image → BG Remover) or Photoshop (Remove Background), then set white behind your subject. This editor is the fastest way when you need a ready-made solid white background itself.</p>
+    </details>
+
+    <RelatedGuides colorSlug="white-screen" limit={3} />
+    <ColorHub t={t} />
+    <ToolCards title="More Screen Tools" limit={6} />
+  </div>
+</BaseLayout>
