@@ -1,0 +1,17 @@
+{
+  "name": "youtube-uploader",
+  "version": "1.0.0",
+  "description": "Bulk-upload local videos to YouTube using metadata (title/description/tags) from matching markdown files.",
+  "type": "module",
+  "scripts": {
+    "auth": "node get-token.js",
+    "upload": "node upload.js",
+    "upload:all": "node upload.js all"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "googleapis": "^140.0.1",
+    "gray-matter": "^4.0.3",
+    "open": "^10.1.0"
+  }
+}
