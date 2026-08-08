@@ -267,10 +267,36 @@ function moveToDone(pair) {
   }
 }
 
+/** Move one video+md pair back from uploaded/ so it can be re-uploaded. */
+function restoreFromDone(base) {
+  if (!fs.existsSync(DONE_DIR)) return;
+  let moved = false;
+  for (const ext of [...VIDEO_EXTENSIONS, '.md']) {
+    const src = path.join(DONE_DIR, base + ext);
+    if (fs.existsSync(src)) {
+      fs.renameSync(src, path.join(VIDEOS_DIR, base + ext));
+      moved = true;
+    }
+  }
+  if (moved) console.log(`↩ Restored "${base}" from uploaded/ for re-upload.`);
+}
+
 async function main() {
   if (!fs.existsSync(VIDEOS_DIR)) {
     console.error(`✖ VIDEOS_DIR "${VIDEOS_DIR}" does not exist.`);
     process.exit(1);
+  }
+
+  const args = process.argv.slice(2);
+  const retry = args.includes('--retry');
+  const selArgs = args.filter((a) => !a.startsWith('--'));
+
+  if (retry) {
+    // Resolve selection against the canonical list so numbers/ranges/slugs
+    // all restore the right pairs from uploaded/, even ones not yet present.
+    const fullPairs = SLUG_ORDER.map((base) => ({ base }));
+    const selected = parseSelection(fullPairs, selArgs);
+    for (const p of selected) restoreFromDone(p.base);
   }
 
   const pairs = findPairs();
@@ -279,7 +305,7 @@ async function main() {
     return;
   }
 
-  const selected = parseSelection(pairs, process.argv.slice(2));
+  const selected = parseSelection(pairs, selArgs);
   console.log(`Found ${selected.length} video(s) to upload.`);
   const youtube = getYoutubeClient();
 

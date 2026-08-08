@@ -108,6 +108,18 @@ You'll see per-file upload progress, the final `youtu.be/...` link for each
 video, and a full record written to `upload-log.json`. Successfully uploaded
 pairs are moved into `videos/uploaded/`.
 
+### Re-uploading (--retry)
+
+If YouTube abandons processing (e.g. "video is too long" — your account must
+be **phone-verified** to allow >15 min uploads, up to 12 h), pull failed pairs
+back from `videos/uploaded/` and re-upload:
+
+```bash
+npm run upload:retry                # re-upload everything in uploaded/
+npm run upload -- --retry 1         # or selective: npm run upload -- --retry 1
+npm run upload -- --retry green-screen,blue-screen
+```
+
 ### This repo ships with ready-made metadata
 
 The `videos/` folder already contains the 12 color-screen MP4s **and** a

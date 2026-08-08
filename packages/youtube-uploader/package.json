@@ -6,7 +6,8 @@
   "scripts": {
     "auth": "node get-token.js",
     "upload": "node upload.js",
-    "upload:all": "node upload.js all"
+    "upload:all": "node upload.js all",
+    "upload:retry": "node upload.js --retry"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
