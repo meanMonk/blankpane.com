@@ -12,6 +12,8 @@
     "build": "pnpm -r --if-present build",
     "typecheck": "pnpm -r --if-present typecheck",
     "deploy": "bash scripts/deploy.sh",
+    "functions:dev": "pnpm --filter app1 functions:dev",
+    "functions:test": "pnpm --filter app1 functions:test",
     "screens:gen": "node scripts/generate-wallpapers.mjs",
     "videos:gen": "node scripts/generate-color-videos.mjs",
     "seo:local": "node scripts/seo-audit.mjs --mode local --out seo-report-local.json",

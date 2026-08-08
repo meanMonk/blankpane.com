@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview --port 3000",
     "typecheck": "astro check",
-    "indexnow": "node scripts/indexnow.js"
+    "indexnow": "node scripts/indexnow.js",
+    "functions:dev": "astro build && wrangler pages dev dist --compatibility-date=2026-06-10",
+    "functions:test": "curl -s -X POST http://localhost:8788/api/feedback -H 'Content-Type: application/json' -d '{\"rating\":5,\"comment\":\"local test\",\"email\":\"a@b.c\",\"page\":\"/white-screen/\"}'"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.2.1",

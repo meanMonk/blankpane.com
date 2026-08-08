@@ -44,8 +44,8 @@ export async function onRequestPost(context: {
       : `Rating: ${rating}/5\nPage: ${page}`;
 
     const payload = {
-      name: "",
-      phone: "",
+      name: email,
+      phone: "9100000000",
       email,
       service: "BlankPane feedback",
       city: "",
