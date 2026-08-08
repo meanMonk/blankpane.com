@@ -3,11 +3,5 @@
 # ad network you run. If a network sells ads without being listed here, your
 # revenue from that inventory drops to $0.
 #
-# TODO: after AdSense approval, replace the placeholder pub ID below with your
-# real publisher ID (Settings > Account information > Publisher ID).
-# Format:  google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
-#
-# Example once approved:
-# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
-#
 # Add a line per additional network you partner with (Ezoic, Snigel, Adsterra…).
+google.com, pub-2238719351022187, DIRECT, f08c47fec0942fa0

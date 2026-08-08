@@ -20,7 +20,12 @@ for app_dir in packages/web/*/; do
   [ -d "$app_dir/dist" ] || continue
   echo ""
   echo "==> deploying $app_dir -> Cloudflare Pages ($PROJECT_NAME)"
-  npx wrangler pages deploy "$app_dir/dist" --project-name="$PROJECT_NAME" --commit-dirty=true
+  if [ "$app_dir" = "packages/web/app1/" ]; then
+    # wrangler only resolves a `functions/` dir relative to CWD, so cd in for app1
+    (cd "$app_dir" && npx wrangler pages deploy dist --project-name="$PROJECT_NAME" --commit-dirty=true)
+  else
+    npx wrangler pages deploy "$app_dir/dist" --project-name="$PROJECT_NAME" --commit-dirty=true
+  fi
 done
 
 echo ""
