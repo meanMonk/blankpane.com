@@ -2,7 +2,7 @@
 
 const DOMAIN = 'https://blankpane.com';
 const KEY = 'a91affecc5787056653d5803573857d1';
-const SITEMAP_URL = `${DOMAIN}/sitemap-index.xml`;
+const SITEMAP_URL = `${DOMAIN}/sitemap-0.xml`;
 
 async function fetchSitemapUrls() {
   const res = await fetch(SITEMAP_URL);
