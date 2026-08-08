@@ -1,12 +1,13 @@
 // Cloudflare Pages Function: POST /api/feedback
-// Receives the FeedbackModal payload, validates it, then forwards to a webhook
-// (e.g. a Discord/Telegram/ntfy channel or a form backend) if FEEDBACK_WEBHOOK_URL
-// is configured. Without a webhook it still returns success so the site works
-// out of the box; set the env var in Cloudflare Pages → Settings → Variables.
+// Receives the FeedbackModal payload, validates it, then forwards to the generic
+// VaayaLabs leads API (schema is fixed — do not change the params).
 //
-// Env vars (optional):
-//   FEEDBACK_WEBHOOK_URL   — URL to POST the JSON payload to (Discord/Telegram/ntfy/…)
-//   FEEDBACK_WEBHOOK_TOKEN — optional secret, sent as Authorization: Bearer <token>
+// Env vars (Cloudflare Pages → Settings → Variables):
+//   LEADS_API_URL  — leads endpoint (default: https://admin.vaayulabs.com/api/leads)
+//   LEADS_API_KEY  — secret token, sent as the `x-api-key` header
+//
+// Local dev: create `.dev.vars` next to this file with the same two keys, then
+// run `npx wrangler pages dev dist` (see .dev.vars.example).
 export async function onRequestPost(context: {
   request: Request;
   env: Record<string, string | undefined>;
@@ -25,33 +26,56 @@ export async function onRequestPost(context: {
       });
     }
 
-    const webhook = context.env?.FEEDBACK_WEBHOOK_URL;
-    const token = context.env?.FEEDBACK_WEBHOOK_TOKEN;
+    const apiUrl = context.env?.LEADS_API_URL || "https://admin.vaayulabs.com/api/leads";
+    const apiKey = context.env?.LEADS_API_KEY || "";
+
+    if (!apiKey) {
+      console.error("feedback: LEADS_API_KEY not configured — not forwarding");
+      return new Response(JSON.stringify({ ok: false, error: "not_configured" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Map the modal payload onto the fixed leads schema. `meta` carries the
+    // extras so we don't need to touch the top-level params.
+    const message = comment
+      ? `Rating: ${rating}/5\nPage: ${page}\n\n${comment}`
+      : `Rating: ${rating}/5\nPage: ${page}`;
+
     const payload = {
-      ts: new Date().toISOString(),
-      rating,
-      comment,
+      name: "",
+      phone: "",
       email,
-      page,
-      ua: context.request.headers.get("user-agent") || "",
-      ip: context.request.headers.get("cf-connecting-ip") || "",
+      service: "BlankPane feedback",
+      city: "",
+      message,
+      source: "blankpane.com" + page,
+      meta: {
+        rating,
+        comment,
+        page,
+        ua: context.request.headers.get("user-agent") || "",
+        ip: context.request.headers.get("cf-connecting-ip") || "",
+        ts: new Date().toISOString(),
+      },
     };
 
-    if (webhook) {
-      try {
-        await fetch(webhook, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify(payload),
-        });
-      } catch (err) {
-        console.error("feedback webhook failed", err);
-      }
-    } else {
-      console.log("feedback (no webhook configured):", JSON.stringify(payload));
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      console.error("leads API error", res.status, await res.text().catch(() => ""));
+      return new Response(JSON.stringify({ ok: false, error: "lead_api_error" }), {
+        status: 502,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     return new Response(JSON.stringify({ ok: true }), {
@@ -59,6 +83,7 @@ export async function onRequestPost(context: {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
+    console.error("feedback bad request", err);
     return new Response(JSON.stringify({ ok: false, error: "bad_request" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },

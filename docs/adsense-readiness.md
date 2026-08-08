@@ -75,6 +75,20 @@ original guide/blog/FAQ text, wait 30 days, re-apply. Our content stack makes th
 
 ## 4. Other ad providers (backups / once you have traffic)
 
+| Provider | Min traffic | Best for | Approval | RPM uplift vs AdSense | Notes |
+|---|---|---|---|---|---|
+| **Google AdSense** | none | Baseline display + Auto Ads | Medium (content review) | baseline | Start here |
+| **Ezoic** | ~10K/mo | Header bidding, AI placement | Medium | +20–50% | Premium broker, biggest uplift |
+| **Snigel** | ~50K/mo (managed) | Managed ad strategy | Managed | +20–50% | Handles setup so ads don't break the tool |
+| **MonetizeMore** | ~10K/mo | Global scaling, header bidding | Medium | +20–50% | Good international RPM |
+| **Playwire** | ~50K–100K/mo | Enterprise, gaming/utility | Managed | +20–50% | Top-tier CPM, stricter entry |
+| **Adsterra** | low | Popunders/interstitials/push | Easy | varies (often high RPM on clicks) | Easy approval; watch for intrusive formats |
+| **PropellerAds** | low | Push + interstitials | Easy | varies | Easy; guard against redirect ads |
+| **Infolinks** | low | Text-link ads on FAQ/guide copy | Easy | small | Complements AdSense, doesn't need big traffic |
+| **Mediavine/Raptive** | 10K–50K sessions | Premium display | Medium-High | high | Needs real traffic; worth it later |
+| **Affiliate / BuyMeACoffee** | any | Desktop SaaS links, donations | n/a | — | Add once you have an audience |
+
+
 ### 4.1 How competitors monetize — the "mass provider" model (from their ads.txt)
 
 Competitors' `ads.txt` files are the tell: a top-tier site's file starts with `MANAGERDOMAIN=setupad.com` followed by
@@ -145,8 +159,9 @@ Keep `ads.txt` in sync at every step (each network you add must be listed there,
   feedback is never lost. Also tracks `feedback_open` / `feedback_rating` / `feedback_submit` in GA4.
 - `src/components/CookieBanner.astro` — EU/UK consent banner (accept/decline persisted in localStorage).
 - `packages/web/app1/functions/api/feedback.ts` — Cloudflare Pages Function `POST /api/feedback`.
-  Validates, forwards to `FEEDBACK_WEBHOOK_URL` if set (Discord/Telegram/ntfy/form backend), else logs.
-  **To receive feedback reliably, set `FEEDBACK_WEBHOOK_URL`** in Cloudflare Pages → Settings → Variables.
+  Validates the modal payload and forwards it to the VaayaLabs leads API (fixed schema) using
+  `LEADS_API_URL` (default `https://admin.vaayulab.com/api/leads`) + `LEADS_API_KEY` (sent as `x-api-key`).
+  **To receive feedback, set both env vars** in Cloudflare Pages → Settings → Variables (see `.dev.vars.example`).
 - Legal pages strengthened: GDPR/CCPA rights, log files, children under 13, effective dates, feedback section on `/contact/`.
 
 ---
@@ -156,7 +171,7 @@ Keep `ads.txt` in sync at every step (each network you add must be listed there,
 - [ ] Replace `pub-XXXXXXXXXXXXXXXX` in `public/ads.txt` with the real AdSense Publisher ID after approval.
 - [ ] Add the AdSense script + enable Auto Ads (Min load) after approval.
 - [ ] Verify site ownership in Search Console (google-site-verification).
-- [ ] Set `FEEDBACK_WEBHOOK_URL` (+ optional token) in Cloudflare Pages so feedback emails/channels arrive.
+- [ ] Set `LEADS_API_URL` + `LEADS_API_KEY` in Cloudflare Pages → Settings → Variables so feedback reaches the VaayaLabs leads API. For local dev: `cp packages/web/app1/.dev.vars.example packages/web/app1/.dev.vars` and fill the real token.
 - [ ] **At ~10K visits/mo:** apply to a mass provider (Ezoic or Setupad) for header bidding; replace `ads.txt` with their pre-made file (keep it in sync + keep the Google line).
 - [ ] **At ~50K visits/mo:** re-evaluate Mediavine / Raptive for higher CPM.
 - [ ] Re-check `ads.txt` each time a network is added (missing line = $0 from that network).

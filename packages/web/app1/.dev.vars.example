@@ -1,0 +1,15 @@
+# Copy this file to `.dev.vars` for local development (wrangler pages dev).
+# `.dev.vars` is gitignored and holds the real secrets — never commit it.
+#
+# Usage:
+#   1. cp packages/web/app1/.dev.vars.example packages/web/app1/.dev.vars
+#   2. Fill in your real token below.
+#   3. From packages/web/app1:  npx wrangler pages dev dist
+#   4. Test:  curl -s http://localhost:8788/api/feedback \
+#        -X POST -H 'Content-Type: application/json' \
+#        -d '{"rating":5,"comment":"hello from local","email":"a@b.c","page":"/white-screen/"}'
+#
+# These same two keys go into Cloudflare Pages → Settings → Environment variables.
+
+LEADS_API_URL=https://admin.vaayulabs.com/api/leads
+LEADS_API_KEY=YOUR_SECRET_TOKEN
