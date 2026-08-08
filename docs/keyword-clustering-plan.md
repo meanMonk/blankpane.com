@@ -1,6 +1,6 @@
 # BlankPane Keyword Clustering & On-Page Deployment Plan
 
-> Source data: `docs/blank_screen.csv` (582 kw) + `docs/blank_screen_1.csv` (2151 kw) — Google Keyword Planner exports.
+> Source data: `docs/archive/blank_screen.csv` (582 kw) + `docs/archive/blank_screen_1.csv` (2151 kw) — Google Keyword Planner exports.
 > Analysis date: 2026-08-08 · Target: better rankings across color / tool / guide / blog pages.
 
 ---

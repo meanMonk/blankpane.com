@@ -26,4 +26,4 @@
 
 - SEO action plan (live): [`../seo-review-and-action-plan.md`](../seo-review-and-action-plan.md)
 - Keyword clustering plan (live): [`../keyword-clustering-plan.md`](../keyword-clustering-plan.md)
-- Keyword data: [`../blank_screen.csv`](../blank_screen.csv), [`../blank_screen_1.csv`](../blank_screen_1.csv)
+- Keyword data (archived with the research): [`blank_screen.csv`](blank_screen.csv), [`blank_screen_1.csv`](blank_screen_1.csv) — used by [`../keyword-clustering-plan.md`](../keyword-clustering-plan.md)
