@@ -1,0 +1,69 @@
+---
+// CookieBanner — lightweight EU/UK consent banner (GDPR/CCPA readiness).
+// The core tool sets no cookies. A choice is persisted in localStorage so the
+// banner shows once; accepting simply marks consent (the tool already runs
+// entirely in-browser). Links to Cookie Policy / Privacy Policy.
+const STORAGE_KEY = "blankpane-cookie-consent";
+---
+
+<div class="cookie-banner" data-cookie-banner hidden>
+  <div class="cookie-banner-inner">
+    <p class="cookie-text">
+      We use cookies to understand how BlankPane is used and to show relevant ads.
+      The tool itself runs entirely in your browser and never stores your colors or files.
+      See our <a href="/cookie-policy/">Cookie Policy</a> and
+      <a href="/privacy-policy/">Privacy Policy</a>.
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="btn cookie-accept" data-cookie-accept>Accept</button>
+      <button type="button" class="btn btn-outline cookie-decline" data-cookie-decline>Decline</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    z-index: 960;
+    width: min(92vw, 560px);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner-inner {
+    background: var(--glass-strong);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .cookie-text { margin: 0 0 12px; font-size: 0.85rem; color: var(--ink); line-height: 1.55; }
+  .cookie-text a { color: var(--accent); }
+  .cookie-actions { display: flex; gap: 10px; }
+  .cookie-actions .btn { font-size: 0.85rem; padding: 8px 16px; }
+  @media (max-width: 480px) {
+    .cookie-actions { flex-direction: column; }
+    .cookie-actions .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  const banner = document.querySelector("[data-cookie-banner]");
+  const KEY = "blankpane-cookie-consent";
+  const show = () => {
+    try { return !localStorage.getItem(KEY); } catch (e) { return true; }
+  };
+  const decide = (choice) => {
+    try { localStorage.setItem(KEY, choice); } catch (e) {}
+    banner.hidden = true;
+    window.track && window.track("cookie_consent", { event_category: "compliance", event_label: choice });
+  };
+
+  if (show()) banner.hidden = false;
+  banner.querySelector("[data-cookie-accept]").addEventListener("click", () => decide("accepted"));
+  banner.querySelector("[data-cookie-decline]").addEventListener("click", () => decide("declined"));
+</script>

@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+import FeedbackModal from "../components/FeedbackModal.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 import { getUI, locales, type UI } from "../i18n";
 
 interface Props {
@@ -201,6 +203,9 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
       <button type="button" id="oled-toggle" aria-pressed="false">Off</button>
       <span id="oled-timer">00:00</span>
     </div>
+
+    <FeedbackModal />
+    <CookieBanner />
 
     <script>
       // @ts-nocheck

@@ -1,0 +1,290 @@
+---
+// FeedbackModal — floating "Feedback" button + modal with rating, comment, and contact.
+// On submit: POSTs to /api/feedback (Cloudflare Pages Function). If that request
+// fails (offline, localhost dev, function not deployed), falls back to opening the
+// user's email client with a prefilled message so feedback is never lost.
+// Views: form → submitting → success | error (with mailto fallback + link to /contact/).
+const feedbackMailto = "hello@blankpane.com";
+const feedbackSubject = "BlankPane feedback";
+---
+
+<div class="feedback-root" data-feedback-root>
+  <button type="button" class="btn feedback-trigger" data-feedback-open aria-haspopup="dialog">
+    ★ Feedback
+  </button>
+
+  <div class="feedback-backdrop" data-feedback-backdrop hidden></div>
+
+  <div class="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title" hidden>
+    <button type="button" class="feedback-close" data-feedback-close aria-label="Close">✕</button>
+
+    <!-- view: form -->
+    <form class="feedback-view" data-feedback-view="form" novalidate>
+      <h3 id="feedback-title">Help us improve BlankPane</h3>
+      <p class="feedback-lede">Your feedback helps us get better. Share your thoughts, ideas, or anything — it takes 10 seconds.</p>
+
+      <div class="feedback-field">
+        <label for="feedback-rating">How would you rate it?</label>
+        <div class="feedback-stars" data-feedback-stars>
+          <span class="stars-legend">1 star</span>
+          <span class="stars-legend">5 stars</span>
+        </div>
+        <div class="feedback-stars" role="radiogroup" aria-label="Rating" data-feedback-rating>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button type="button" data-value={n} aria-label={`${n} star${n === 1 ? "" : "s"}`}>★</button>
+          ))}
+        </div>
+        <span class="stars-hint" data-feedback-rating-hint>Tap a star to rate</span>
+      </div>
+
+      <div class="feedback-field">
+        <label for="feedback-comment">Comments, feedback, or ideas</label>
+        <textarea id="feedback-comment" name="comment" rows="4" placeholder="Tell us what you think — what works, what's missing, what you'd love to see…" required></textarea>
+      </div>
+
+      <div class="feedback-field">
+        <label for="feedback-email">Email (optional — only if you'd like a reply)</label>
+        <input id="feedback-email" name="email" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="feedback-actions">
+        <button type="submit" class="btn feedback-submit" data-feedback-submit>Send feedback</button>
+      </div>
+      <p class="feedback-policy">We never share your details. See our
+        <a href="/privacy-policy/">Privacy Policy</a>.</p>
+    </form>
+
+    <!-- view: submitting -->
+    <div class="feedback-view" data-feedback-view="submitting" hidden>
+      <div class="feedback-spinner" aria-hidden="true"></div>
+      <h3>Just a moment…</h3>
+    </div>
+
+    <!-- view: success -->
+    <div class="feedback-view" data-feedback-view="success" hidden>
+      <div class="feedback-emoji" aria-hidden="true">✓</div>
+      <h3>Thanks — that helps a lot!</h3>
+      <p>Your feedback has been received. We read every single message.</p>
+      <div class="feedback-actions">
+        <button type="button" class="btn feedback-done" data-feedback-close>Close</button>
+      </div>
+    </div>
+
+    <!-- view: error -->
+    <div class="feedback-view" data-feedback-view="error" hidden>
+      <div class="feedback-emoji" aria-hidden="true">!</div>
+      <h3>Something went wrong</h3>
+      <p>We couldn't submit that just now. No worries — you can email us directly:</p>
+      <div class="feedback-actions">
+        <a class="btn feedback-mailto" href={`mailto:${feedbackMailto}?subject=${encodeURIComponent(feedbackSubject)}`} data-feedback-mailto data-mailto={feedbackMailto}>Email {feedbackMailto}</a>
+        <a class="btn btn-outline" href="/contact/">Contact page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .feedback-trigger {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 900;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.5);
+  }
+  .feedback-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 940;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .feedback-modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 950;
+    width: min(92vw, 420px);
+    max-height: 86vh;
+    overflow: auto;
+    background: var(--bg-raised);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  }
+  .feedback-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .feedback-close:hover { color: var(--ink); }
+  .feedback-view h3 { margin: 0 0 6px; font-size: 1.15rem; }
+  .feedback-lede { color: var(--ink-dim); font-size: 0.85rem; margin: 0 0 16px; }
+  .feedback-field { margin-bottom: 14px; }
+  .feedback-field label { display: block; font-size: 0.8rem; color: var(--ink-dim); margin-bottom: 6px; }
+  .feedback-stars { display: flex; gap: 4px; }
+  .feedback-stars[data-feedback-rating] { margin-bottom: 2px; }
+  .feedback-stars button {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--line);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.1s;
+  }
+  .feedback-stars button.sel { color: #ffc53d; }
+  .feedback-stars .stars-legend { font-size: 0.7rem; color: var(--ink-dim); }
+  .feedback-stars .stars-legend:first-child { margin-right: auto; }
+  .stars-hint { font-size: 0.7rem; color: var(--ink-dim); }
+  .feedback-field textarea,
+  .feedback-field input {
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+  .feedback-field textarea:focus,
+  .feedback-field input:focus { outline: none; border-color: var(--accent); }
+  .feedback-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .feedback-policy { font-size: 0.72rem; color: var(--ink-dim); margin: 12px 0 0; }
+  .feedback-emoji {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    margin: 6px auto 14px;
+  }
+  .feedback-spinner {
+    width: 34px;
+    height: 34px;
+    margin: 10px auto 14px;
+    border: 3px solid var(--line);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: feedback-spin 0.8s linear infinite;
+  }
+  @keyframes feedback-spin { to { transform: rotate(360deg); } }
+  .feedback-view[hidden] { display: none; }
+  .feedback-view { text-align: center; }
+  .feedback-view[data-feedback-view="form"] { text-align: left; }
+
+  @media (max-width: 600px) {
+    .feedback-trigger { right: 14px; bottom: 14px; padding: 10px 16px; font-size: 0.85rem; }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  const root = document.querySelector("[data-feedback-root]");
+  const openBtn = root.querySelector("[data-feedback-open]");
+  const closeBtn = root.querySelectorAll("[data-feedback-close]");
+  const backdrop = root.querySelector("[data-feedback-backdrop]");
+  const modal = root.querySelector(".feedback-modal");
+  const form = root.querySelector('[data-feedback-view="form"]');
+  const views = { form, submitting: root.querySelector('[data-feedback-view="submitting"]'), success: root.querySelector('[data-feedback-view="success"]'), error: root.querySelector('[data-feedback-view="error"]') };
+  const starsWrap = root.querySelector("[data-feedback-rating]");
+  const ratingHint = root.querySelector("[data-feedback-rating-hint]");
+  const submitBtn = root.querySelector("[data-feedback-submit]");
+  const commentEl = form.querySelector("#feedback-comment");
+  const emailEl = form.querySelector("#feedback-email");
+  let rating = 0;
+
+  function showView(name) {
+    Object.entries(views).forEach(([k, el]) => { el.hidden = k !== name; });
+  }
+
+  function open() {
+    backdrop.hidden = false;
+    modal.hidden = false;
+    showView("form");
+    rating = 0;
+    renderStars();
+    openBtn.setAttribute("aria-expanded", "true");
+    window.track && window.track("feedback_open", { event_category: "engagement" });
+  }
+
+  function close() {
+    backdrop.hidden = true;
+    modal.hidden = true;
+    openBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function renderStars() {
+    starsWrap.querySelectorAll("button").forEach((b) => b.classList.toggle("sel", Number(b.dataset.value) <= rating));
+  }
+
+  openBtn.addEventListener("click", open);
+  closeBtn.forEach((b) => b.addEventListener("click", close));
+  backdrop.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) close(); });
+
+  starsWrap.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-value]");
+    if (!btn) return;
+    rating = Number(btn.dataset.value);
+    renderStars();
+    ratingHint.textContent = rating + " / 5";
+    window.track && window.track("feedback_rating", { event_category: "engagement", value: rating });
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const comment = (commentEl.value || "").trim();
+    if (!comment) {
+      commentEl.focus();
+      commentEl.style.borderColor = "#e5484d";
+      return;
+    }
+    commentEl.style.borderColor = "";
+    submitBtn.disabled = true;
+    showView("submitting");
+
+    const payload = { rating, comment, email: (emailEl.value || "").trim(), page: window.location.pathname };
+
+    let ok = false;
+    try {
+      const res = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      ok = res.ok;
+    } catch (err) {
+      ok = false;
+    }
+
+    if (ok) {
+      showView("success");
+      window.track && window.track("feedback_submit", { event_category: "engagement", value: rating });
+    } else {
+      // Prefill the mailto fallback with what the user wrote so nothing is lost.
+      const body = encodeURIComponent(`Rating: ${rating}/5\nPage: ${window.location.pathname}\nEmail: ${emailEl.value || "(none)"}\n\n${comment}`);
+      const a = root.querySelector("[data-feedback-mailto]");
+      a.href = `mailto:${a.dataset.mailto}?subject=${encodeURIComponent("BlankPane feedback")}&body=${body}`;
+      showView("error");
+      window.track && window.track("feedback_error", { event_category: "engagement" });
+    }
+    submitBtn.disabled = false;
+  });
+</script>

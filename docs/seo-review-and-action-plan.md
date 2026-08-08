@@ -211,17 +211,21 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 
 ## 5. AdSense / monetization digest
 
-> Full research: `docs/archive/adsense-setup.md`. Utility sites like ours get rejected for **thin content** — the
-> text/use-case/FAQ/guide blocks we've been adding exist to clear that bar, not just for SEO.
+> Full research: `docs/archive/adsense-setup.md`. Step-by-step approval + provider playbook:
+> **`docs/adsense-readiness.md`** (read this before applying). Utility sites like ours get rejected for
+> **thin content** — the text/use-case/FAQ/guide blocks we've been adding exist to clear that bar, not just for SEO.
 
 ### Readiness checklist (before applying)
-- ✅ Legal/trust pages live: Privacy, Terms, Cookie, Disclaimer, About, Contact (done).
-- ✅ Enough original text per page (intro + FAQ + use-cases) — keep expanding, this is the approval gate.
+- ✅ Legal/trust pages live: Privacy, Terms, Cookie, Disclaimer, About, Contact (done; strengthened 2026-08-08 with GDPR/CCPA rights, log files, children <13, effective dates).
+- ✅ Enough original text per page (intro + FAQ + use-cases + 10 guides + blog) — this is the approval gate.
 - ✅ Mobile + fast + HTTPS (Cloudflare) + no render-blocking JS.
 - ✅ Ads must **never overlap or sit near the fullscreen/PNG-download trigger buttons** (policy violation + kills UX).
-- ☐ Cookie consent banner for EU/UK traffic (add when targeting those markets).
-- ☐ `ads.txt` present and updated **for every network** you run (missing entries = revenue drops to $0).
-- ☐ Build steady organic traffic first — AdSense approval is easier with real search traffic + content.
+- ✅ **Cookie consent banner** for EU/UK traffic — `CookieBanner.astro` (accept/decline, persisted).
+- ✅ **Feedback + contact channel** — ★ `FeedbackModal.astro` (1–5 rating + comment + email, success/error views with mailto fallback) + `/contact/`.
+- ✅ **`ads.txt`** present — `public/ads.txt` (placeholder pub ID; **replace with real Publisher ID after approval**).
+- ☐ **Verify site ownership in Search Console** (google-site-verification) before/at application.
+- ☐ **Build steady organic traffic first** — apply after the P0 keyword pages + guides have been indexed a few weeks.
+- ☐ **After approval (manual)**: paste real pub ID into `ads.txt`, add AdSense script to `BaseLayout`, enable Auto Ads (Min load), set `FEEDBACK_WEBHOOK_URL` in Cloudflare Pages.
 
 ### Placement rules (critical for a click-heavy tool site)
 - **Below the fold** + in the "uses"/FAQ grid. Never over the tool controls.
@@ -237,6 +241,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
   typically add **+20–50% RPM** over plain AdSense. Decision point: start with AdSense alone, revisit brokers at 10K visits.
 - Alternatives if AdSense rejects: Adsterra / PropellerAds (interstitials/push), Infolinks (text-link ads on the FAQ/guide copy), affiliate (SaaS/desktop software), Buy Me a Coffee.
 - **Guardrails:** never run redirection/pop-under networks that hijack the browser; keep `ads.txt` complete; don't mimic Google ad formats with other networks.
+- **Provider comparison + timeline (apply → review 2–14 days → approval → ads live 1–2 days later):** see `docs/adsense-readiness.md` §3–4.
 
 ---
 
@@ -298,6 +303,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **P0 #1 — `/guides/` hub system** (2026-08-08): `src/data/guides.ts` with 10 guides across 5 clusters (monitor-testing, cleaning, lighting, focus, pranks), `/guides/` hub + `/guides/[slug].astro` article template (Article + Breadcrumb JSON-LD). `RelatedGuides.astro` wired into all 10 tool pages, EN + localized color pages, and the homepage. Guides added to nav (EN), footer (EN), sitemap (priority 0.8, weekly) and llms.txt. All guide content original wording; `keyword` tracked but not rendered. 311 pages total.
 - ✅ **P0 #2 — use-case sections on color pages** (2026-08-08): `UseCaseAccordion.astro` + `src/data/useCases.ts` (57 long-tail items across 12 colors), wired into EN + all localized color pages and the homepage. White-screen video section (`WatchVideo.astro`, opens fullscreen) shipped on white-screen pages. Color tiles now link to each color's dedicated page (`ColorSwatches.astro`) instead of client-side switching. New i18n keys in all 13 locales.
 - ✅ **UX/UI fixes (uncommitted until push)**: tool-page reorder (interactive tool first), locale-aware color tiles, ThemeSwitcher icon buttons (nav + footer), WatchVideo inline player, VideoCard on color pages. Follow-up round: SVG icon rendering (`set:html`), slug-preserving language switcher (`alternateLinks`), real color videos. Final round: `preview-stage` hover/click → fullscreen with a new `fullscreenHint` chip on the stage (13 locales), `stage-expand` bolder/bigger, `ScreenGallery` + color-page screen viewer open in the shared `#overlay` fullscreen instead of a lightbox modal, and visible "⛶ Tap or press F for full screen" chips on all 9 tool-page preview stages (countdown preview now also opens fullscreen on click).
+- ✅ **AdSense readiness items** (2026-08-08): `public/ads.txt` (placeholder pub ID), `CookieBanner.astro` (EU/UK consent), `FeedbackModal.astro` (rating + comment + email, success/error + mailto fallback), Cloudflare Pages Function `functions/api/feedback.ts`, and strengthened legal pages (GDPR/CCPA rights, log files, children <13, effective dates, feedback on /contact/). Playbook in `docs/adsense-readiness.md`.
 
 ### Remaining (priorities updated 2026-08-08 per `docs/keyword-clustering-plan.md`)
 - ✅ **P0 #3** `/guides/how-to-make-a-white-background/` (263K/mo) — new "design" cluster guide (online editor, Photoshop, Canva, GIMP, capture methods); wired into guides hub, llms.txt, RelatedGuides.
@@ -306,7 +312,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **P0 #6** On-page keyword deployment pass on `/`, `/white-screen/`, `/black-screen/` — front-loaded "white background"/"black screen" head keywords in title/description/intro/FAQ; white/black pages get custom EN meta via `template.ts`.
 - **P1** keywords meta + rich JSON-LD; new tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static + `passport-photo-white-background` 43.8K/mo + `black-screen-video`/`white-screen-video` 5.7M/mo); VideoObject microdata for Screens grid; internal-linking pass.
 - **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
-- **§5 AdSense**: cookie banner for EU/UK; keep text content growing (approval gate); revisit premium brokers (Ezoic/Snigel/MonetizeMore/Playwire) at ~10K visits/mo; `data-google-vignette="false"` on tool buttons if Auto Ads hijack clicks.
+- **§5 AdSense**: ✅ cookie banner, ✅ feedback modal, ✅ `ads.txt`, ✅ strengthened legal (GDPR/CCPA/children/dates). Remaining (manual): verify Search Console ownership; apply after a few weeks of indexed traffic; after approval replace pub ID in `ads.txt`, add AdSense script, enable Auto Ads (Min), set `FEEDBACK_WEBHOOK_URL`; revisit premium brokers at ~10K visits/mo. See `docs/adsense-readiness.md`.
 - **§6 YouTube**: generate 12 videos (`pnpm videos:gen`), set up `blankscreen` channel + playlist, upload 12 videos with the per-video metadata from `docs/archive/README-videos.md`.
 - **§7 Backlinks**: Product Hunt / BetaList / AlternativeTo listings; 3–5 contextual Reddit answers (r/monitor, r/animation, r/techsupport); 1–2 edu/org resource-list links; Quora/StackExchange dead-pixel answer. Do after P0 content lands.
 - **Follow-ups from this change**: translate the 57 use-case items per-locale (currently English-only); consider a `green screen for ___` / `blue screen for ___` use-case depth on the `zoom-background-screen` page; add VideoObject microdata for the white-screen video; translate the 10 guides per-locale (currently English-only).

@@ -19,18 +19,22 @@ export const legalPages: LegalPage[] = [
   {
     slug: "privacy-policy",
     title: "Privacy Policy",
-    lede: "This Privacy Policy explains what data BlankPane collects and how it is used.",
+    lede: "This Privacy Policy explains what data BlankPane collects and how it is used. Last updated: 2026-08-08.",
     sections: [
-      { h: "What we collect", body: "This tool works entirely in your browser. We do not collect, upload, or store the colors you view, the images you download, or any personal information. No account is required to use the tool." },
-      { h: "Cookies & advertising", body: "We may display third-party advertising (such as Google AdSense). Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You may opt out of personalized advertising via Ads Settings or www.aboutads.info." },
+      { h: "What we collect", body: "This tool works entirely in your browser. We do not collect, upload, or store the colors you view, the images you download, or any personal information. No account is required to use the tool. If you contact us or send feedback, we may receive the message and any contact details you choose to include." },
+      { h: "Log files", body: "Like most websites, our hosting and analytics may automatically collect log-file information such as IP address, browser type, device type, referring pages, and date/time of visit. This non-personally-identifiable data is used to analyze trends, administer the site, and improve performance. It is not linked to any personally identifiable information." },
+      { h: "Cookies & advertising", body: "We may display third-party advertising (such as Google AdSense). Google and its partners use cookies, web beacons, and similar technologies to serve and measure ads based on your prior visits to this and other websites. You may opt out of personalized advertising via Google Ads Settings or www.aboutads.info. We do not control third-party cookies or tracking." },
       { h: "Analytics", body: "We may use privacy-respecting, cookieless analytics to understand aggregate page usage. This data is used only to improve the site and is not used to identify individual visitors." },
-      { h: "Contact", body: "Questions about this policy? Use the contact page and we'll reply promptly." },
+      { h: "CCPA rights (California)", body: "Under the California Consumer Privacy Act, California residents have the right to request disclosure of the categories and specific pieces of personal information we have collected, to request deletion of that information, and to opt out of the sale of personal data. We do not sell personal information. To exercise these rights, contact us using the contact page and we will respond within 30 days." },
+      { h: "GDPR rights (EEA & UK)", body: "If you are in the EEA or UK, you have the right to access, correct, or delete the personal data we hold about you, to restrict or object to processing, and to data portability. To exercise any of these rights, contact us using the contact page and we will respond within one month." },
+      { h: "Children's privacy", body: "BlankPane does not knowingly collect any personal information from children under the age of 13. If you believe a child has provided personal information to us, please contact us and we will promptly remove it." },
+      { h: "Contact", body: "Questions about this policy? Use the contact page or email hello@blankpane.com and we'll reply promptly." },
     ],
   },
   {
     slug: "terms-of-service",
     title: "Terms of Service",
-    lede: "By using BlankPane you agree to these simple terms.",
+    lede: "By using BlankPane you agree to these simple terms. Last updated: 2026-08-08.",
     sections: [
       { h: "Free use", body: "The tool is free to use for personal and commercial purposes. You may use generated color images anywhere, without attribution." },
       { h: "Acceptable use", body: "You agree not to use the service for unlawful purposes or in a way that disrupts the service for others. The tool renders images locally and does not store anything on our servers." },
@@ -41,7 +45,7 @@ export const legalPages: LegalPage[] = [
   {
     slug: "cookie-policy",
     title: "Cookie Policy",
-    lede: "How cookies are used on BlankPane.",
+    lede: "How cookies are used on BlankPane. Last updated: 2026-08-08.",
     sections: [
       { h: "What cookies are", body: "Cookies are small text files stored by your browser to remember preferences and enable features." },
       { h: "Cookies we use", body: "The core tool does not set cookies. Third-party advertising partners may set cookies to measure ad performance and personalize ads where permitted." },
@@ -64,6 +68,7 @@ export const legalPages: LegalPage[] = [
     lede: "Questions, feedback, or a color you'd like to see? Get in touch.",
     sections: [
       { h: "Email", body: "hello@blankpane.com — we reply as soon as we can." },
+      { h: "Send feedback", body: "Use the ★ Feedback button in the bottom-right corner of any page to rate BlankPane and leave a comment. Your feedback helps us get better — every message is read." },
       { h: "Feature requests", body: "Want a new color, a resolution preset, or a format like JPG/WebP? Tell us and we'll consider it for the next update." },
       { h: "Report an issue", body: "If something isn't working on your device, include your browser and OS so we can fix it faster." },
     ],
