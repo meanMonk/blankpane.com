@@ -175,28 +175,28 @@ Applied per page on blankpane.com (mostly already present — see gaps):
    - One template change → covers all 12 color pages → directly replicates the #1 traffic driver.
    - **Implemented as:** shared `UseCaseAccordion.astro` component (per-color `<details>` accordion driven by `src/data/useCases.ts` — 8 items white, 6 black, 8 green, 4 zoom, 5 blue, 4 red, 4 pink, 3 yellow, 4 gray, 3 purple, 3 orange, 3 blank). Wired into EN `[page].astro`, localized `[lang]/[page].astro`, and homepage. Each item targets a keyword-planner long-tail query (e.g. "green screen for zoom", "blue screen for photography", "white monitors for gaming"), with original wording, and links to related tools (`/tools/dead-pixel-test/`, `/tools/screen-cleaner/`, blog posts) where relevant. Also shipped: white-screen video section (`WatchVideo.astro`, `/videos/white-screen.mp4`, opens fullscreen on its own — not the ScreenGallery image pattern) and color tiles now link to each color's dedicated page instead of switching colors client-side (`ColorSwatches.astro`). New i18n keys added to all 13 locales: `useCasesTitle`, `watchVideoTitle`, `watchVideoBody`, `watchVideoButton` (+ updated `hint`).
 
-3. **Reframe blog → guides & deepen**
-   - Bump blog to 6–8 posts, each targeting a question query (`how to clean your monitor with a white screen`, `how to fix stuck pixels`, `white screen vs gray screen for OLED`).
-   - Cross-link every post to 2–3 color/tool pages and list posts on `/guides/`.
-
-4. **Downloadable image pages** (`/white-screen-image/` + 2–3 colors)
-   - Static PNG pages (1920×1080, 4K, 8K) + resolution table. Closes a direct whitescreen.dev ranking gap fast.
+3. **Create `/guides/how-to-make-a-white-background/`** (263K/mo — biggest question cluster we don't cover) — part of reframing blog → guides; wire into all color pages.
+4. **Create `/white-background-editor/`** (351K/mo — claim the "editor" intent with our existing custom-color + PNG-download capability).
+5. **Create `/white-wallpaper/` download page** (5.3M/mo cluster — 1920×1080/4K PNG assets + resolution table). Closes a direct whitescreen.dev ranking gap fast.
+6. **On-page deployment pass** on `/`, `/white-screen/`, `/black-screen/`: head keyword + 2–4 variants at all 10 placement types (title/meta/H1/intro/H2s/body/cards/FAQ/alt/anchor).
 
 ### P1 — Next week (mechanical, high volume)
 
-5. **Add `keywords` meta + rich JSON-LD to homepage**
+7. **Add `keywords` meta + rich JSON-LD to homepage**
    - Adopt whitescreen.online long-tail keywords + whitescreen.dev `@graph` (WebApp + ItemList + Organization `sameAs`).
    - Add `aggregateRating` once reviews exist.
 
-6. **New tool pages to match whitescreen.im's indexable set**
+8. **New tool pages to match whitescreen.im's indexable set + keyword gaps**
    - `screen-uniformity-test`, `oled-gray-screen-test`, `dvd-screensaver`, `bouncing-dvd-logo`, `static-screen`.
+   - `passport-photo-white-background` (43.8K/mo, low comp, high intent).
+   - `black-screen-video` + `white-screen-video` pages (5.7M/mo cluster) + VideoObject microdata.
    - Reuse existing canvas/video-grid infra (we already added the Screens video grid).
 
-7. **VideoObject microdata for Screens video grid**
+9. **VideoObject microdata for Screens video grid**
    - Make each `/videos/screen-N.mp4` indexable with duration/thumbnail/embed meta.
 
-8. **Internal linking pass**
-   - Guides ↔ tools ↔ colors link graph; add "Related guides" section to color pages and "Related tools" already present.
+10. **Internal linking pass**
+    - Guides ↔ tools ↔ colors link graph; add "Related guides" section to color pages and "Related tools" already present.
 
 ### P2 — Later (compounding)
 
