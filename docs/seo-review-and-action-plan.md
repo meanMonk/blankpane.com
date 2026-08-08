@@ -237,8 +237,7 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 ### Expected economics & scaling
 - Utility niche RPM ≈ **$3–7** (Tier-1 traffic, display/overlay ads — no financial contextual ads on a white screen).
 - Revenue ≈ RPM × pageviews / 1000: e.g. 1M pageviews @ $5 ≈ **$5K/mo**.
-- **Premium brokers** (Ezoic, Snigel, MonetizeMore, Playwire) need ~**10K visitors/mo**, run header bidding and
-  typically add **+20–50% RPM** over plain AdSense. Decision point: start with AdSense alone, revisit brokers at 10K visits.
+- **Premium brokers / mass providers** (Ezoic, Setupad, Monumetric, Snigel, MonetizeMore, Playwire) need ~**10K visitors/mo**, run **header bidding** (auto-fill `ads.txt` with 100+ exchanges) and typically add **+20–50% RPM** over plain AdSense. Decision point: start with AdSense alone, add one mass provider at 10K visits (see `docs/adsense-readiness.md` §4).
 - Alternatives if AdSense rejects: Adsterra / PropellerAds (interstitials/push), Infolinks (text-link ads on the FAQ/guide copy), affiliate (SaaS/desktop software), Buy Me a Coffee.
 - **Guardrails:** never run redirection/pop-under networks that hijack the browser; keep `ads.txt` complete; don't mimic Google ad formats with other networks.
 - **Provider comparison + timeline (apply → review 2–14 days → approval → ads live 1–2 days later):** see `docs/adsense-readiness.md` §3–4.

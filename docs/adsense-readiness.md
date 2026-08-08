@@ -75,23 +75,61 @@ original guide/blog/FAQ text, wait 30 days, re-apply. Our content stack makes th
 
 ## 4. Other ad providers (backups / once you have traffic)
 
-Utility sites routinely run **AdSense + one alternative network** (allowed, keep `ads.txt` complete). Decide at the
-**10K visits/month** milestone to consider premium brokers.
+### 4.1 How competitors monetize — the "mass provider" model (from their ads.txt)
 
-| Provider | Min traffic | Best for | Approval | RPM uplift vs AdSense | Notes |
-|---|---|---|---|---|---|
-| **Google AdSense** | none | Baseline display + Auto Ads | Medium (content review) | baseline | Start here |
-| **Ezoic** | ~10K/mo | Header bidding, AI placement | Medium | +20–50% | Premium broker, biggest uplift |
-| **Snigel** | ~50K/mo (managed) | Managed ad strategy | Managed | +20–50% | Handles setup so ads don't break the tool |
-| **MonetizeMore** | ~10K/mo | Global scaling, header bidding | Medium | +20–50% | Good international RPM |
-| **Playwire** | ~50K–100K/mo | Enterprise, gaming/utility | Managed | +20–50% | Top-tier CPM, stricter entry |
-| **Adsterra** | low | Popunders/interstitials/push | Easy | varies (often high RPM on clicks) | Easy approval; watch for intrusive formats |
-| **PropellerAds** | low | Push + interstitials | Easy | varies | Easy; guard against redirect ads |
-| **Infolinks** | low | Text-link ads on FAQ/guide copy | Easy | small | Complements AdSense, doesn't need big traffic |
-| **Mediavine/Raptive** | 10K–50K sessions | Premium display | Medium-High | high | Needs real traffic; worth it later |
-| **Affiliate / BuyMeACoffee** | any | Desktop SaaS links, donations | n/a | — | Add once you have an audience |
+Competitors' `ads.txt` files are the tell: a top-tier site's file starts with `MANAGERDOMAIN=setupad.com` followed by
+**hundreds of ad providers** — google.com, pubmatic.com, rubiconproject.com, appnexus.com, etc. They did **not** apply
+to each company. The owner applied to **one ad-management network (a "mass provider")** which:
 
-### Multi-network guardrails (from the research)
+- Connects the site to 100+ ad exchanges/SSPs simultaneously using **Header Bidding** (all networks bid in real-time,
+  driving up the price for the site's ad space — typically **+20–50% RPM** vs AdSense alone).
+- Gives the publisher **one copy-paste script** + a **pre-made `ads.txt`** they upload as-is.
+- Consolidates all earnings and pays **a single monthly payment**.
+
+So a "huge ads.txt" is not a sign of manual work — it's a sign they use a mass provider.
+
+### 4.2 The two ways to start earning
+
+| | Option 1 — Mass provider (recommended) | Option 2 — Google AdSense (solo) |
+|---|---|---|
+| What you do | Apply to ONE network; paste their code + their ads.txt | Apply directly to AdSense; `ads.txt` has a single Google line |
+| Earnings | Higher (header bidding across 100+ exchanges) | Lower (Google demand only) |
+| Approval | Per-network review; some accept new/low-traffic sites | Easy-ish, but content review of whole site |
+| Control | Managed placement (they keep ads off your tool buttons) | Full control via Auto Ads |
+| Payment | Single consolidated monthly payout | Single monthly payout |
+
+### 4.3 Provider tiers by traffic (who to apply to, when)
+
+| Traffic tier | Provider | Notes |
+|---|---|---|
+| **Start / low traffic** (0–10K/mo) | **Google AdSense** first (baseline), or **Ezoic** / **Setupad** — both accept newer sites with lower traffic | AdSense = easiest approval with our content stack; Ezoic/Setupad add header bidding early |
+| **Mid (10K+ views/mo)** | **Monumetric**, **Journey by Raptive**, **MonetizeMore** | Premium brokers, header bidding, +20–50% RPM |
+| **Large (50K+ views/mo)** | **Mediavine**, **Raptive** | Highest CPM in the industry; strictest entry; best long-term payout |
+| **Any** | **Adsterra / PropellerAds** (easy approval, interstitials/push) — as a supplement, not the main engine | Watch for intrusive/redirect formats (Google policy risk) |
+| **Any** | **Infolinks** | Text-link ads on FAQ/guide copy; small but free money |
+
+> **Rule of thumb:** one **mass provider** + AdSense together is the standard high-earning setup. Never run several
+> overlay networks at once (aggressive-monetization flag).
+
+### 4.4 The 5-step roadmap to get ads live
+
+1. **Build content** — 20–30 original, high-quality pages (guides/blogs/FAQs). ✅ we have 314 pages; keep adding guides.
+2. **Get traffic** — optimize for search + share; the P0 keyword pages are the engine. Get steady daily visitors.
+3. **Apply to a network** — start with AdSense (setupad.com / ezoic.com are the mass-provider alternatives).
+4. **Pass review** — they check for illegal content, gambling, scraped text. We're clean.
+5. **Paste the code + upload their ads.txt** — their script in the `<head>`, their `ads.txt` at `/ads.txt`.
+
+### 4.5 Recommended path for blankpane.com
+
+| Phase | When | Action |
+|---|---|---|
+| **Now → approval** | When ~4–6 weeks of indexed traffic | Apply to **Google AdSense** (fastest approval, baseline RPM). Fill real pub ID in `ads.txt`, add script, enable Auto Ads (Min). |
+| **~10K visits/mo** | After AdSense is live & steady | Apply to **Ezoic or Setupad** as the mass provider → header bidding +20–50% RPM, they supply a full `ads.txt`. Run alongside AdSense. |
+| **~50K visits/mo** | If growth continues | Graduate to **Mediavine / Raptive** for the highest CPM. |
+
+Keep `ads.txt` in sync at every step (each network you add must be listed there, or that network's revenue drops to $0).
+
+### 4.6 Multi-network guardrails (from the research)
 - Keep **`ads.txt` updated** with every network (missing entry = $0 from that network).
 - **Don't overload**: 3 banners + a pop-up + an anchor drawer at once → Google flags "aggressive monetization".
 - **No redirection/pop-under networks** that hijack the browser — that's a Google policy violation.
@@ -119,5 +157,6 @@ Utility sites routinely run **AdSense + one alternative network** (allowed, keep
 - [ ] Add the AdSense script + enable Auto Ads (Min load) after approval.
 - [ ] Verify site ownership in Search Console (google-site-verification).
 - [ ] Set `FEEDBACK_WEBHOOK_URL` (+ optional token) in Cloudflare Pages so feedback emails/channels arrive.
-- [ ] Decide at ~10K visits/mo whether to add Ezoic/MonetizeMore (header bidding) alongside AdSense.
-- [ ] Re-check `ads.txt` each time a network is added.
+- [ ] **At ~10K visits/mo:** apply to a mass provider (Ezoic or Setupad) for header bidding; replace `ads.txt` with their pre-made file (keep it in sync + keep the Google line).
+- [ ] **At ~50K visits/mo:** re-evaluate Mediavine / Raptive for higher CPM.
+- [ ] Re-check `ads.txt` each time a network is added (missing line = $0 from that network).
