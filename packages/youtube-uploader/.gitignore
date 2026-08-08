@@ -1,5 +1,6 @@
 node_modules/
 .env
 token.json
+account_project_creds.json
 videos/uploaded/
 upload-log.json
