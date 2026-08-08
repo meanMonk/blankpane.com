@@ -1,0 +1,114 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import ToolCards from "../../components/ToolCards.astro";
+import { guides } from "../../data/guides";
+import colors from "../../data/colors.json";
+import tools from "../../data/tools.json";
+import { getUI } from "../../i18n";
+
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { slug: g.slug }, props: { guide: g } }));
+}
+
+const { guide } = Astro.props;
+const t = getUI("en");
+const site = "https://blankpane.com";
+
+const relatedColors = colors.filter((c) => guide.relatedColors.includes(c.slug));
+const relatedTools = tools.filter((tool) => guide.relatedTools.includes(tool.slug));
+const relatedGuides = guides.filter((g) => guide.relatedGuides.includes(g.slug));
+
+const guideLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.title,
+  description: guide.excerpt,
+  datePublished: "2026-08-08",
+  dateModified: "2026-08-08",
+  author: { "@type": "Organization", name: "BlankPane", url: "https://blankpane.com" },
+  publisher: { "@type": "Organization", name: "BlankPane", url: "https://blankpane.com" },
+  mainEntityOfPage: `${site}/guides/${guide.slug}/`,
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${site}/guides/` },
+    { "@type": "ListItem", position: 3, name: guide.title, item: `${site}/guides/${guide.slug}/` },
+  ],
+};
+---
+
+<BaseLayout
+  lang="en"
+  localized={false}
+  title={`${guide.title} | BlankPane Guide`}
+  description={guide.excerpt}
+  canonical={`${site}/guides/${guide.slug}/`}
+  jsonLd={[guideLd, breadcrumbLd]}
+>
+  <div class="page" style="max-width:760px;">
+    <p class="back"><a href="/guides/">← All guides</a></p>
+    <h1>{guide.title}</h1>
+    <p class="lede">{guide.excerpt}</p>
+    <p class="lede" style="margin-top:-24px;font-size:.88rem;">
+      {guide.intro}
+    </p>
+
+    {guide.sections.map((s) => (
+      <section style="border-top:none;padding:16px 0;">
+        <h2 style="text-align:left;font-size:1.15rem;">{s.h2}</h2>
+        {s.paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </section>
+    ))}
+
+    {relatedColors.length > 0 && (
+      <section style="border-top:1px solid var(--line);padding:28px 0;">
+        <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Colors used in this guide</h2>
+        <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Open each one in full screen, free in your browser.</p>
+        <div class="color-links" style="justify-content:flex-start;">
+          {relatedColors.map((c) => (
+            <a href={`/${c.slug}/`}>{t.colorName[c.slug] ?? c.name}</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {relatedTools.length > 0 && (
+      <section style="border-top:1px solid var(--line);padding:28px 0;">
+        <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Try it now</h2>
+        <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">The tools this guide mentions, ready in one click.</p>
+        <div class="blog-grid">
+          {relatedTools.map((tool) => (
+            <a class="blog-card" href={`/tools/${tool.slug}/`}>
+              <h3 style="font-size:.9rem;">{tool.name}</h3>
+              <p style="font-size:.8rem;">{tool.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {relatedGuides.length > 0 && (
+      <section style="border-top:1px solid var(--line);padding:28px 0;">
+        <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Related guides</h2>
+        <div class="blog-grid">
+          {relatedGuides.map((g) => (
+            <a class="blog-card" href={`/guides/${g.slug}/`}>
+              <h3>{g.title}</h3>
+              <p>{g.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <ToolCards title="More Screen Tools" limit={6} />
+    <ColorHub t={t} />
+  </div>
+</BaseLayout>

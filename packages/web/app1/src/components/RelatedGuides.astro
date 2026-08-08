@@ -1,0 +1,36 @@
+---
+import { guides } from "../data/guides";
+
+interface Props {
+  colorSlug?: string;
+  toolSlug?: string;
+  limit?: number;
+}
+
+const { colorSlug, toolSlug, limit = 3 } = Astro.props;
+
+const items = guides
+  .filter((g) => {
+    if (colorSlug && !g.relatedColors.includes(colorSlug)) return false;
+    if (toolSlug && !g.relatedTools.includes(toolSlug)) return false;
+    return true;
+  })
+  .slice(0, limit);
+---
+
+{
+  items.length > 0 && (
+    <section style="border-top:1px solid var(--line);padding:28px 0;">
+      <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Related guides</h2>
+      <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Learn how to get the most out of this tool.</p>
+      <div class="blog-grid">
+        {items.map((g) => (
+          <a class="blog-card" href={`/guides/${g.slug}/`}>
+            <h3>{g.title}</h3>
+            <p>{g.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

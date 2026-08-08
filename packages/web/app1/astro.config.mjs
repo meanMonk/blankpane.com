@@ -18,6 +18,9 @@ export default defineConfig({
         } else if (item.url.includes("/tools/")) {
           priority = 0.8;
           changefreq = "weekly";
+        } else if (item.url.includes("/guides/")) {
+          priority = 0.8;
+          changefreq = "weekly";
         } else if (item.url.includes("/blog/")) {
           priority = 0.7;
           changefreq = "monthly";

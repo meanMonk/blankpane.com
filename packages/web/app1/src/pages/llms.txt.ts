@@ -8,6 +8,29 @@ export async function GET() {
 ## Quick Start
 - [Home](https://blankpane.com/): Pick a color, preview it, go full screen, or download as PNG at any resolution.
 - [Tools Hub](https://blankpane.com/tools/): All screen utilities grouped by cluster.
+- [Guides](https://blankpane.com/guides/): Step-by-step guides for monitor testing, cleaning, lighting, focus, and pranks.
+
+## Guides
+
+### Monitor Testing
+- [How to Check for Dead Pixels](https://blankpane.com/guides/how-to-check-for-dead-pixels/): Full-screen color test for dead and stuck pixels, plus which colors to use.
+- [How to Fix a Stuck Pixel](https://blankpane.com/guides/how-to-remove-stuck-pixels/): Rapid red/green/blue flash routine to revive a stuck subpixel.
+- [How to Test Screen Uniformity and Backlight Bleed](https://blankpane.com/guides/how-to-test-screen-uniformity-and-backlight-bleed/): Black and gray screen tests for bleed, clouding, and uneven brightness.
+- [How to Download a Color Screen as an Image](https://blankpane.com/guides/how-to-download-a-color-screen-as-an-image/): Export any color as a lossless PNG at the exact size you need.
+
+### Cleaning
+- [How to Clean Your Monitor with a White Screen](https://blankpane.com/guides/how-to-clean-your-monitor-with-a-white-screen/): Safe, streak-free cleaning using a white full-screen inspection light.
+
+### Lighting
+- [How to Use a White Screen as a Ring Light](https://blankpane.com/guides/how-to-use-a-white-screen-as-a-ring-light/): Free ring-light and softbox lighting from your phone or laptop screen.
+- [How to Set Up a Green Screen for Zoom](https://blankpane.com/guides/how-to-set-up-a-green-screen-for-zoom/): Use a full-screen green display as a working chroma-key without buying fabric.
+
+### Focus & Battery
+- [How a Black Screen Saves Battery](https://blankpane.com/guides/how-to-use-a-black-screen-to-save-battery/): OLED power savings and black-screen focus techniques.
+- [How to Focus with a Blank Screen](https://blankpane.com/guides/how-to-focus-with-a-blank-screen/): Distraction-free deep work with a blank full-screen and a timer.
+
+### Pranks
+- [How to Prank with a Broken Screen](https://blankpane.com/guides/how-to-prank-someone-with-a-broken-screen/): Cracked screen, fake update, and no-signal pranks with a clean exit.
 
 ## Screen Tools
 

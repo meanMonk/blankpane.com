@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
 import tools from "../../data/tools.json";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
@@ -98,6 +99,7 @@ const breadcrumbLd = {
       lede="Free TV static and no-signal wallpaper images — download one and set it as a prank desktop background."
     />
     <RelatedTools slugs={tool.relatedSlugs} />
+    <RelatedGuides toolSlug="no-signal-screen" />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />
   </div>

@@ -220,12 +220,12 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 ## 6. What's done / remaining
 
 ### Done
+- ✅ **P0 #1 — `/guides/` hub system** (2026-08-08): `src/data/guides.ts` with 10 guides across 5 clusters (monitor-testing, cleaning, lighting, focus, pranks), `/guides/` hub + `/guides/[slug].astro` article template (Article + Breadcrumb JSON-LD). `RelatedGuides.astro` wired into all 10 tool pages, EN + localized color pages, and the homepage. Guides added to nav (EN), footer (EN), sitemap (priority 0.8, weekly) and llms.txt. All guide content original wording; `keyword` tracked but not rendered. 311 pages total.
 - ✅ **P0 #2 — use-case sections on color pages** (2026-08-08): `UseCaseAccordion.astro` + `src/data/useCases.ts` (57 long-tail items across 12 colors), wired into EN + all localized color pages and the homepage. White-screen video section (`WatchVideo.astro`, opens fullscreen) shipped on white-screen pages. Color tiles now link to each color's dedicated page (`ColorSwatches.astro`) instead of client-side switching. New i18n keys in all 13 locales.
 
 ### Remaining
-- **P0 #1** `/guides/` hub page.
 - **P0 #3** Reframe blog → guides & deepen (6–8 posts).
 - **P0 #4** Downloadable image pages (`/white-screen-image/` + 2–3 colors).
 - **P1 #5–8**: keywords meta + rich JSON-LD, new tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static), VideoObject microdata for Screens grid, internal-linking pass.
 - **P2 #9–13**: social proof, resolution-pill URLs, profile footprint, PWA install prompt, multilingual depth.
-- **Follow-ups from this change**: translate the 57 use-case items per-locale (currently English-only); consider a `green screen for ___` / `blue screen for ___` use-case depth on the `zoom-background-screen` page; add VideoObject microdata for the white-screen video.
+- **Follow-ups from this change**: translate the 57 use-case items per-locale (currently English-only); consider a `green screen for ___` / `blue screen for ___` use-case depth on the `zoom-background-screen` page; add VideoObject microdata for the white-screen video; translate the 10 guides per-locale (currently English-only).

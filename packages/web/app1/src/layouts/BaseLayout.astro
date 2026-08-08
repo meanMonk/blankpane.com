@@ -144,6 +144,9 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
         </a>
         <div class="nav-links">
           <a href={`${localePrefix}/tools/`} class="nav-link">Tools</a>
+          {lang === "en" && (
+            <a href={`${localePrefix}/guides/`} class="nav-link">Guides</a>
+          )}
           <a href={`${localePrefix}/colors/`} class="nav-link">{t.navColors}</a>
           <a href={`${localePrefix}/blog/`} class="nav-link">{t.navBlog}</a>
           <div class="lang-dropdown" data-theme-dropdown>
@@ -177,6 +180,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <footer>
       <div class="wrap">
         <div class="foot-links">
+          {lang === "en" && <a href="/guides/">Guides</a>}
           <a href={lang === "en" ? "/about/" : `/${lang}/about/`}>{t.footerAbout}</a>
           <a href={lang === "en" ? "/privacy-policy/" : `/${lang}/privacy-policy/`}>{t.footerPrivacy}</a>
           <a href={lang === "en" ? "/terms-of-service/" : `/${lang}/terms-of-service/`}>{t.footerTerms}</a>

@@ -6,6 +6,7 @@ import ToolCards from "../../components/ToolCards.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import UseCaseAccordion from "../../components/UseCaseAccordion.astro";
 import WatchVideo from "../../components/WatchVideo.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
 import { legalPages } from "../../data/legal";
@@ -106,6 +107,7 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
           </div>
         </section>
         <RelatedTools slugs={relatedSlugs} />
+        <RelatedGuides colorSlug={c.slug} />
         <ColorHub t={t} lang={lang} />
         <ToolCards title="More Screen Tools" limit={6} />
       </div>

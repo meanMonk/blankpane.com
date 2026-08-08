@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ColorHub from "../../components/ColorHub.astro";
+import { guides } from "../../data/guides";
+import { blogPosts } from "../../data/blog";
+import tools from "../../data/tools.json";
+import { getUI } from "../../i18n";
+
+const t = getUI("en");
+const site = "https://blankpane.com";
+
+const clusters = [
+  {
+    slug: "monitor-testing",
+    name: "Monitor Testing",
+    lede: "Dead pixels, stuck pixels, backlight bleed, and uniformity — how to check your display like a reviewer.",
+  },
+  {
+    slug: "cleaning",
+    name: "Cleaning & Care",
+    lede: "Clean your screen safely with a white full-screen that shows exactly where to wipe.",
+  },
+  {
+    slug: "lighting",
+    name: "Lighting & Video Calls",
+    lede: "Turn your display into a free ring light, softbox, or green screen for calls and streams.",
+  },
+  {
+    slug: "focus",
+    name: "Focus & Battery",
+    lede: "Use a blank or black screen to cut distractions, save battery, and structure deep work.",
+  },
+  {
+    slug: "pranks",
+    name: "Pranks & Fun",
+    lede: "Convincing broken screens and fake updates — the harmless pranks that end with a laugh.",
+  },
+];
+
+const clusterCounts = clusters.map((c) => ({
+  ...c,
+  count: guides.filter((g) => g.cluster === c.slug).length,
+}));
+---
+
+<BaseLayout
+  lang="en"
+  localized={false}
+  title="Screen Guides — Monitor Testing, Cleaning, Lighting & Focus | BlankPane"
+  description="Free guides on using full-screen colors and tools: dead-pixel tests, monitor cleaning, white-screen lighting, green screens for Zoom, focus and battery tips."
+  canonical={`${site}/guides/`}
+>
+  <div class="page" style="max-width:820px;">
+    <p class="back"><a href="/">← fullscreen</a></p>
+    <h1>Screen Guides</h1>
+    <p class="lede">
+      Simple, practical guides that show how to use full-screen colors and tools — to test a monitor, clean a
+      display, light a video call, or get focused. Every guide links to the free tool you can use right now.
+    </p>
+
+    <section style="border-top:1px solid var(--line);padding:8px 0 0;">
+      <h2 style="text-align:left;font-size:1.2rem;margin:20px 0 10px;">Popular guides</h2>
+      <div class="blog-grid">
+        {guides.slice(0, 4).map((g) => (
+          <a class="blog-card" href={`/guides/${g.slug}/`}>
+            <h3>{g.title}</h3>
+            <p>{g.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {clusterCounts.map((cluster) => {
+      const items = guides.filter((g) => g.cluster === cluster.slug);
+      if (items.length === 0) return null;
+      return (
+        <section style="border-top:1px solid var(--line);padding:28px 0;">
+          <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">{cluster.name}</h2>
+          <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">{cluster.lede}</p>
+          <div class="blog-grid">
+            {items.map((g) => (
+              <a class="blog-card" href={`/guides/${g.slug}/`}>
+                <h3>{g.title}</h3>
+                <p>{g.excerpt}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+
+    <section style="border-top:1px solid var(--line);padding:28px 0;">
+      <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Tools to try</h2>
+      <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Put the guides into practice with the free tools.</p>
+      <div class="blog-grid">
+        {tools.slice(0, 6).map((tool) => (
+          <a class="blog-card" href={`/tools/${tool.slug}/`}>
+            <h3 style="font-size:.9rem;">{tool.name}</h3>
+            <p style="font-size:.8rem;">{tool.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section style="border-top:1px solid var(--line);padding:28px 0;">
+      <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Related reading</h2>
+      <div class="blog-grid">
+        {blogPosts.map((post) => (
+          <a class="blog-card" href={`/blog/${post.slug}/`}>
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <ColorHub t={t} />
+  </div>
+</BaseLayout>

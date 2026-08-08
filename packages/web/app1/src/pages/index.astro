@@ -4,6 +4,7 @@ import ColorTool from "../components/ColorTool.astro";
 import ColorHub from "../components/ColorHub.astro";
 import ToolCards from "../components/ToolCards.astro";
 import UseCaseAccordion from "../components/UseCaseAccordion.astro";
+import { guides } from "../data/guides";
 import { getUI } from "../i18n";
 import colors from "../data/colors.json";
 
@@ -32,6 +33,20 @@ const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.na
 
       <ColorHub t={t} />
       <ToolCards title="Screen Tools" limit={6} />
+
+      <section style="border-top:1px solid var(--line);padding:28px 0;">
+        <h2 style="text-align:left;font-size:1.2rem;margin:0 0 6px;">Learn with our guides</h2>
+        <p style="color:var(--ink-dim);font-size:0.88rem;margin:0 0 14px;">Step-by-step walkthroughs for monitor testing, cleaning, lighting, focus, and more.</p>
+        <div class="blog-grid">
+          {guides.slice(0, 3).map((g) => (
+            <a class="blog-card" href={`/guides/${g.slug}/`}>
+              <h3>{g.title}</h3>
+              <p>{g.excerpt}</p>
+            </a>
+          ))}
+        </div>
+        <p style="margin:14px 0 0;"><a href="/guides/">Browse all guides →</a></p>
+      </section>
 
       <UseCaseAccordion t={t} slug="white-screen" />
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
 import ScreenGallery from "../../components/ScreenGallery.astro";
@@ -110,6 +111,7 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
       lede="Free cracked and shattered screen wallpaper images you can download and set as a prank desktop background."
     />
     <RelatedTools slugs={tool.relatedSlugs} />
+    <RelatedGuides toolSlug="broken-screen-dummy" />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />
   </div>

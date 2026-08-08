@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
 import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
 import { getUI } from "../../i18n";
@@ -114,6 +115,7 @@ const breadcrumbLd = {
     </details>
 
     <RelatedTools slugs={tool.relatedSlugs} />
+    <RelatedGuides toolSlug="countdown-timer-fullscreen" />
     <ColorHub t={t} />
     <ToolCards title="More Screen Tools" limit={6} />
   </div>
