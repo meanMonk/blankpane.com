@@ -20,7 +20,7 @@ const items = files
   {lede && <p class="center-lede" style="font-size:.85rem;color:var(--ink-dim);">{lede}</p>}
   <div class="screen-gallery">
     {items.map((s) => (
-      <figure class="screen-card">
+      <figure class="screen-card" data-src={`/screens/${s.file}.png`} data-label={s.label} tabindex="0" role="button" aria-label={`Open ${s.label} full screen`}>
         <img
           src={`/screens/${s.file}.png`}
           alt={`${s.label} — ${s.desc}`}
@@ -38,6 +38,28 @@ const items = files
   </div>
 </section>
 
+<script>
+  // @ts-nocheck
+  const cards = document.querySelectorAll(".screen-card");
+  function openImage(src) {
+    const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.style.background = "";
+    ov.style.backgroundImage = `url('${src}')`;
+    ov.style.backgroundSize = "contain";
+    ov.style.backgroundPosition = "center";
+    ov.style.backgroundRepeat = "no-repeat";
+    ov.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    window.track && window.track('screen_open', { event_category: 'tool', event_label: src });
+  }
+  cards.forEach((card) => {
+    const open = () => openImage(card.dataset.src);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
+</script>
+
 <style>
   .screen-gallery {
     display: grid;
@@ -52,6 +74,14 @@ const items = files
     overflow: hidden;
     background: var(--bg-raised);
     box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .screen-card:hover, .screen-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 3px var(--accent), 0 18px 40px -18px rgba(0, 0, 0, 0.6);
+    border-color: var(--accent);
+    outline: none;
   }
   .screen-card img {
     width: 100%;

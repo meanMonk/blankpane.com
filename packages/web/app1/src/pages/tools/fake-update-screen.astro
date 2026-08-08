@@ -51,6 +51,33 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <p style="font-size:.75rem;color:var(--ink-dim);font-family:var(--mono);text-align:center;margin:0 0 12px;">Harmless prank — not a real update. Press Esc to exit.</p>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;">
+        {["windows","macos","linux"].map((os) => (
+          <button class="btn btn-outline" data-os={os} style="font-size:.72rem;padding:6px 12px;">{os === "windows" ? "Windows" : os === "macos" ? "macOS" : "Linux Terminal"}</button>
+        ))}
+      </div>
+
+      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#0078d4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;position:relative;cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+        <span class="stage-fs-hint" style="bottom:10px;">⛶ Tap or press F for full screen</span>
+        <div id="update-content" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <div id="spinner" style="width:48px;height:48px;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;"></div>
+          <div style="color:#fff;font-size:1.1rem;font-weight:600;font-family:Segoe UI,sans-serif;">Working on updates</div>
+          <div id="pct" style="color:rgba(255,255,255,.8);font-size:0.9rem;">73% complete</div>
+          <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:12px;">Please keep your computer on</div>
+        </div>
+        <div id="terminal-scroll" style="display:none;position:absolute;inset:0;background:#1e1e1e;color:#0f0;font-family:monospace;font-size:.65rem;padding:12px;overflow:hidden;white-space:pre-wrap;"></div>
+      </div>
+
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn" id="full-btn">Full Screen</button>
+      </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
+    </div>
+
     <h1>Fake Update Screen</h1>
     <p class="lede">
       You stand up from your desk to grab coffee, and when a coworker glances over, your screen shows Windows Update
@@ -69,29 +96,6 @@ const breadcrumbLd = {
         <li>Press <strong>Esc</strong> (or click the screen) to dismiss — the update was never real.</li>
       </ol>
     </section>
-
-    <p style="font-size:.75rem;color:var(--ink-dim);font-family:var(--mono);text-align:center;margin:0 0 12px;">Harmless prank — not a real update. Press Esc to exit.</p>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;">
-      {["windows","macos","linux"].map((os) => (
-        <button class="btn btn-outline" data-os={os} style="font-size:.72rem;padding:6px 12px;">{os === "windows" ? "Windows" : os === "macos" ? "macOS" : "Linux Terminal"}</button>
-      ))}
-    </div>
-
-    <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#0078d4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;position:relative;cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
-      <div id="update-content" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-        <div id="spinner" style="width:48px;height:48px;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;"></div>
-        <div style="color:#fff;font-size:1.1rem;font-weight:600;font-family:Segoe UI,sans-serif;">Working on updates</div>
-        <div id="pct" style="color:rgba(255,255,255,.8);font-size:0.9rem;">73% complete</div>
-        <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:12px;">Please keep your computer on</div>
-      </div>
-      <div id="terminal-scroll" style="display:none;position:absolute;inset:0;background:#1e1e1e;color:#0f0;font-family:monospace;font-size:.65rem;padding:12px;overflow:hidden;white-space:pre-wrap;"></div>
-    </div>
-
-    <div class="action-row" style="margin-top:16px;">
-      <button class="btn" id="full-btn">Full Screen</button>
-    </div>
-    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>Is it illegal to prank someone with a fake update screen?</summary>

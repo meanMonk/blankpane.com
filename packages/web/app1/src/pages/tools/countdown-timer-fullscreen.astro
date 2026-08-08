@@ -50,28 +50,10 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
-    <h1>Countdown Timer Fullscreen</h1>
-    <p class="lede">
-      You're giving a presentation and need to keep to 10 minutes. You're proctoring an exam and students need
-      to see the remaining time from across the room. You're cooking and want a timer visible from the counter
-      without squinting at a tiny phone screen. This tool puts a giant digit countdown on a solid-color
-      background — readable from a projector, a wall-mounted monitor, or even the back of a classroom. Pick a
-      preset (1, 5, 10, or 25 minutes) or type your own custom time. Change the background color any time with
-      the color picker or preset swatches. When time's up, the display flashes to grab attention. No signup, no
-      download, no ads over the numbers — just a clean, readable timer.
-    </p>
 
-    <section>
-      <h2>How to use</h2>
-      <ol>
-        <li>Click a <strong>preset button</strong> (1/5/10/25 min) or enter a custom number of minutes.</li>
-        <li>Pick a <strong>background color</strong> using the swatches or color picker below.</li>
-        <li>Hit <strong>Full Screen</strong> for projector use, or <strong>Start</strong> to begin the countdown in the preview.</li>
-      </ol>
-    </section>
-
-    <div id="tool-area" style="margin:24px 0;">
-      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#1c1c2e;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;transition:background .3s;cursor:pointer;" title="Click for full screen">
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <div id="preview" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#1c1c2e;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);overflow:hidden;transition:background .3s;cursor:pointer;" title="Click for full screen">
+        <span class="stage-fs-hint" style="bottom:10px;">⛶ Tap or press F for full screen</span>
         <div id="timer-display" style="font-family:var(--mono);font-size:clamp(2.5rem,8vw,5rem);font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.4);">00:00</div>
       </div>
 
@@ -100,6 +82,26 @@ const breadcrumbLd = {
       </div>
       <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
+
+    <h1>Countdown Timer Fullscreen</h1>
+    <p class="lede">
+      You're giving a presentation and need to keep to 10 minutes. You're proctoring an exam and students need
+      to see the remaining time from across the room. You're cooking and want a timer visible from the counter
+      without squinting at a tiny phone screen. This tool puts a giant digit countdown on a solid-color
+      background — readable from a projector, a wall-mounted monitor, or even the back of a classroom. Pick a
+      preset (1, 5, 10, or 25 minutes) or type your own custom time. Change the background color any time with
+      the color picker or preset swatches. When time's up, the display flashes to grab attention. No signup, no
+      download, no ads over the numbers — just a clean, readable timer.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Click a <strong>preset button</strong> (1/5/10/25 min) or enter a custom number of minutes.</li>
+        <li>Pick a <strong>background color</strong> using the swatches or color picker below.</li>
+        <li>Hit <strong>Full Screen</strong> for projector use, or <strong>Start</strong> to begin the countdown in the preview.</li>
+      </ol>
+    </section>
 
     <details open>
       <summary>Does the timer keep running if I switch tabs?</summary>
@@ -145,7 +147,7 @@ const breadcrumbLd = {
     }, 400);
     setTimeout(() => { clearInterval(flashId); preview.style.background = bgPicker.value; }, 8000);
   }
-  preview.addEventListener("click", () => { if (flashId) { clearInterval(flashId); flashId=null; preview.style.background=bgPicker.value; } });
+  preview.addEventListener("click", () => { if (flashId) { clearInterval(flashId); flashId=null; preview.style.background=bgPicker.value; } document.getElementById("full-btn").click(); });
 
   function startTimer(mins) {
     clearInterval(id);

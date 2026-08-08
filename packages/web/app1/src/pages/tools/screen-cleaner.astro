@@ -50,6 +50,25 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0;">
+        <button class="btn" data-color="#fff" style="font-size:.85rem;">White (dust & smudges)</button>
+        <button class="btn btn-outline" data-color="#111" style="font-size:.85rem;">Black (streaks)</button>
+      </div>
+      <p class="hint">Tip: press F to lock the screen in cleaning mode · Esc unlocks</p>
+
+      <div class="field" style="display:flex;flex-direction:row;align-items:center;gap:8px;justify-content:center;">
+        <label style="margin:0;font-size:.7rem;">Auto-unlock after</label>
+        <select id="autoTimer" style="width:auto;font-size:.72rem;padding:5px 8px;">
+          <option value="0">Off</option>
+          <option value="30">30s</option>
+          <option value="60" selected>1 min</option>
+          <option value="120">2 min</option>
+        </select>
+      </div>
+    </div>
+
     <h1>Screen Cleaner</h1>
     <p class="lede">
       Your laptop screen is covered in fingerprints, dust motes, and that one mysterious spot that's been there
@@ -69,22 +88,6 @@ const breadcrumbLd = {
         <li>Wipe your display, then tap the <strong>on-screen message</strong> or press <strong>Esc</strong> to unlock.</li>
       </ol>
     </section>
-
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0;">
-      <button class="btn" data-color="#fff" style="font-size:.85rem;">White (dust & smudges)</button>
-      <button class="btn btn-outline" data-color="#111" style="font-size:.85rem;">Black (streaks)</button>
-    </div>
-    <p class="hint">Tip: press F to lock the screen in cleaning mode · Esc unlocks</p>
-
-    <div class="field" style="display:flex;flex-direction:row;align-items:center;gap:8px;justify-content:center;">
-      <label style="margin:0;font-size:.7rem;">Auto-unlock after</label>
-      <select id="autoTimer" style="width:auto;font-size:.72rem;padding:5px 8px;">
-        <option value="0">Off</option>
-        <option value="30">30s</option>
-        <option value="60" selected>1 min</option>
-        <option value="120">2 min</option>
-      </select>
-    </div>
 
     <details open>
       <summary>Why lock the screen while cleaning?</summary>

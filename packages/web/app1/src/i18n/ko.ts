@@ -44,6 +44,7 @@ const ko: UI = {
   ],
   footerNote: "이 도구는 전적으로 브라우저에서 작동합니다. 업로드되거나 저장되는 이미지는 없습니다.",
   exitHint: "탭하거나 Escape 키를 눌러 종료",
+  fullscreenHint: "탭하거나 F 키를 눌러 전체 화면으로",
   previewLabel: "미리보기",
   openFull: "전체 화면으로 열기",
   useCasesTitle: (name) => `${name} 사용 방법`,

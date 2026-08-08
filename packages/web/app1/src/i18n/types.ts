@@ -61,6 +61,7 @@ export interface UI {
   faqs: { q: string; a: string }[];
   footerNote: string;
   exitHint: string;
+  fullscreenHint: string;
   previewLabel: string;
   openFull: string;
   useCasesTitle: (name: string) => string;

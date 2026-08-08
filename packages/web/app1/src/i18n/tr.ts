@@ -44,6 +44,7 @@ const tr: UI = {
   ],
   footerNote: "Bu araç tamamen tarayıcınızda çalışır — hiçbir görsel yüklenmez veya saklanmaz.",
   exitHint: "Çıkmak için dokunun veya Escape tuşuna basın",
+  fullscreenHint: "Tam ekran için dokunun veya F tuşuna basın",
   previewLabel: "Önizleme",
   openFull: "Tam ekran aç",
   useCasesTitle: (name) => `${name} kullanım alanları`,

@@ -44,6 +44,7 @@ const se: UI = {
   ],
   footerNote: "Detta verktyg fungerar helt i din webbläsare — inga bilder laddas upp eller lagras.",
   exitHint: "Tryck eller tryck på Esc för att avsluta",
+  fullscreenHint: "Tryck eller tryck på F för helskärm",
   previewLabel: "Förhandsvisning",
   openFull: "Öppna i helskärm",
   useCasesTitle: (name) => `Användningsområden för ${name}`,

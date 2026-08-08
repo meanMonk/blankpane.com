@@ -54,6 +54,30 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <p style="font-size:.75rem;color:var(--ink-dim);font-family:var(--mono);text-align:center;margin:0 0 16px;">Harmless prank — nothing here damages your screen. Press Esc to exit.</p>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;">
+        {styles.map((s) => (
+          <button class="btn btn-outline" data-style={s} style="font-size:.72rem;padding:6px 10px;">{styleLabel[s]}</button>
+        ))}
+      </div>
+
+      <div id="preview-box" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);overflow:hidden;position:relative;background:#111;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen">
+        <span class="stage-fs-hint" style="bottom:10px;">⛶ Tap or press F for full screen</span>
+        <svg id="crack-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></svg>
+        <div id="glitch-overlay" style="position:absolute;inset:0;display:none;"></div>
+        <div id="lcd-overlay" style="position:absolute;inset:0;display:none;"></div>
+      </div>
+
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn" id="full-btn">Full Screen</button>
+        <button class="btn btn-outline" id="dl-btn">Download PNG</button>
+      </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
+    </div>
+
     <h1>Broken Screen Dummy</h1>
     <p class="lede">
       You hand someone your phone or laptop, and they freeze — because the screen looks freshly shattered. This tool
@@ -71,26 +95,6 @@ const styleLabel: Record<string, string> = { "spiderweb-crack":"Spiderweb Crack"
         <li>Press <strong>Esc</strong> to remove the overlay — no permanent marks, no actual damage.</li>
       </ol>
     </section>
-
-    <p style="font-size:.75rem;color:var(--ink-dim);font-family:var(--mono);text-align:center;margin:0 0 16px;">Harmless prank — nothing here damages your screen. Press Esc to exit.</p>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;">
-      {styles.map((s) => (
-        <button class="btn btn-outline" data-style={s} style="font-size:.72rem;padding:6px 10px;">{styleLabel[s]}</button>
-      ))}
-    </div>
-
-    <div id="preview-box" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);overflow:hidden;position:relative;background:#111;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);">
-      <svg id="crack-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></svg>
-      <div id="glitch-overlay" style="position:absolute;inset:0;display:none;"></div>
-      <div id="lcd-overlay" style="position:absolute;inset:0;display:none;"></div>
-    </div>
-
-    <div class="action-row" style="margin-top:16px;">
-      <button class="btn" id="full-btn">Full Screen</button>
-      <button class="btn btn-outline" id="dl-btn">Download PNG</button>
-    </div>
-    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>Will this actually damage my screen?</summary>

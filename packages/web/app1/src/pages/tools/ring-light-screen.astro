@@ -50,26 +50,10 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
-    <h1>Ring Light Screen</h1>
-    <p class="lede">
-      Physical ring lights cost money, take up desk space, and cast hard shadows. This tool draws a glowing ring
-      directly on your display — the light surrounds your webcam window naturally. Adjust the ring width, thickness,
-      corner radius, and color temperature to get the exact look you want. The center stays dark so your call window
-      remains visible, and the halo wraps around it like a studio light. Shrink your Zoom window into the middle
-      of the ring for the best effect. Works instantly in any modern browser — no extension, no download, no login.
-    </p>
 
-    <section>
-      <h2>How to use</h2>
-      <ol>
-        <li><strong>Shrink your video call window</strong> to the center of the ring — the glow should surround it.</li>
-        <li>Drag the <strong>Ring Width, Thickness, and Corner Radius</strong> sliders to shape the halo.</li>
-        <li>Set your preferred <strong>color temperature</strong> and <strong>intensity</strong>, then go full screen.</li>
-      </ol>
-    </section>
-
-    <div id="tool-area" style="margin:24px 0;">
+    <div id="tool-area" style="margin:8px 0 24px;">
       <div id="preview" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#14141a;overflow:hidden;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen">
+        <span class="stage-fs-hint" style="bottom:10px;">⛶ Tap or press F for full screen</span>
         <canvas id="ring-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
         <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
           <div style="width:40%;height:40%;border:2px dashed rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);font-size:.7rem;font-family:var(--mono);">call window here</div>
@@ -90,6 +74,24 @@ const breadcrumbLd = {
       </div>
       <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
+
+    <h1>Ring Light Screen</h1>
+    <p class="lede">
+      Physical ring lights cost money, take up desk space, and cast hard shadows. This tool draws a glowing ring
+      directly on your display — the light surrounds your webcam window naturally. Adjust the ring width, thickness,
+      corner radius, and color temperature to get the exact look you want. The center stays dark so your call window
+      remains visible, and the halo wraps around it like a studio light. Shrink your Zoom window into the middle
+      of the ring for the best effect. Works instantly in any modern browser — no extension, no download, no login.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li><strong>Shrink your video call window</strong> to the center of the ring — the glow should surround it.</li>
+        <li>Drag the <strong>Ring Width, Thickness, and Corner Radius</strong> sliders to shape the halo.</li>
+        <li>Set your preferred <strong>color temperature</strong> and <strong>intensity</strong>, then go full screen.</li>
+      </ol>
+    </section>
 
     <details open>
       <summary>How is a ring light screen different from a solid fill?</summary>

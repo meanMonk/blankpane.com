@@ -44,6 +44,7 @@ const es: UI = {
   ],
   footerNote: "Esta herramienta funciona por completo en tu navegador — no se suben ni almacenan imágenes.",
   exitHint: "Toca o pulsa Escape para salir",
+  fullscreenHint: "Toca o pulsa F para ir a pantalla completa",
   previewLabel: "Vista previa",
   openFull: "Abrir pantalla completa",
   useCasesTitle: (name) => `Usos de un ${name}`,

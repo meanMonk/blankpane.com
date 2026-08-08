@@ -44,6 +44,7 @@ const ms: UI = {
   ],
   footerNote: "Alat ini berfungsi sepenuhnya dalam penyemak imbas anda — tiada imej dimuat naik atau disimpan.",
   exitHint: "Sentuh atau tekan Escape untuk keluar",
+  fullscreenHint: "Sentuh atau tekan F untuk skrin penuh",
   previewLabel: "Pratonton",
   openFull: "Buka skrin penuh",
   useCasesTitle: (name) => `Cara guna ${name}`,

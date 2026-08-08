@@ -44,6 +44,7 @@ const ja: UI = {
   ],
   footerNote: "このツールはブラウザ内で完結します。画像のアップロードや保存は一切ありません。",
   exitHint: "タップまたはEscキーで終了",
+  fullscreenHint: "タップまたはFキーで全画面表示",
   previewLabel: "プレビュー",
   openFull: "全画面で開く",
   useCasesTitle: (name) => `${name}の使い方`,

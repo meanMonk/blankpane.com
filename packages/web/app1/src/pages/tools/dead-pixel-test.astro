@@ -51,29 +51,10 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
-    <h1>Dead Pixel Test</h1>
-    <p class="lede">
-      You unbox a new monitor or phone and want to make sure every pixel works before the return window closes.
-      This tool auto-cycles through a sequence of full-screen colors — white, black, pure red, pure green, pure
-      blue, a smooth grayscale gradient, and a high-contrast checkerboard — so you can scan every inch of your
-      screen for dead, stuck, or dim pixels. Set the auto-advance speed to your liking, or step through
-      manually with previous/next buttons. If you find a stuck (not dead) pixel showing a constant color,
-      start the rapid-flash fix mode: it pounds through white, black, and primaries at high speed in an
-      attempt to unstick the liquid crystal. Run it for 5–10 minutes and check again. It's not a magic cure,
-      but it works often enough to be worth trying before you file for a replacement.
-    </p>
 
-    <section>
-      <h2>How to use</h2>
-      <ol>
-        <li>Hit <strong>Full Screen</strong> to remove all UI — walk close to the display and scan carefully.</li>
-        <li>Use the <strong>auto-cycle</strong> timer or the <strong>← Prev / Next →</strong> buttons to step through every color.</li>
-        <li>If you spot a stuck pixel, start <strong>Rapid Flash</strong> and let it run for 5–10 minutes, then re-check.</li>
-      </ol>
-    </section>
-
-    <div id="tool-area" style="margin:24px 0;">
-      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);display:flex;align-items:flex-end;justify-content:center;padding:14px;cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <div id="preview" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);display:flex;align-items:flex-end;justify-content:center;padding:14px;cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+        <span class="stage-fs-hint" style="bottom:6px;">⛶ Tap or press F for full screen</span>
         <span id="color-label" style="font-family:var(--mono);font-size:.7rem;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.5);color:#fff;">White</span>
       </div>
 
@@ -97,6 +78,27 @@ const breadcrumbLd = {
       </div>
       <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
+
+    <h1>Dead Pixel Test</h1>
+    <p class="lede">
+      You unbox a new monitor or phone and want to make sure every pixel works before the return window closes.
+      This tool auto-cycles through a sequence of full-screen colors — white, black, pure red, pure green, pure
+      blue, a smooth grayscale gradient, and a high-contrast checkerboard — so you can scan every inch of your
+      screen for dead, stuck, or dim pixels. Set the auto-advance speed to your liking, or step through
+      manually with previous/next buttons. If you find a stuck (not dead) pixel showing a constant color,
+      start the rapid-flash fix mode: it pounds through white, black, and primaries at high speed in an
+      attempt to unstick the liquid crystal. Run it for 5–10 minutes and check again. It's not a magic cure,
+      but it works often enough to be worth trying before you file for a replacement.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Hit <strong>Full Screen</strong> to remove all UI — walk close to the display and scan carefully.</li>
+        <li>Use the <strong>auto-cycle</strong> timer or the <strong>← Prev / Next →</strong> buttons to step through every color.</li>
+        <li>If you spot a stuck pixel, start <strong>Rapid Flash</strong> and let it run for 5–10 minutes, then re-check.</li>
+      </ol>
+    </section>
 
     <details open>
       <summary>What's the difference between a dead pixel and a stuck pixel?</summary>

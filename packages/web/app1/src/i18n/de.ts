@@ -44,6 +44,7 @@ const de: UI = {
   ],
   footerNote: "Dieses Tool läuft komplett in deinem Browser – es werden keine Bilder hochgeladen oder gespeichert.",
   exitHint: "Tippen oder Esc drücken zum Beenden",
+  fullscreenHint: "Tippen oder F drücken für den Vollbildmodus",
   previewLabel: "Vorschau",
   openFull: "Vollbild öffnen",
   useCasesTitle: (name) => `Vielseitig nutzen: ${name}`,

@@ -44,6 +44,7 @@ const fr: UI = {
   ],
   footerNote: "Cet outil fonctionne entièrement dans votre navigateur — aucune image n'est téléversée ni stockée.",
   exitHint: "Touchez ou appuyez sur Échap pour quitter",
+  fullscreenHint: "Touchez ou appuyez sur F pour passer en plein écran",
   previewLabel: "Aperçu",
   openFull: "Ouvrir en plein écran",
   useCasesTitle: (name) => `Utiliser un ${name}`,

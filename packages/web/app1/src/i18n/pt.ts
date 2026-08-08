@@ -44,6 +44,7 @@ const pt: UI = {
   ],
   footerNote: "Esta ferramenta funciona inteiramente no seu navegador — nenhuma imagem é enviada ou armazenada.",
   exitHint: "Toque ou pressione Escape para sair",
+  fullscreenHint: "Toque ou pressione F para tela cheia",
   previewLabel: "Pré-visualização",
   openFull: "Abrir em tela cheia",
   useCasesTitle: (name) => `Usos de um ${name}`,

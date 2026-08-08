@@ -44,6 +44,7 @@ const pl: UI = {
   ],
   footerNote: "To narzędzie działa w całości w Twojej przeglądarce — żadne obrazy nie są przesyłane ani przechowywane.",
   exitHint: "Dotknij lub naciśnij Esc, aby wyjść",
+  fullscreenHint: "Dotknij lub naciśnij F, aby przejść do pełnego ekranu",
   previewLabel: "Podgląd",
   openFull: "Otwórz na pełnym ekranie",
   useCasesTitle: (name) => `Sposoby użycia ${name}`,

@@ -44,6 +44,7 @@ const it: UI = {
   ],
   footerNote: "Questo strumento funziona interamente nel tuo browser — nessuna immagine viene caricata o memorizzata.",
   exitHint: "Tocca o premi Esc per uscire",
+  fullscreenHint: "Tocca o premi F per il pieno schermo",
   previewLabel: "Anteprima",
   openFull: "Apri a tutto schermo",
   useCasesTitle: (name) => `Usi di un ${name}`,

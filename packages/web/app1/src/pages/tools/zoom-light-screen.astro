@@ -50,26 +50,10 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
-    <h1>Zoom Light Screen</h1>
-    <p class="lede">
-      Most built-in webcams struggle in dim rooms — that's what this tool fixes. Instead of buying a physical ring light,
-      you can turn your entire display into an adjustable color-temperature fill light. The screen sits right in front of
-      your face, so the light hits your features evenly. Dial the Kelvin slider to match your room's bulbs (warm
-      incandescent around 3000 K, neutral office light at 4000 K, or daylight-balanced 5500 K) and tweak brightness
-      so you look natural without squinting. Works in any browser — no download, no signup, no watermark.
-    </p>
 
-    <section>
-      <h2>How to use</h2>
-      <ol>
-        <li>Drag the <strong>Kelvin slider</strong> to set your preferred color temperature (or tap a preset).</li>
-        <li>Adjust <strong>brightness</strong> so your face looks evenly lit without blowing out highlights.</li>
-        <li>Hit <strong>Full Screen</strong> to fill your monitor or <strong>Download PNG</strong> to save a solid-color image.</li>
-      </ol>
-    </section>
-
-    <div id="tool-area" style="margin:24px 0;">
-      <div id="preview" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff7e6;display:flex;align-items:flex-end;padding:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <div id="preview" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:#fff7e6;display:flex;align-items:flex-end;padding:16px;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+        <span class="stage-fs-hint" style="bottom:6px;">⛶ Tap or press F for full screen</span>
         <span style="font-family:var(--mono);font-size:.72rem;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.45);color:#fff;" id="kv-label">3000 K — Warm/Office</span>
       </div>
 
@@ -106,6 +90,24 @@ const breadcrumbLd = {
       </div>
       <p class="hint">Tip: press F for full screen · Esc to exit</p>
     </div>
+
+    <h1>Zoom Light Screen</h1>
+    <p class="lede">
+      Most built-in webcams struggle in dim rooms — that's what this tool fixes. Instead of buying a physical ring light,
+      you can turn your entire display into an adjustable color-temperature fill light. The screen sits right in front of
+      your face, so the light hits your features evenly. Dial the Kelvin slider to match your room's bulbs (warm
+      incandescent around 3000 K, neutral office light at 4000 K, or daylight-balanced 5500 K) and tweak brightness
+      so you look natural without squinting. Works in any browser — no download, no signup, no watermark.
+    </p>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Drag the <strong>Kelvin slider</strong> to set your preferred color temperature (or tap a preset).</li>
+        <li>Adjust <strong>brightness</strong> so your face looks evenly lit without blowing out highlights.</li>
+        <li>Hit <strong>Full Screen</strong> to fill your monitor or <strong>Download PNG</strong> to save a solid-color image.</li>
+      </ol>
+    </section>
 
     <details open>
       <summary>What Kelvin setting should I use for Zoom calls?</summary>

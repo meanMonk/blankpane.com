@@ -1,0 +1,72 @@
+---
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+interface Props {
+  slug: string;
+  title?: string;
+  lede?: string;
+}
+
+const {
+  slug,
+  title = "Watch it in action",
+  lede = "See it fill the screen edge-to-edge, then open it full screen on your own display.",
+} = Astro.props;
+const src = `/videos/${slug}.mp4`;
+const filePath = fileURLToPath(new URL(`../../public/videos/${slug}.mp4`, import.meta.url));
+const available = existsSync(filePath);
+---
+
+<section class="video-card">
+  <h2 style="font-family:var(--display);font-size:1.1rem;margin:0 0 6px;text-align:center;">{title}</h2>
+  <p class="center-lede" style="font-size:.85rem;color:var(--ink-dim);">{lede}</p>
+  {
+    available ? (
+      <div class="video-card-frame">
+        <video src={src} controls playsinline preload="none"></video>
+      </div>
+    ) : (
+      <div class="video-card-frame video-card-soon">
+        <span aria-hidden="true">▶</span>
+        <p>Video coming soon</p>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .video-card { border-top: 1px solid var(--line); padding: 28px 0; }
+  .video-card-frame {
+    max-width: 560px;
+    margin: 14px auto 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: #000;
+    overflow: hidden;
+  }
+  .video-card-frame video { width: 100%; height: 100%; display: block; }
+  .video-card-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--bg-raised);
+    color: var(--ink-dim);
+  }
+  .video-card-soon span {
+    font-size: 2rem;
+    opacity: .6;
+    border: 2px solid var(--line);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+  }
+  .video-card-soon p { margin: 0; font-size: .85rem; font-family: var(--mono); }
+</style>

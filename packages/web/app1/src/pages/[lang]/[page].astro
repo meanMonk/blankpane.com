@@ -5,7 +5,7 @@ import ColorHub from "../../components/ColorHub.astro";
 import ToolCards from "../../components/ToolCards.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import UseCaseAccordion from "../../components/UseCaseAccordion.astro";
-import WatchVideo from "../../components/WatchVideo.astro";
+import VideoCard from "../../components/VideoCard.astro";
 import RelatedGuides from "../../components/RelatedGuides.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
@@ -75,8 +75,8 @@ const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
           <h1>{page.h1}</h1>
         </header>
         <ColorTool t={t} tiles={tiles} initialHex={c.hex} initialName={page.h1} initialLight={c.light} initialSlug={c.slug} lang={lang} />
+        <VideoCard slug={c.slug} title={`Watch: ${colorName} in action`} />
         <p class="lede">{page.intro}</p>
-        {c.slug === "white-screen" && <WatchVideo t={t} />}
         <UseCaseAccordion t={t} slug={c.slug} />
         <section id="uses">
           <h2>{page.whyTitle}</h2>

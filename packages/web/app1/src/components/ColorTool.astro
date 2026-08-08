@@ -27,6 +27,7 @@ const serializable = {
   ui: {
     customColor: t.customColor,
     goFullScreen: t.goFullScreen,
+    fullscreenHint: t.fullscreenHint,
     downloadPng: t.downloadPng,
     sizePreset: t.sizePreset,
     presetFHD: t.presetFHD,
@@ -46,12 +47,13 @@ const serializable = {
 ---
 
 <div class="tool-panel">
-  <div class="preview-stage" id="previewStage">
+  <div class="preview-stage" id="previewStage" title={t.fullscreenHint} tabindex="0">
     <div class="stage-info">
       <span class="stage-name" id="stageName">{initialName || "White"}</span>
       <span class="stage-meta" id="stageMeta">#FFFFFF · 1920 × 1080 px</span>
     </div>
-    <button class="stage-expand" id="stageExpand" aria-label={t.openFull} title={t.openFull}>⛶</button>
+    <span class="stage-fs-hint" id="stageFsHint">{t.fullscreenHint}</span>
+    <button class="stage-expand" id="stageExpand" aria-label={t.openFull} title={t.fullscreenHint}>⛶</button>
   </div>
 
   <div class="control-row">
@@ -101,13 +103,6 @@ const serializable = {
   </div>
   <p class="screen-counter" id="screenCounter">1 / 23</p>
 </section>
-
-<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Screen viewer">
-  <div class="video-modal-inner">
-    <button class="video-modal-close" id="videoModalClose" aria-label="Close viewer">&times;</button>
-    <img id="videoModalPlayer" alt="Screen preview" />
-  </div>
-</div>
 
 <script define:vars={{ cfg: serializable }}>
 // @ts-nocheck
@@ -172,6 +167,10 @@ const serializable = {
 
   document.getElementById("goFullBtn").addEventListener("click", () => { track('fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
   document.getElementById("stageExpand").addEventListener("click", () => { track('fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
+  previewStage.addEventListener("click", () => { track('fullscreen', { event_category: 'tool', event_label: state.name }); goFullScreen(state.hex); });
+  previewStage.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goFullScreen(state.hex); }
+  });
 
   document.getElementById("downloadBtn").addEventListener("click", () => {
     const w = Math.min(8000, Math.max(1, parseInt(widthInput.value) || 1920));
@@ -275,40 +274,21 @@ const serializable = {
     const s = shown[shownIdx];
     if (!s) return;
     track('screen_open', { event_category: 'tool', event_label: s.file });
-    openViewer(`/screens/${s.file}.png`);
+    openImage(`/screens/${s.file}.png`);
   });
 
-  // Lightbox viewer (full-size screen image)
-  const videoModal = document.getElementById("videoModal");
-  const videoModalPlayer = document.getElementById("videoModalPlayer");
-  const videoModalClose = document.getElementById("videoModalClose");
-  let savedScrollY = 0;
-
-  function openViewer(src) {
-    savedScrollY = window.scrollY;
-    videoModalPlayer.src = src;
-    videoModal.classList.add("open");
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${savedScrollY}px`;
-    document.body.style.width = "100%";
+  // Full-screen image viewer via the shared #overlay (fill the screen, no lightbox)
+  function openImage(src) {
+    const ov = document.getElementById("overlay");
+    if (!ov) return;
+    ov.style.background = "";
+    ov.style.backgroundImage = `url('${src}')`;
+    ov.style.backgroundSize = "contain";
+    ov.style.backgroundPosition = "center";
+    ov.style.backgroundRepeat = "no-repeat";
+    ov.style.display = "flex";
+    document.documentElement.requestFullscreen?.().catch(() => {});
   }
-
-  function closeViewer() {
-    videoModal.classList.remove("open");
-    videoModalPlayer.src = "";
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    window.scrollTo(0, savedScrollY);
-  }
-
-  videoModalClose.addEventListener("click", closeViewer);
-  videoModal.addEventListener("click", (e) => {
-    if (e.target === videoModal) closeViewer();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && videoModal.classList.contains("open")) closeViewer();
-  });
 
   updatePreview();
   setShown(state.slug);

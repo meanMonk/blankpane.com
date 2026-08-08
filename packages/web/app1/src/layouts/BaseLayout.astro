@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import { getUI, locales, type UI } from "../i18n";
 
 interface Props {
@@ -149,23 +150,16 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
           )}
           <a href={`${localePrefix}/colors/`} class="nav-link">{t.navColors}</a>
           <a href={`${localePrefix}/blog/`} class="nav-link">{t.navBlog}</a>
-          <div class="lang-dropdown" data-theme-dropdown>
-            <button class="theme-select" type="button" data-theme-toggle aria-label="Theme">System</button>
-            <div class="lang-dropdown-content" data-theme-content>
-              <button type="button" data-theme-option="light">Light</button>
-              <button type="button" data-theme-option="dark">Dark</button>
-              <button type="button" data-theme-option="system">System</button>
-            </div>
-          </div>
+          <ThemeSwitcher ariaLabel={t.langLabel ?? "Theme"} />
           {langSwitcher && (
             <div class="lang-dropdown" data-lang-dropdown>
               <button class="lang-select" type="button" data-lang-toggle aria-label={t.langLabel}>
                 {t.langLabel} ▾
               </button>
               <div class="lang-dropdown-content" data-lang-content>
-                {locales.map((l) => (
+                {alternateLinks.map((l) => (
                   <a href={l.href} class:list={{ active: l.code === lang }}>
-                    {l.native}
+                    {locales.find((x) => x.code === l.code)?.native ?? l.code}
                   </a>
                 ))}
               </div>
@@ -187,6 +181,9 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
           <a href={lang === "en" ? "/cookie-policy/" : `/${lang}/cookie-policy/`}>{t.footerCookies}</a>
           <a href={lang === "en" ? "/disclaimer/" : `/${lang}/disclaimer/`}>{t.footerDisclaimer}</a>
           <a href={lang === "en" ? "/contact/" : `/${lang}/contact/`}>{t.footerContact}</a>
+        </div>
+        <div class="foot-theme">
+          <ThemeSwitcher ariaLabel="Theme" />
         </div>
         <p>© 2026 BlankPane. {t.footerNote}</p>
       </div>
@@ -230,41 +227,32 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
       }
 
       // Theme switcher (light / dark / system — colors only)
-      const themeDropdown = document.querySelector("[data-theme-dropdown]");
-      if (themeDropdown) {
-        const toggle = themeDropdown.querySelector("[data-theme-toggle]")!;
-        const content = themeDropdown.querySelector("[data-theme-content]")!;
-        const themeMeta = document.querySelector('meta[name="theme-color"]');
-        function applyTheme(t) {
-          document.documentElement.setAttribute("data-theme", t);
-          try { localStorage.setItem("blankpane-theme", t); } catch (e) {}
-          if (toggle) toggle.textContent = t;
-          content.querySelectorAll("[data-theme-option]").forEach((b) => {
+      const themeGroups = document.querySelectorAll("[data-theme-group]");
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      function applyTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        try { localStorage.setItem("blankpane-theme", t); } catch (e) {}
+        themeGroups.forEach((group) => {
+          group.querySelectorAll("[data-theme-option]").forEach((b) => {
             const active = b.dataset.themeOption === t;
             b.classList.toggle("theme-active", active);
             b.setAttribute("aria-pressed", String(active));
           });
-          const isLight = t === "light" || (t === "system" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
-          if (themeMeta) themeMeta.setAttribute("content", isLight ? "#f5f5f8" : "#4c6fff");
-          track('theme_change', { event_category: 'ui', event_label: t });
-        }
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          content.classList.toggle("lang-show");
         });
-        document.addEventListener("click", () => content.classList.remove("lang-show"));
-        content.querySelectorAll("[data-theme-option]").forEach((b) => {
-          b.addEventListener("click", () => {
-            applyTheme(b.dataset.themeOption);
-            content.classList.remove("lang-show");
-          });
+        const isLight = t === "light" || (t === "system" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+        if (themeMeta) themeMeta.setAttribute("content", isLight ? "#f5f5f8" : "#4c6fff");
+        track('theme_change', { event_category: 'ui', event_label: t });
+      }
+      themeGroups.forEach((group) => {
+        group.querySelectorAll("[data-theme-option]").forEach((b) => {
+          b.addEventListener("click", () => applyTheme(b.dataset.themeOption));
         });
-        applyTheme(document.documentElement.getAttribute("data-theme") || "system");
-        if (window.matchMedia) {
-          window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
-            if (document.documentElement.getAttribute("data-theme") === "system") applyTheme("system");
-          });
-        }
+      });
+      applyTheme(document.documentElement.getAttribute("data-theme") || "system");
+      if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+          if (document.documentElement.getAttribute("data-theme") === "system") applyTheme("system");
+        });
       }
 
       document.querySelectorAll('.nav-link').forEach(a => {

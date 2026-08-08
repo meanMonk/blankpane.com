@@ -50,6 +50,17 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;text-align:center;">
+      <div id="flash-preview" style="width:100%;aspect-ratio:1/1;max-width:320px;margin:0 auto;border-radius:50%;border:2px solid var(--line);background:var(--bg-raised);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s, box-shadow .15s;user-select:none;-webkit-user-select:none;" title="Click for full screen">
+        <span id="flash-label" style="font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--ink-dim);">Tap to turn on</span>
+      </div>
+      <p id="caution" style="font-size:.72rem;color:var(--ink-dim);margin:12px 0 0;font-family:var(--mono);display:none;">
+        Keep screen at arm's length · Don't stare · Bright light may strain eyes
+      </p>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
+    </div>
+
     <h1>Screen Flashlight</h1>
     <p class="lede">
       You drop something under the desk, the power goes out, or you need to find your keys in a dark car — your
@@ -67,16 +78,6 @@ const breadcrumbLd = {
         <li>Tap anywhere or press <strong>Esc</strong> to turn it off. Keep the screen at arm's length from your eyes.</li>
       </ol>
     </section>
-
-    <div id="tool-area" style="margin:28px 0;text-align:center;">
-      <div id="flash-preview" style="width:100%;aspect-ratio:1/1;max-width:320px;margin:0 auto;border-radius:50%;border:2px solid var(--line);background:var(--bg-raised);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s, box-shadow .15s;user-select:none;-webkit-user-select:none;" title="Click for full screen">
-        <span id="flash-label" style="font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--ink-dim);">Tap to turn on</span>
-      </div>
-      <p id="caution" style="font-size:.72rem;color:var(--ink-dim);margin:12px 0 0;font-family:var(--mono);display:none;">
-        Keep screen at arm's length · Don't stare · Bright light may strain eyes
-      </p>
-      <p class="hint">Tip: press F for full screen · Esc to exit</p>
-    </div>
 
     <details open>
       <summary>Is this brighter than my phone's flashlight?</summary>

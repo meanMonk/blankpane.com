@@ -44,6 +44,7 @@ const en: UI = {
   ],
   footerNote: "This tool works entirely in your browser — no images are uploaded or stored.",
   exitHint: "Tap or press Esc to exit",
+  fullscreenHint: "Tap or press F to go full screen",
   previewLabel: "Preview",
   openFull: "Open full screen",
   useCasesTitle: (name) => `Ways to use a ${name}`,

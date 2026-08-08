@@ -51,6 +51,20 @@ const breadcrumbLd = {
 >
   <div class="page" style="max-width:720px;">
     <p class="back"><a href="/tools/">← All tools</a></p>
+
+    <div id="tool-area" style="margin:8px 0 24px;">
+      <div id="preview-box" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);overflow:hidden;position:relative;background:#000;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
+        <span class="stage-fs-hint" style="bottom:10px;">⛶ Tap or press F for full screen</span>
+        <canvas id="static-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+        <div id="signal-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:monospace;font-size:clamp(1rem,3vw,2.5rem);font-weight:700;color:#fff;background:rgba(0,0,0,.7);padding:14px 28px;border:3px solid rgba(255,255,255,.6);border-radius:6px;white-space:nowrap;pointer-events:none;text-shadow:0 2px 4px rgba(0,0,0,.5);">NO SIGNAL</div>
+      </div>
+
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn" id="full-btn">Full Screen</button>
+      </div>
+      <p class="hint">Tip: press F for full screen · Esc to exit</p>
+    </div>
+
     <h1>No Signal Screen</h1>
     <p class="lede">
       You walk into a room, glance at someone's monitor, and see the classic bouncing "NO SIGNAL" box floating
@@ -69,16 +83,6 @@ const breadcrumbLd = {
         <li>Press <strong>Esc</strong> (or click anywhere) to dismiss — your screen returns to normal.</li>
       </ol>
     </section>
-
-    <div id="preview-box" style="width:100%;aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);overflow:hidden;position:relative;background:#000;box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);cursor:pointer;" title="Click for full screen" onclick="document.getElementById('full-btn').click();">
-      <canvas id="static-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-      <div id="signal-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:monospace;font-size:clamp(1rem,3vw,2.5rem);font-weight:700;color:#fff;background:rgba(0,0,0,.7);padding:14px 28px;border:3px solid rgba(255,255,255,.6);border-radius:6px;white-space:nowrap;pointer-events:none;text-shadow:0 2px 4px rgba(0,0,0,.5);">NO SIGNAL</div>
-    </div>
-
-    <div class="action-row" style="margin-top:16px;">
-      <button class="btn" id="full-btn">Full Screen</button>
-    </div>
-    <p class="hint">Tip: press F for full screen · Esc to exit</p>
 
     <details open>
       <summary>How does the TV static animation work?</summary>
