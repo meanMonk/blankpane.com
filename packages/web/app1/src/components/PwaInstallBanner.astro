@@ -121,7 +121,10 @@ const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
   }
 
   installBtn.addEventListener("click", async () => {
-    if (deferredPrompt) {
+    // A real `beforeinstallprompt` event carries a `prompt()` method. A
+    // manually-dispatched/synthetic event (e.g. testing via console) does not —
+    // in that case fall back to explaining how to install.
+    if (deferredPrompt && typeof deferredPrompt.prompt === "function") {
       hide();
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
@@ -132,6 +135,12 @@ const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
         } catch (e) {}
       }
       window.track && window.track("pwa_install_choice", { event_category: "pwa", event_label: outcome });
+    } else if (deferredPrompt) {
+      // Synthetic/test event — show install steps instead.
+      titleEl.textContent = "Install BlankPane";
+      bodyEl.textContent = "Open the ⋮ menu in Chrome and tap “Install BlankPane”, or use Add to Home Screen.";
+      installBtn.textContent = "Got it";
+      window.track && window.track("pwa_install_manual", { event_category: "pwa" });
     } else {
       hide();
     }
