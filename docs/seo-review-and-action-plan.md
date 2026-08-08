@@ -223,9 +223,9 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **Cookie consent banner** for EU/UK traffic — `CookieBanner.astro` (accept/decline, persisted).
 - ✅ **Feedback + contact channel** — ★ `FeedbackModal.astro` (1–5 rating + comment + email, success/error views with mailto fallback) + `/contact/`.
 - ✅ **`ads.txt`** present — `public/ads.txt` (placeholder pub ID; **replace with real Publisher ID after approval**).
-- ☐ **Verify site ownership in Search Console** (google-site-verification) before/at application.
-- ☐ **Build steady organic traffic first** — apply after the P0 keyword pages + guides have been indexed a few weeks.
-- ☐ **After approval (manual)**: paste real pub ID into `ads.txt`, add AdSense script to `BaseLayout`, enable Auto Ads (Min load), set `LEADS_API_URL` + `LEADS_API_KEY` in Cloudflare Pages (feedback → VaayaLabs leads API).
+- ✅ **Verify site ownership in Search Console** (google-site-verification) + AdSense script added to `BaseLayout` — **application submitted, awaiting approval** (manual, 2026-08-09).
+- ☐ **Build steady organic traffic first** — apply after the P0 keyword pages + guides have been indexed a few weeks. *(applied ahead of this schedule)*
+- ☐ **After approval (manual)**: paste real Publisher ID into `ads.txt`, enable Auto Ads (Min load). *(AdSense script already in `BaseLayout`; `LEADS_API_URL`/`LEADS_API_KEY` set and **lead flow validated end-to-end** — Cloudflare Functions + pages deployed, feedback → VaayaLabs leads API confirmed working, 2026-08-09.)*
 
 ### Placement rules (critical for a click-heavy tool site)
 - **Below the fold** + in the "uses"/FAQ grid. Never over the tool controls.
@@ -257,9 +257,10 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - **On-site tie-in:** the same MP4 is referenced by the color page "Watch our video" section (video doubles as on-page media; no YouTube iframe needed).
 
 ### Status
-- ☐ Generate the 12 videos (`pnpm videos:gen`).
-- ☐ Set up channel `blankscreen` (description, keywords, banner, playlist).
-- ☐ Upload 12 videos with the per-video metadata from `README-videos.md` (bulk via YouTube Data API / n8n).
+- ✅ Generate the 12 videos (`pnpm videos:gen`) — done.
+- ✅ Set up channel `blankscreen` (description, keywords, banner) — **manual** (2026-08-09).
+- ✅ Upload **6 of 12** videos with the per-video metadata from `README-videos.md` — **manual** (2026-08-09).
+- ☐ Upload remaining 6 videos + build the "Blank Screens" playlist.
 - ☐ Add VideoObject microdata for the white-screen video + Screens grid (already planned P1 #7/#9).
 
 ---
@@ -304,6 +305,9 @@ Applied per page on blankpane.com (mostly already present — see gaps):
 - ✅ **UX/UI fixes (uncommitted until push)**: tool-page reorder (interactive tool first), locale-aware color tiles, ThemeSwitcher icon buttons (nav + footer), WatchVideo inline player, VideoCard on color pages. Follow-up round: SVG icon rendering (`set:html`), slug-preserving language switcher (`alternateLinks`), real color videos. Final round: `preview-stage` hover/click → fullscreen with a new `fullscreenHint` chip on the stage (13 locales), `stage-expand` bolder/bigger, `ScreenGallery` + color-page screen viewer open in the shared `#overlay` fullscreen instead of a lightbox modal, and visible "⛶ Tap or press F for full screen" chips on all 9 tool-page preview stages (countdown preview now also opens fullscreen on click).
 - ✅ **AdSense readiness items** (2026-08-08): `public/ads.txt` (placeholder pub ID), `CookieBanner.astro` (EU/UK consent), `FeedbackModal.astro` (rating + comment + email, success/error + mailto fallback), Cloudflare Pages Function `functions/api/feedback.ts`, and strengthened legal pages (GDPR/CCPA rights, log files, children <13, effective dates, feedback on /contact/). Playbook in `docs/adsense-readiness.md`.
 - ✅ **P2 #12 — PWA install prompt** (2026-08-08): `PwaInstallBanner.astro` wired into BaseLayout — shows on `beforeinstallprompt` (Chrome/Android/Edge), iOS Safari "Add to Home Screen" hint, hidden in standalone mode, 7-day snooze on dismiss. Manifest + `sw.js` + SW registration already live.
+- ✅ **YouTube channel + first uploads** (manual, 2026-08-09): `blankscreen` channel created (description, keywords, banner); **6 of 12 videos uploaded** with per-video metadata from `README-videos.md`. Remaining: 6 more uploads + the "Blank Screens" playlist.
+- ✅ **AdSense application submitted** (manual, 2026-08-09): account connected, AdSense script added to `BaseLayout`, site ownership verified — **waiting for approval**. On approval: swap real Publisher ID into `ads.txt`, enable Auto Ads (Min load).
+- ✅ **Lead flow validated** (manual, 2026-08-09): Cloudflare Functions + pages deployed; feedback form → VaayaLabs leads API confirmed working end-to-end.
 
 ### Remaining (priorities updated 2026-08-08 per `docs/keyword-clustering-plan.md`)
 - ✅ **P0 #3** `/guides/how-to-make-a-white-background/` (263K/mo) — new "design" cluster guide (online editor, Photoshop, Canva, GIMP, capture methods); wired into guides hub, llms.txt, RelatedGuides.
@@ -317,8 +321,8 @@ Applied per page on blankpane.com (mostly already present — see gaps):
   - ✅ **Internal linking pass**: editor + wallpaper links on white/black/gray color pages and the guides hub; guide wired into llms.txt.
   - ☐ **Skipped this round**: `/passport-photo-white-background/` (43.8K/mo), `/black-screen-video/` + `/white-screen-video/` (5.7M/mo), and the 5 whitescreen.im tool pages (uniformity/oled-gray/dvd-screensaver/bouncing-dvd/static) — deferred for a later round.
 - **P2 #9–13**: social proof (#9), resolution-pill URLs (#10), profile footprint (#11), ✅ PWA install prompt (#12 — `PwaInstallBanner.astro`), multilingual depth (#13).
-- **§5 AdSense**: ✅ cookie banner, ✅ feedback modal, ✅ `ads.txt`, ✅ strengthened legal (GDPR/CCPA/children/dates). Remaining (manual): verify Search Console ownership; apply after a few weeks of indexed traffic; after approval replace pub ID in `ads.txt`, add AdSense script, enable Auto Ads (Min), set `LEADS_API_URL` + `LEADS_API_KEY` (feedback → VaayaLabs leads API); revisit premium brokers at ~10K visits/mo. See `docs/adsense-readiness.md`.
-- **§6 YouTube**: generate 12 videos (`pnpm videos:gen`), set up `blankscreen` channel + playlist, upload 12 videos with the per-video metadata from `docs/archive/README-videos.md`.
+- **§5 AdSense**: ✅ cookie banner, ✅ feedback modal, ✅ `ads.txt`, ✅ strengthened legal (GDPR/CCPA/children/dates), ✅ applied (account connected, script in `BaseLayout`, ownership verified, **waiting for approval** 2026-08-09), ✅ lead flow validated (functions + pages deployed). Remaining (manual): after approval replace pub ID in `ads.txt`, enable Auto Ads (Min); revisit premium brokers at ~10K visits/mo. See `docs/adsense-readiness.md`.
+- **§6 YouTube**: ✅ videos generated (`pnpm videos:gen`), ✅ `blankscreen` channel created + **6 of 12 videos uploaded** (manual, 2026-08-09). Remaining: upload 6 more videos, create the "Blank Screens" playlist.
 - **§7 Backlinks**: Product Hunt / BetaList / AlternativeTo listings; 3–5 contextual Reddit answers (r/monitor, r/animation, r/techsupport); 1–2 edu/org resource-list links; Quora/StackExchange dead-pixel answer. Do after P0 content lands.
 - **Follow-ups from this change**: translate the 57 use-case items per-locale (currently English-only); consider a `green screen for ___` / `blue screen for ___` use-case depth on the `zoom-background-screen` page; add VideoObject microdata for the white-screen video; translate the 10 guides per-locale (currently English-only).
 - **Tool-page translations (recommend SKIP before close)**: the 9 tool pages + `/tools/` hubs are currently EN-only, and the ~60 tool UI strings are hardcoded English. Localizing them (13 locales × 9 tools × ~60 strings) is high effort, low SEO return with ~2 days left — search traffic for tool queries is overwhelmingly English, and the pages already rank under the EN slugs. Recommendation: ship P1 items instead; keep tool pages EN-only unless a later maintenance round localizes them.

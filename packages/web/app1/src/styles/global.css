@@ -430,6 +430,20 @@ footer {
 }
 .foot-links a { color: var(--ink-dim); }
 .foot-links a:hover { color: var(--ink); }
+.foot-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.foot-badges a {
+  display: inline-flex;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+.foot-badges a:hover { opacity: 1; }
+.foot-badges img { height: 40px; width: auto; }
 
 /* FULLSCREEN OVERLAY */
 #overlay {
