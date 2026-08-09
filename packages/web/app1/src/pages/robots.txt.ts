@@ -10,6 +10,7 @@ Crawl-delay: 2
 
 # Sitemap
 Sitemap: https://blankpane.com/sitemap.xml
+Sitemap: https://blankpane.com/video-sitemap.xml
 
 # Explicitly allow common AI crawlers (redundant with global allow, but signals intent)
 User-agent: GPTBot

@@ -1,6 +1,7 @@
 ---
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { getYouTubeVideo } from "../data/youtube";
 
 interface Props {
   slug: string;
@@ -16,6 +17,7 @@ const {
 const src = `/videos/${slug}.mp4`;
 const filePath = fileURLToPath(new URL(`../../public/videos/${slug}.mp4`, import.meta.url));
 const available = existsSync(filePath);
+const yt = getYouTubeVideo(slug);
 ---
 
 <section class="video-card">
@@ -33,6 +35,13 @@ const available = existsSync(filePath);
       </div>
     )
   }
+  {yt && (
+    <p class="center-lede" style="margin-top:12px;">
+      <a href={yt.watchUrl} target="_blank" rel="noopener noreferrer" style="font-size:.85rem;">
+        ▶ Watch this {title.replace("Watch: ", "").replace("Watch it in action", "video")} on YouTube
+      </a>
+    </p>
+  )}
 </section>
 
 <style>

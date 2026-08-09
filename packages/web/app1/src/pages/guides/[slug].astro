@@ -40,6 +40,20 @@ const breadcrumbLd = {
     { "@type": "ListItem", position: 3, name: guide.title, item: `${site}/guides/${guide.slug}/` },
   ],
 };
+
+const howToLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: guide.title,
+  description: guide.excerpt,
+  step: guide.sections.map((s, i) => ({
+    "@type": "HowToStep",
+    position: i + 1,
+    name: s.h2,
+    text: s.paragraphs.join(" "),
+  })),
+  totalTime: "PT10M",
+};
 ---
 
 <BaseLayout
@@ -48,7 +62,7 @@ const breadcrumbLd = {
   title={`${guide.title} | BlankPane Guide`}
   description={guide.excerpt}
   canonical={`${site}/guides/${guide.slug}/`}
-  jsonLd={[guideLd, breadcrumbLd]}
+  jsonLd={[guideLd, breadcrumbLd, howToLd]}
 >
   <div class="page" style="max-width:760px;">
     <p class="back"><a href="/guides/">← All guides</a></p>

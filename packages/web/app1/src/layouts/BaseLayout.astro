@@ -70,10 +70,10 @@ const orgJsonLd = {
   "@type": "Organization",
   name: "BlankPane",
   url: "https://blankpane.com",
-  logo: "https://blankpane.com/og-default.png",
+  logo: "https://blankpane.com/og-image-home.png",
   sameAs: [
     "https://twitter.com/blankpane",
-    "https://github.com/meanMonk/blankpane.com",
+    "https://www.youtube.com/@blankpane",
   ],
 };
 
@@ -132,7 +132,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
-    <meta property="og:image" content="https://blankpane.com/og-default.png" />
+    <meta property="og:image" content="https://blankpane.com/og-image-home.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="robots" content={robots} />
     {alternateLinks.map((l) => (

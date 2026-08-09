@@ -3,7 +3,18 @@ export const prerender = true;
 export async function GET() {
   const body = `# BlankPane
 
+> Updated: 2026-08-09
+
 > Free full-screen color tool — instant solid-color fills, canvas-based PNG downloads, and screen utilities for lighting, monitor testing, pranks, and more. No install, no signup, all in-browser.
+
+## Capabilities
+- Runs 100% client-side in the browser — no account, no signup, no install, free forever.
+- No image upload or data leaves your device; tools work offline once the page loads.
+- Download any solid color as a lossless PNG up to 8K resolution.
+- Full-screen mode (tap the stage or press F) for every color and tool.
+- 12 solid colors + 9 screen utilities (dead-pixel test, screen cleaner, ring light, fake update, broken screen, no signal, countdown, flashlight, zoom light).
+- 13 languages: English, German, Spanish, French, Italian, Japanese, Korean, Malay, Polish, Portuguese, Swedish, Turkish, Ukrainian.
+- YouTube channel with 10-hour fullscreen color videos: https://www.youtube.com/@blankpane
 
 ## Quick Start
 - [Home](https://blankpane.com/): Pick a color, preview it, go full screen, or download as PNG at any resolution.
@@ -67,7 +78,7 @@ export async function GET() {
 - [Purple Screen](https://blankpane.com/purple-screen/): Purple (#7A3FF2) for mood lighting and aesthetics.
 - [Orange Screen](https://blankpane.com/orange-screen/): Warm orange (#FF7A1A) for alerts.
 - [Blank Screen](https://blankpane.com/blank-screen/): Generic blank white — distraction-free background.
-- [Zoom Background Screen](https://blankpane.com/zoom-background-screen/): Plain white for video call backgrounds.
+- [Zoom Background Screen](https://blankpane.com/zoom-background-screen/): Plain white for video call backgrounds. (Same #FFFFFF as White Screen but targets the "zoom background" search intent.)
 - [All Colors](https://blankpane.com/colors/): Complete color index.
 
 ## Blog

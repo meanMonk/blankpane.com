@@ -10,6 +10,7 @@ import RelatedGuides from "../../components/RelatedGuides.astro";
 import { getUI, locales } from "../../i18n";
 import colors from "../../data/colors.json";
 import { legalPages } from "../../data/legal";
+import { getYouTubeVideo } from "../../data/youtube";
 
 export function getStaticPaths() {
   const paths: Array<{
@@ -57,18 +58,21 @@ const colorToTools: Record<string, string[]> = {
   "zoom-background-screen": ["zoom-light-screen", "ring-light-screen"],
 };
 const relatedSlugs = isColor ? (colorToTools[c.slug] || []) : [];
+const yt = isColor ? getYouTubeVideo(c.slug) : undefined;
 
-const videoLd = isColor
+const videoLd = isColor && yt
   ? {
       "@context": "https://schema.org",
       "@type": "VideoObject",
-      name: `Fullscreen ${colorName} Video`,
+      name: `${colorName} 10 Hours — Fullscreen ${colorName} Video`,
       description: `${colorName} — a full-screen solid ${c?.hex} video that fills your entire display. Free, no download, works in any browser.`,
-      thumbnailUrl: [`https://blankpane.com/og-default.png`],
-      uploadDate: "2026-03-13T00:00:00.000Z",
+      thumbnailUrl: [yt.thumbnailUrl],
+      uploadDate: "2026-08-08T00:00:00.000Z",
       duration: "PT10H",
-      contentUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
-      embedUrl: `https://blankpane.com/videos/${c?.slug}.mp4`,
+      contentUrl: yt.watchUrl,
+      embedUrl: yt.embedUrl,
+      url: yt.watchUrl,
+      publisher: { "@type": "Organization", name: "BlankPane", url: "https://blankpane.com" },
     }
   : null;
 ---

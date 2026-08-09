@@ -8,6 +8,18 @@ export function getStaticPaths() {
 
 const { post } = Astro.props;
 const site = "https://blankpane.com";
+
+const blogLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.date,
+  dateModified: post.date,
+  author: { "@type": "Organization", name: "BlankPane", url: "https://blankpane.com" },
+  publisher: { "@type": "Organization", name: "BlankPane", url: "https://blankpane.com" },
+  mainEntityOfPage: `${site}/blog/${post.slug}/`,
+};
 ---
 
 <BaseLayout
@@ -16,6 +28,7 @@ const site = "https://blankpane.com";
   title={`${post.title} | BlankPane Blog`}
   description={post.excerpt}
   canonical={`${site}/blog/${post.slug}/`}
+  jsonLd={[blogLd]}
 >
   <div class="page">
     <p class="back"><a href="/blog/">← Blog</a></p>
