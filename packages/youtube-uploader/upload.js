@@ -48,11 +48,11 @@
  */
 
 import 'dotenv/config';
+import {google} from 'googleapis';
+import matter from 'gray-matter';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { google } from 'googleapis';
-import matter from 'gray-matter';
 
 const {
   CLIENT_ID,

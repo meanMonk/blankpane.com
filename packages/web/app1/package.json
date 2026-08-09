@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --port 3000",
-    "build": "astro build",
+    "build": "astro build && node scripts/fix-sitemap.mjs",
     "preview": "astro preview --port 3000",
     "typecheck": "astro check",
     "indexnow": "node scripts/indexnow.js",

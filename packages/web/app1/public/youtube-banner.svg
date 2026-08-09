@@ -1,0 +1,66 @@
+<svg width="2560" height="1440" viewBox="0 0 2560 1440" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="2560" y2="1440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151a3d"/>
+      <stop offset="1" stop-color="#232a63"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6c8bff"/>
+      <stop offset="1" stop-color="#4c6fff"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+
+  <!-- full canvas background (this whole 2560x1440 area is what gets uploaded) -->
+  <rect width="2560" height="1440" fill="url(#bg)"/>
+
+  <circle cx="260" cy="180" r="380" fill="#4c6fff" opacity="0.22" filter="url(#soft)"/>
+  <circle cx="2320" cy="1260" r="420" fill="#7c5cff" opacity="0.18" filter="url(#soft)"/>
+
+  <!-- =========================================================
+       SAFE AREA GUIDE (for reference only while designing)
+       YouTube crops this banner differently on TV / desktop / mobile.
+       The only zone guaranteed visible everywhere is the centered
+       1546 x 423 box. Everything important (logo, name, tagline)
+       is placed inside it. Remove/ignore this rect before export
+       if you don't want it baked in — it's not rendered (stroke
+       only, comment it out below if desired).
+     ========================================================= -->
+  <!-- <rect x="507" y="508" width="1546" height="423" fill="none" stroke="#ff0000" stroke-width="2"/> -->
+
+  <!-- decorative swatch strip, kept OUTSIDE the safe zone so it can get
+       cropped on smaller screens without losing anything essential -->
+  <g transform="translate(2100,120)" opacity="0.95">
+    <rect x="0" y="0" width="140" height="140" rx="22" fill="#ffffff"/>
+    <rect x="0" y="170" width="140" height="140" rx="22" fill="#22c55e"/>
+    <rect x="170" y="0" width="140" height="140" rx="22" fill="#0e0e12" stroke="#3a3f55" stroke-width="2"/>
+    <rect x="170" y="170" width="140" height="140" rx="22" fill="#3b82f6"/>
+  </g>
+  <g transform="translate(160,1140)" opacity="0.95">
+    <rect x="0" y="0" width="120" height="120" rx="20" fill="#ec4899"/>
+    <rect x="150" y="0" width="120" height="120" rx="20" fill="#f59e0b"/>
+  </g>
+
+  <!-- ================= SAFE ZONE CONTENT (centered 1546x423 @ 507,508) ================= -->
+  <g transform="translate(507,508)">
+    <!-- mark -->
+    <rect x="0" y="60" width="96" height="96" rx="24" fill="none" stroke="url(#accent)" stroke-width="10"/>
+    <rect x="28" y="88" width="40" height="40" rx="10" fill="url(#accent)"/>
+
+    <text x="126" y="132" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" fill="#ffffff">BlankPane</text>
+
+    <text x="0" y="260" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="600" fill="#c7cfff">
+      Free White Screen, Black Screen &amp; Color Screen Tools
+    </text>
+
+    <text x="0" y="310" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#9aa4e8">
+      Full-screen lighting, Zoom backgrounds &amp; monitor tests — right in your browser
+    </text>
+
+    <!-- url pill -->
+    <rect x="0" y="350" width="290" height="60" rx="30" fill="#ffffff" opacity="0.1"/>
+    <text x="30" y="389" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#ffffff">blankpane.com</text>
+  </g>
+</svg>
