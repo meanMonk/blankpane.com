@@ -14,12 +14,13 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const t = getUI(lang);
 const site = "https://blankpane.com";
+const seoTitle = lang === "ko" ? "흰색 화면 · 검은색 화면 · 컬러 화면 — 무료 전체 화면 색상 도구" : t.heroTitle;
 const tiles = colors.map((c) => ({ hex: c.hex, name: t.colorName[c.slug] ?? c.name, light: c.light, slug: c.slug }));
 ---
 
 <BaseLayout
   lang={lang}
-  title={t.heroTitle}
+  title={seoTitle}
   description={t.heroLede}
   canonical={`${site}/${lang}/`}
 >

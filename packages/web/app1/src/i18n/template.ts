@@ -54,7 +54,9 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Try another color",
   },
   de: {
-    title: (n) => `${n} — Kostenloses Vollfarb-Tool`,
+    title: (n) => (n === "Weißes Bild"
+      ? "Komplett Weißes Bild — Kostenloser Vollbild-Weißbildschirm"
+      : `${n} — Kostenloses Vollfarb-Tool`),
     h1: (n) => n,
     intro: (n, hex, intent) => `Öffnen Sie in Ihrem Browser sofort einen vollflächigen ${n.toLowerCase()}. Dieses kostenlose Tool füllt Ihren gesamten Bildschirm mit einem Tipp mit reinem ${hex} — perfekt für ${intent}. Ohne Download, ohne Installation, auf jedem Gerät.`,
     whyTitle: "Wofür man das nutzt",
@@ -111,7 +113,11 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Prueba otro color",
   },
   uk: {
-    title: (n) => `${n} — Безкоштовний інструмент повноекранного кольору`,
+    title: (n) => (n === "Білий екран"
+      ? "Білий екран — Безкоштовний білий фон на весь екран"
+      : n === "Жовтий екран"
+        ? "Жовтий екран — Безкоштовний жовтий фон на весь екран"
+        : `${n} — Безкоштовний інструмент повноекранного кольору`),
     h1: (n) => n,
     intro: (n, hex, intent) => `Миттєво відкрийте ${n.toLowerCase()} на весь екран у вашому браузері. Цей безкоштовний інструмент заповнює весь екран чистим ${hex} одним дотиком — ідеально для ${intent}. Без завантажень, без встановлення, на будь-якому пристрої.`,
     whyTitle: "Для чого це використовують",
@@ -130,7 +136,9 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Спробуйте інший колір",
   },
   pl: {
-    title: (n) => `${n} — Darmowe narzędzie do pełnoekranowego koloru`,
+    title: (n) => (n === "Szary ekran"
+      ? "Szary ekran — Darmowy pełnoekranowy szary kolor"
+      : `${n} — Darmowe narzędzie do pełnoekranowego koloru`),
     h1: (n) => n,
     intro: (n, hex, intent) => `Natychmiast otwórz pełnoekranowy ${n.toLowerCase()} w swojej przeglądarce. To darmowe narzędzie wypełnia cały ekran czystym kolorem ${hex} jednym dotknięciem — idealne do ${intent}. Bez pobierania, bez instalacji, na każdym urządzeniu.`,
     whyTitle: "Do czego to służy",
@@ -168,7 +176,11 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Prova un altro colore",
   },
   tr: {
-    title: (n) => `${n} — Ücretsiz Tam Ekran Renk Aracı`,
+    title: (n) => (n === "Turuncu Ekran"
+      ? "Turuncu Ekran — Tam Ekran Turuncu Arka Plan"
+      : n === "Beyaz Ekran"
+        ? "Beyaz Ekran — Ücretsiz Tam Ekran Beyaz Arka Plan"
+        : `${n} — Ücretsiz Tam Ekran Renk Aracı`),
     h1: (n) => n,
     intro: (n, hex, intent) => `Tarayıcınızda anında tam ekran ${n.toLowerCase()} açın. Bu ücretsiz araç, tek dokunuşla tüm ekranınızı saf ${hex} rengiyle doldurur — ${intent} için mükemmel. İndirme yok, kurulum yok, her cihazda çalışır.`,
     whyTitle: "Ne için kullanılır",
@@ -206,7 +218,11 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Experimente outra cor",
   },
   se: {
-    title: (n) => `${n} — Gratis helskärmsfärgverktyg`,
+    title: (n) => (n === "Röd skärm"
+      ? "Röd skärm — Gratis helskärms röd bakgrund"
+      : n === "Vit skärm"
+        ? "Vit skärm — Gratis helskärms vit bakgrund"
+        : `${n} — Gratis helskärmsfärgverktyg`),
     h1: (n) => n,
     intro: (n, hex, intent) => `Öppna omedelbart en helsides ${n.toLowerCase()} i din webbläsare. Detta gratis verktyg fyller hela skärmen med rent ${hex} i ett tryck — perfekt för ${intent}. Utan nedladdning, utan installation, på alla enheter.`,
     whyTitle: "Vad det används till",
@@ -263,7 +279,9 @@ const dict: Record<string, Partial<ColorPageText>> = {
     linksTitle: "Cuba warna lain",
   },
   ko: {
-    title: (n) => `${n} — 무료 전체 화면 색상 도구`,
+    title: (n) => (n === "회색 화면"
+      ? "회색 화면 — 무료 전체 화면 회색 배경"
+      : `${n} — 무료 전체 화면 색상 도구`),
     h1: (n) => n,
     intro: (n, hex, intent) => `브라우저에서 전체 화면 ${n}을(를) 즉시 여세요. 이 무료 도구는 한 번의 탭으로 화면 전체를 순수한 ${hex}로 채웁니다 — ${intent}에 딱 맞습니다. 다운로드 없음, 설치 없음, 어떤 기기에서도 작동합니다.`,
     whyTitle: "언제 사용하나요",
